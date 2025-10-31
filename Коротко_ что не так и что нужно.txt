@@ -1,0 +1,215 @@
+﻿Коротко: что не так и что нужно
+
+
+Проблемы текущего скрипта:
+* Привязка по индексу карточки и стилям; ломко при любых правках верстки.
+* Нет ключевых событий E‑commerce: impressions, click, add, remove, purchase; есть только detail.
+* Нет currencyCode, нет контрольных полей (quantity, list, actionField), путаница в category.
+* Локальное хранение в localStorage без завершения покупок и воронки; нет учета комплектов/тарифа.
+Что нужно:
+* Единая разметка товаров через data-* атрибуты на элементах (устойчивее DOM-контента).
+* Отправлять события по стандарту Метрики (поддержка Enhanced Ecommerce): impressions → click → detail → add/remove → purchase.
+* Развести категории и тарифы, нормализовать id/названия и валюту RUB.
+* Закрыть воронку: фиксация дохода на “спасибо”-странице или в колбэке успешной заявки.
+* Дедупликация impressions, разделение списков по страницам (list: Главная/Курсы, Все курсы, Тарифы).
+* Для “Создай свой тариф” — add/remove по позициям; purchase с итоговой суммой.
+Ссылки по формату данных и проверке:
+* https://metrika.yandex.ru/support/metrica/ru/ecommerce/data 
+* https://metrika.yandex.ru/support/metrica/ru/ecommerce/check 
+Где и какие события ставить (воронка)
+Списки товаров (/page2, /vse-kursy, блок тарифов на /tarif):
+* impressions (при видимости карточки; с list и position)
+* click (клик по карточке/кнопке внутри списка)
+Карточка/модалка курса:
+* detail (просмотр конкретного товара/тарифа)
+Добавление/исключение:
+* add (Оставить заявку/Выбрать/добавление в тариф)
+* remove (убрать позицию из тарифа)
+Завершение:
+* purchase (после успешной отправки формы/на “спасибо”-странице; actionField.id, revenue, массив products)
+Разметка в Craftum (сделать один раз)
+На контейнер карточки или кнопку добавьте атрибуты:
+* data-sku — стабильный ID (например, course_excavator_driver, pack_universal)
+* data-name — человекочитаемое название
+* data-price — цена в рублях (число)
+* data-category — иерархия, например Курсы/Экскаватор или Пакеты
+* На “спасибо”-странице установите атрибут на любой элемент: data-thanks="1"
+* В конструкторе тарифа для переключателей позиций: data-toggle-sku="<sku>", а на контейнере позиции — data-sku="<sku>" ...
+Готовый и устойчивый трекер (вставить в глобальный HTML на всех страницах)
+// Глобальный скрипт для всех страниц (Craftum: общий HTML/футер)
+(function(){
+  'use strict';
+  var CURRENCY = 'RUB';
+  window.dataLayer = window.dataLayer || [];
+
+
+  class Catalog {
+    constructor() {
+      this.byId = {
+        course_tractor_b_c_d_e: {id:'course_tractor_b_c_d_e', name:'Тракторист - В, С, D, E', price:7000, category:'Курсы/Тракторист'},
+        course_category_f:      {id:'course_category_f',      name:'Категория - F', price:7000, category:'Курсы/Категории'},
+        course_loader_driver:   {id:'course_loader_driver',   name:'Водитель погрузчика', price:7000, category:'Курсы/Погрузчик'},
+        course_excavator_driver:{id:'course_excavator_driver',name:'Машинист экскаватора', price:7000, category:'Курсы/Экскаватор'},
+        course_bulldozer_driver:{id:'course_bulldozer_driver',name:'Машинист бульдозера', price:7000, category:'Курсы/Бульдозер'},
+        course_roller_driver:   {id:'course_roller_driver',   name:'Машинист катка', price:7000, category:'Курсы/Каток'},
+        course_a1:              {id:'course_a1',              name:'Категория А1', price:7000, category:'Курсы/Категории'},
+        course_a2:              {id:'course_a2',              name:'Категория А2', price:8000, category:'Курсы/Категории'},
+        // Пакеты
+        pack_universal:         {id:'pack_universal',         name:'Универсал', price:40000, category:'Пакеты'},
+        pack_specialist:        {id:'pack_specialist',        name:'Специалист', price:52000, category:'Пакеты'},
+        pack_professional:      {id:'pack_professional',      name:'Профессионал', price:59000, category:'Пакеты'},
+        pack_master:            {id:'pack_master',            name:'Мастер', price:73000, category:'Пакеты'}
+      };
+      this.byName = {};
+      for (var k in this.byId) this.byName[this.byId[k].name.toLowerCase()] = this.byId[k];
+    }
+    resolveFromEl(el) {
+      var sku = el.dataset.sku;
+      var name = el.dataset.name;
+      var price = el.dataset.price;
+      var category = el.dataset.category;
+      var p = null;
+      if (sku && this.byId[sku]) p = this.byId[sku];
+      else if (name && this.byName[name.trim().toLowerCase()]) p = this.byName[name.trim().toLowerCase()];
+      if (!p) return null;
+      var out = Object.assign({}, p);
+      if (price) out.price = Number(String(price).replace(/[^\d.]/g,''));
+      if (category) out.category = category;
+      return out;
+    }
+  }
+
+
+  class EcomTracker {
+    push(obj) { window.dataLayer.push({ ecommerce: Object.assign({ currencyCode: CURRENCY }, obj) }); }
+    detail(product)  { this.push({ detail:  { products: [product] }}); }
+    add(product,q)   { this.push({ add:     { products: [Object.assign({}, product, { quantity: q||1 })] }}); }
+    remove(product,q){ this.push({ remove:  { products: [Object.assign({}, product, { quantity: q||1 })] }}); }
+    impressions(listItems) { this.push({ impressions: listItems }); }
+    click(list, product, pos){ this.push({ click: { actionField: { list: list }, products: [{ id: product.id, name: product.name, position: pos }] } }); }
+    purchase(orderId, revenue, products) { this.push({ purchase: { actionField: { id: orderId, revenue: revenue, affiliation: 'Craftum' }, products: products } }); }
+  }
+
+
+  class Binder {
+    constructor(catalog, tracker) { this.catalog = catalog; this.tracker = tracker; }
+    listName() {
+      var p = location.pathname;
+      if (p.indexOf('/page2') === 0) return 'Главная/Курсы';
+      if (p.indexOf('/vse-kursy') === 0) return 'Все курсы';
+      if (p.indexOf('/tarif') === 0) return 'Тарифы';
+      return 'Каталог';
+    }
+    bindImpressions() {
+      var list = this.listName();
+      var cards = document.querySelectorAll('[data-sku], [data-card="product"], .card');
+      var seen = new WeakSet();
+      var io = new IntersectionObserver((entries)=>{
+        entries.forEach((e)=>{
+          if(!e.isIntersecting || seen.has(e.target)) return;
+          var product = this.catalog.resolveFromEl(e.target);
+          if(!product) return;
+          seen.add(e.target);
+          var pos = Array.prototype.indexOf.call(cards, e.target) + 1;
+          this.tracker.impressions([{ id: product.id, name: product.name, price: product.price, category: product.category, list: list, position: pos }]);
+        });
+      }, { threshold: 0.5 });
+      cards.forEach(c=>io.observe(c));
+      document.addEventListener('click', (ev)=>{
+        var card = ev.target.closest('[data-sku], [data-card="product"], .card');
+        if(!card) return;
+        var product = this.catalog.resolveFromEl(card);
+        if(!product) return;
+        var pos = Array.prototype.indexOf.call(cards, card) + 1;
+        this.tracker.click(list, product, pos);
+      });
+    }
+    bindAddButtons() {
+      document.querySelectorAll('button, a').forEach((btn)=>{
+        var text = (btn.textContent||'').trim().toUpperCase();
+        if(['ОСТАВИТЬ ЗАЯВКУ','ВЫБРАТЬ'].indexOf(text) === -1) return;
+        btn.addEventListener('click', ()=>{
+          var host = btn.closest('[data-sku], [data-card="product"], .card') || btn;
+          var product = this.catalog.resolveFromEl(host);
+          if(!product) return;
+          sessionStorage.setItem('lastProduct', JSON.stringify(product));
+          this.tracker.add(product, 1);
+          this.tracker.detail(product);
+        });
+      });
+    }
+    bindPurchaseOnThanks() {
+      var thanks = document.querySelector('[data-thanks="1"]');
+      if (!thanks) return;
+      var saved = sessionStorage.getItem('lastProduct');
+      if (!saved) return;
+      try {
+        var product = JSON.parse(saved);
+        var orderId = 'L' + Date.now();
+        this.tracker.purchase(orderId, product.price, [Object.assign({}, product, { quantity: 1 })]);
+        sessionStorage.removeItem('lastProduct');
+      } catch(_) {}
+    }
+    bindRemoveInBuilder() {
+      document.addEventListener('click', (e)=>{
+        var toggler = e.target.closest('[data-toggle-sku]');
+        if(!toggler) return;
+        var sku = toggler.getAttribute('data-toggle-sku');
+        var host = document.querySelector('[data-sku="'+sku+'"]') || toggler;
+        var product = this.catalog.resolveFromEl(host);
+        if(!product) return;
+        var selected = toggler.getAttribute('aria-pressed') === 'true' || toggler.classList.contains('is-active');
+        if (selected) this.tracker.remove(product, 1);
+        else this.tracker.add(product, 1);
+      });
+    }
+    init() {
+      this.bindImpressions();
+      this.bindAddButtons();
+      this.bindPurchaseOnThanks();
+      this.bindRemoveInBuilder();
+    }
+  }
+
+
+  function start(){
+    var catalog = new Catalog();
+    var tracker = new EcomTracker();
+    new Binder(catalog, tracker).init();
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+})();
+
+
+
+
+Как применять:
+В Craftum добавьте этот скрипт в общий футер (во всех шаблонах).
+Разметьте карточки: пример блока карточки курса/тарифа:
+* div data-card="product" data-sku="course_excavator_driver" data-name="Машинист экскаватора" data-price="7000" data-category="Курсы/Экскаватор"
+* Кнопкам “Выбрать”/“Оставить заявку” ничего добавлять не нужно — они ищутся относительно карточки.
+“Спасибо”-страница: любой элемент с data-thanks="1".
+Ответы на вопросы
+* Почему без классической корзины? Для e‑commerce она предпочтительнее: дает add/remove, средний чек и multi‑item заказы. Минимум — легкая “корзина”-оверлей или явный конструктор тарифа с позицией/количеством.
+* Когда “подключается” цена? Передавайте цену всегда в add и обязательно в purchase как revenue и products[].price. В detail цена опциональна и не влияет на выручку.
+* Категория vs “отметка”: используйте единую таксономию в data-category, например Курсы/<подкатегория> и Пакеты. Не смешивайте статусы/отметки с категориями.
+* Реклама и страницы: заранее определите лендинги под ключевые группы (Главная/Курсы, Все курсы, Тарифы, отдельные курсы), чтобы в отчетах по list и источникам трафика видеть путь к выручке.
+* SEO кратко: отдельные страницы под каждый курс, согласованные H1/Title/URL-слизни, schema.org Product/Offer, единый формат цен.
+* /tarif “7 Р” и “15 Р”: исправить форматтер цен; для purchase считать сумму тарифа, а не “текущую” цифру в виджете.
+Проверка
+* Через 2–6 часов после первых событий смотрите Отчеты → Электронная коммерция. Для первичной валидации используйте “[Проверка e‑commerce]” и консоль (проверяйте содержимое dataLayer).
+Ссылки: формат данных, проверка интеграции
+Нужна ваша обратная связь (коротко)
+* Можем добавить data-* атрибуты в Craftum на карточки и “спасибо”-страницу?
+* Есть отдельная страница-спасибо или только всплывающее окно? Если модалка — дадите селектор успешной отправки формы?
+* Подтвердите финальный прайс-лист (особенно по тарифам и A2=8000), чтобы не тянуть цену из текста.
+* Сделал разбор текущей интеграции, предложил устойчивую схему событий и дал готовый модульный трекер под Craftum, включая воронку и фиксацию выручки.
+
+
+
+
+—------------------------------------------------------------------------------------------------ 
+
+
+Антон 28.10
