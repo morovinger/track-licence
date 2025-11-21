@@ -26,6 +26,7 @@
         for (var k in this.byId) {
             var p = this.byId[k];
             this.byName[this.normalize(p.name)] = p;
+            
             // Добавляем вариации имен, если нужно
             if (k === 'course_tractor_b_c_d_e') {
                 this.byName['тракторист - в,с,d,e'] = p; // Без пробелов
@@ -49,17 +50,31 @@
         
         // Check data-course (loose match)
         if (course) {
-            var nCourse = this.normalize(course.replace(/^Обучение на\s+/i, ''));
-            if (this.byName[nCourse]) return this.byName[nCourse];
-            // Try exact match of data-course value if normalization stripped too much
-            if (this.byName[this.normalize(course)]) return this.byName[this.normalize(course)];
+            var raw = this.normalize(course);
+            
+            // 1. Try exact match
+            if (this.byName[raw]) return this.byName[raw];
+
+            // 2. Clean prefixes ("Обучение на", "Пакет")
+            var clean = raw
+                .replace(/^обучение на\s+/i, '')
+                .replace(/^пакет\s+/i, '');
+            
+            if (this.byName[clean]) return this.byName[clean];
+            
+            // 3. Try finding known product name inside the data-course value
+            for (var k in this.byName) {
+                if (clean.indexOf(k) !== -1 || k.indexOf(clean) !== -1) {
+                    return this.byName[k];
+                }
+            }
         }
 
         var name = el.dataset.name;
         if (name && this.byName[this.normalize(name)]) return this.byName[this.normalize(name)];
 
         // 2. Fallback: try headings inside the nearest container
-        var scope = el.closest('[data-card="product"], .card, section, article, div') || el;
+        var scope = el.closest('[data-card="product"], .card, .tariff-block, section, article, div') || el;
         
         // If scope itself has data attributes (e.g. .tariff-block)
         if (scope !== el) {
@@ -67,7 +82,7 @@
             if (scope.dataset.name && this.byName[this.normalize(scope.dataset.name)]) return this.byName[this.normalize(scope.dataset.name)];
         }
 
-        var heading = scope.querySelector('h1,h2,h3,h4,[data-name]');
+        var heading = scope.querySelector('h1,h2,h3,h4,[data-name], .tariff-title');
         if (heading) {
           var hText = this.normalize(heading.textContent);
           if (hText && this.byName[hText]) return this.byName[hText];
@@ -79,7 +94,7 @@
         }
 
         // 3. Fallback: scan container text for any known product name
-        var container = el.closest('[data-card="product"], .card, section, article, div') || el;
+        var container = el.closest('[data-card="product"], .card, .tariff-block, section, article, div') || el;
         var text = this.normalize(container.innerText);
         for (var key in this.byId) {
           var nm = this.normalize(this.byId[key].name);
@@ -91,7 +106,10 @@
     }
   
     class EcomTracker {
-      push(obj) { window.dataLayer.push({ ecommerce: Object.assign({ currencyCode: CURRENCY }, obj) }); }
+      push(obj) { 
+          console.log("📊 [EcomTracker] Pushing to dataLayer:", obj);
+          window.dataLayer.push({ ecommerce: Object.assign({ currencyCode: CURRENCY }, obj) }); 
+      }
       detail(product)  { this.push({ detail:  { products: [product] }}); }
       add(product,q)   { this.push({ add:     { products: [Object.assign({}, product, { quantity: q||1 })] }}); }
       remove(product,q){ this.push({ remove:  { products: [Object.assign({}, product, { quantity: q||1 })] }}); }
@@ -111,7 +129,7 @@
       }
       bindImpressions() {
         var list = this.listName();
-        var cards = document.querySelectorAll('[data-sku], [data-card="product"], .card');
+        var cards = document.querySelectorAll('[data-sku], [data-card="product"], .card, .tariff-block');
         var seen = new WeakSet();
         if ('IntersectionObserver' in window) {
             var io = new IntersectionObserver((entries)=>{
@@ -128,8 +146,11 @@
         }
 
         document.addEventListener('click', (ev)=>{
-          var card = ev.target.closest('[data-sku], [data-card="product"], .card');
+          var card = ev.target.closest('[data-sku], [data-card="product"], .card, .tariff-block');
           if(!card) return;
+          // Avoid double tracking if clicking the add button inside the card
+          if (ev.target.closest('button, a, .btn-order')) return;
+
           var product = this.catalog.resolveFromEl(card);
           if(!product) return;
           var pos = Array.prototype.indexOf.call(cards, card) + 1;
@@ -148,11 +169,18 @@
           // Check if text matches OR class indicates it's an order button
           if(triggers.indexOf(text) === -1 && !btn.classList.contains('btn-order')) return;
 
+          console.log("🛒 [Binder] Click detected on:", btn);
+
           // Resolve product from the button itself or its container
           var product = self.catalog.resolveFromEl(btn);
           
-          if(!product) return;
+          if(!product) {
+              console.warn("⚠️ [Binder] Could not resolve product for button:", btn);
+              return;
+          }
           
+          console.log("✅ [Binder] Resolved product:", product);
+
           sessionStorage.setItem('lastProduct', JSON.stringify(product));
           // We use a delay to ensure event propagates if needed, but mostly direct push
           self.tracker.add(product, 1);
@@ -169,6 +197,7 @@
         try {
           var product = JSON.parse(saved);
           var orderId = 'L' + Date.now();
+          console.log("💰 [Binder] Tracking purchase:", orderId, product);
           this.tracker.purchase(orderId, product.price, [Object.assign({}, product, { quantity: 1 })]);
           sessionStorage.removeItem('lastProduct');
         } catch(_) {}
@@ -199,6 +228,7 @@
         this.bindAddButtons();
         this.bindPurchaseOnThanks();
         this.bindRemoveInBuilder();
+        console.log("🚀 [Binder] Tracking initialized");
       }
     }
   
