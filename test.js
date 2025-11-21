@@ -4,7 +4,6 @@
     var CURRENCY = 'RUB';
     window.dataLayer = window.dataLayer || [];
   
-  
     class Catalog {
       constructor() {
         this.byId = {
@@ -23,42 +22,73 @@
           pack_master:            {id:'pack_master',            name:'Мастер', price:73000, category:'Пакеты'}
         };
         this.byName = {};
-        for (var k in this.byId) this.byName[this.byId[k].name.toLowerCase()] = this.byId[k];
+        // Создаем карту имен для поиска (lowercase)
+        for (var k in this.byId) {
+            var p = this.byId[k];
+            this.byName[this.normalize(p.name)] = p;
+            // Добавляем вариации имен, если нужно
+            if (k === 'course_tractor_b_c_d_e') {
+                this.byName['тракторист - в,с,d,e'] = p; // Без пробелов
+                this.byName['обучение на тракторист - в,с,d,e'] = p;
+            }
+        }
       }
+
+      normalize(str) {
+          return (str || '').toLowerCase().trim().replace(/\s+/g, ' ');
+      }
+
       resolveFromEl(el) {
+        if (!el) return null;
+
+        // 1. Check explicit data attributes on the element itself
         var sku = el.dataset.sku;
+        var course = el.dataset.course; // From index.html buttons
+        
+        if (sku && this.byId[sku]) return this.byId[sku];
+        
+        // Check data-course (loose match)
+        if (course) {
+            var nCourse = this.normalize(course.replace(/^Обучение на\s+/i, ''));
+            if (this.byName[nCourse]) return this.byName[nCourse];
+            // Try exact match of data-course value if normalization stripped too much
+            if (this.byName[this.normalize(course)]) return this.byName[this.normalize(course)];
+        }
+
         var name = el.dataset.name;
-        var price = el.dataset.price;
-        var category = el.dataset.category;
-        var p = null;
-        if (sku && this.byId[sku]) p = this.byId[sku];
-        else if (name && this.byName[name.trim().toLowerCase()]) p = this.byName[name.trim().toLowerCase()];
-        // Fallback 1: try headings inside the nearest container
-        if (!p) {
-          var scope = el.closest('[data-card="product"], .card, section, article, div') || el;
-          var heading = scope.querySelector('h1,h2,h3,h4,[data-name]');
-          if (heading) {
-            var hText = (heading.textContent || '').trim().toLowerCase();
-            if (hText && this.byName[hText]) p = this.byName[hText];
+        if (name && this.byName[this.normalize(name)]) return this.byName[this.normalize(name)];
+
+        // 2. Fallback: try headings inside the nearest container
+        var scope = el.closest('[data-card="product"], .card, section, article, div') || el;
+        
+        // If scope itself has data attributes (e.g. .tariff-block)
+        if (scope !== el) {
+            if (scope.dataset.sku && this.byId[scope.dataset.sku]) return this.byId[scope.dataset.sku];
+            if (scope.dataset.name && this.byName[this.normalize(scope.dataset.name)]) return this.byName[this.normalize(scope.dataset.name)];
+        }
+
+        var heading = scope.querySelector('h1,h2,h3,h4,[data-name]');
+        if (heading) {
+          var hText = this.normalize(heading.textContent);
+          if (hText && this.byName[hText]) return this.byName[hText];
+          
+          // Fuzzy match for heading (e.g. "Категория - F" in "Категория - F ...")
+          for (var k in this.byName) {
+              if (hText.indexOf(k) !== -1) return this.byName[k];
           }
         }
-        // Fallback 2: scan container text for any known product name
-        if (!p) {
-          var container = el.closest('[data-card="product"], .card, section, article, div') || el;
-          var text = (container.innerText || '').toLowerCase();
-          for (var key in this.byId) {
-            var nm = this.byId[key].name.toLowerCase();
-            if (nm && text.indexOf(nm) !== -1) { p = this.byId[key]; break; }
-          }
+
+        // 3. Fallback: scan container text for any known product name
+        var container = el.closest('[data-card="product"], .card, section, article, div') || el;
+        var text = this.normalize(container.innerText);
+        for (var key in this.byId) {
+          var nm = this.normalize(this.byId[key].name);
+          if (nm && text.indexOf(nm) !== -1) { return this.byId[key]; }
         }
-        if (!p) return null;
-        var out = Object.assign({}, p);
-        if (price) out.price = Number(String(price).replace(/[^\d.]/g,''));
-        if (category) out.category = category;
-        return out;
+        
+        return null;
       }
     }
-  
   
     class EcomTracker {
       push(obj) { window.dataLayer.push({ ecommerce: Object.assign({ currencyCode: CURRENCY }, obj) }); }
@@ -69,7 +99,6 @@
       click(list, product, pos){ this.push({ click: { actionField: { list: list }, products: [{ id: product.id, name: product.name, position: pos }] } }); }
       purchase(orderId, revenue, products) { this.push({ purchase: { actionField: { id: orderId, revenue: revenue, affiliation: 'Craftum' }, products: products } }); }
     }
-  
   
     class Binder {
       constructor(catalog, tracker) { this.catalog = catalog; this.tracker = tracker; }
@@ -84,17 +113,20 @@
         var list = this.listName();
         var cards = document.querySelectorAll('[data-sku], [data-card="product"], .card');
         var seen = new WeakSet();
-        var io = new IntersectionObserver((entries)=>{
-          entries.forEach((e)=>{
-            if(!e.isIntersecting || seen.has(e.target)) return;
-            var product = this.catalog.resolveFromEl(e.target);
-            if(!product) return;
-            seen.add(e.target);
-            var pos = Array.prototype.indexOf.call(cards, e.target) + 1;
-            this.tracker.impressions([{ id: product.id, name: product.name, price: product.price, category: product.category, list: list, position: pos }]);
-          });
-        }, { threshold: 0.5 });
-        cards.forEach(c=>io.observe(c));
+        if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver((entries)=>{
+            entries.forEach((e)=>{
+                if(!e.isIntersecting || seen.has(e.target)) return;
+                var product = this.catalog.resolveFromEl(e.target);
+                if(!product) return;
+                seen.add(e.target);
+                var pos = Array.prototype.indexOf.call(cards, e.target) + 1;
+                this.tracker.impressions([{ id: product.id, name: product.name, price: product.price, category: product.category, list: list, position: pos }]);
+            });
+            }, { threshold: 0.5 });
+            cards.forEach(c=>io.observe(c));
+        }
+
         document.addEventListener('click', (ev)=>{
           var card = ev.target.closest('[data-sku], [data-card="product"], .card');
           if(!card) return;
@@ -107,22 +139,31 @@
       bindAddButtons() {
         var self = this;
         document.addEventListener('click', function(ev){
-          var btn = ev.target.closest('button, a');
+          var btn = ev.target.closest('button, a, .btn-order');
           if(!btn) return;
+          
           var text = (btn.textContent||'').replace(/\s+/g,' ').trim().toUpperCase();
           var triggers = ['ОСТАВИТЬ ЗАЯВКУ','ВЫБРАТЬ','ЗАПИСАТЬСЯ'];
-          if(triggers.indexOf(text) === -1) return;
-          var host = btn.closest('[data-sku], [data-card="product"], .card, section, article, div') || btn;
-          var product = self.catalog.resolveFromEl(host);
+          
+          // Check if text matches OR class indicates it's an order button
+          if(triggers.indexOf(text) === -1 && !btn.classList.contains('btn-order')) return;
+
+          // Resolve product from the button itself or its container
+          var product = self.catalog.resolveFromEl(btn);
+          
           if(!product) return;
+          
           sessionStorage.setItem('lastProduct', JSON.stringify(product));
+          // We use a delay to ensure event propagates if needed, but mostly direct push
           self.tracker.add(product, 1);
-          self.tracker.detail(product);
+          // Optional: detail view on add
+          // self.tracker.detail(product); 
         });
       }
       bindPurchaseOnThanks() {
-        var thanks = document.querySelector('[data-thanks="1"]');
-        if (!thanks) return;
+        // Check URL or specific element for thanks page
+        if (location.pathname.indexOf('/spasibo') === -1 && !document.querySelector('[data-thanks="1"]')) return;
+        
         var saved = sessionStorage.getItem('lastProduct');
         if (!saved) return;
         try {
@@ -141,7 +182,6 @@
             var host = document.querySelector('[data-sku="'+sku+'"]') || toggler;
             product = this.catalog.resolveFromEl(host);
           } else {
-            // Fallback: try map builder buttons by visible text
             var btn = e.target.closest('button');
             if (btn) {
               var t = (btn.textContent||'').trim().toLowerCase();
@@ -162,7 +202,6 @@
       }
     }
   
-  
     function start(){
       var catalog = new Catalog();
       var tracker = new EcomTracker();
@@ -171,4 +210,3 @@
     if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
     else start();
   })();
-  
