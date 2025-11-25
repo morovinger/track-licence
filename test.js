@@ -135,26 +135,13 @@
   }
 
   class EcommerceTracker {
-    push(payload) {
-      window.dataLayer.push({ ecommerce: Object.assign({ currencyCode: CURRENCY }, payload) });
+    push(payload, label) {
+      var packet = { ecommerce: Object.assign({ currencyCode: CURRENCY }, payload) };
+      console.log('📊 Yandex.Metrika Ecommerce:', label || 'event', packet);
+      window.dataLayer.push(packet);
     }
     detail(product) {
-      this.push({ detail: { products: [product] } });
-    }
-    add(product, qty) {
-      this.push({ add: { products: [Object.assign({}, product, { quantity: qty || 1 })] } });
-    }
-    remove(product, qty) {
-      this.push({ remove: { products: [Object.assign({}, product, { quantity: qty || 1 })] } });
-    }
-    impressions(listItems) {
-      this.push({ impressions: listItems });
-    }
-    click(list, product, position) {
-      this.push({ click: { actionField: { list: list }, products: [{ id: product.id, name: product.name, position: position }] } });
-    }
-    purchase(orderId, revenue, products) {
-      this.push({ purchase: { actionField: { id: orderId, revenue: revenue, affiliation: 'Craftum' }, products: products } });
+      this.push({ detail: { products: [product] } }, 'detail');
     }
   }
 
@@ -165,119 +152,26 @@
     }
 
     init() {
-      this.bindImpressions();
-      this.bindAddButtons();
-      this.bindRemoveInBuilder();
-      this.bindPurchaseOnThanks();
+      this.bindCtaClicks();
     }
 
-    getListName() {
-      var pathname = location.pathname || '/';
-      if (pathname.indexOf('/page2') === 0 || pathname === '/') return 'Главная/Курсы';
-      if (pathname.indexOf('/vse-kursy') === 0) return 'Все курсы';
-      if (pathname.indexOf('/tarif') === 0) return 'Тарифы';
-      return 'Каталог';
-    }
-
-    bindImpressions() {
-      var list = this.getListName();
-      var nodes = Array.prototype.slice.call(document.querySelectorAll(PRODUCT_NODE_SELECTOR));
-      if (!nodes.length) return;
-
-      var seen = new WeakSet();
-      var handleImpression = (node) => {
-        if (seen.has(node)) return;
-        var product = this.catalog.resolveFromElement(node);
-        if (!product) return;
-        seen.add(node);
-        var position = nodes.indexOf(node) + 1;
-        this.tracker.impressions([{ id: product.id, name: product.name, price: product.price, category: product.category, list: list, position: position }]);
-      };
-
-      if ('IntersectionObserver' in window) {
-        var io = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting || seen.has(entry.target)) return;
-            handleImpression(entry.target);
-          });
-        }, { threshold: 0.5 });
-        nodes.forEach((node) => io.observe(node));
-      } else {
-        nodes.forEach(handleImpression);
-      }
-
-      document.addEventListener('click', (event) => {
-        var card = event.target.closest(PRODUCT_NODE_SELECTOR);
-        if (!card) return;
-        if (event.target.closest('button, a')) return;
-        var product = this.catalog.resolveFromElement(card);
-        if (!product) return;
-        var position = nodes.indexOf(card) + 1;
-        this.tracker.click(list, product, position);
-        this.tracker.detail(product);
-      });
-    }
-
-    bindAddButtons() {
+    bindCtaClicks() {
       document.addEventListener('click', (event) => {
         var btn = event.target.closest('button, a, [data-ecom-action]');
-        if (!btn || !this.shouldHandleAdd(btn)) return;
+        if (!btn || !this.isCta(btn)) return;
         var product = this.catalog.resolveFromElement(btn);
         if (!product) return;
-        this.persistLastProduct(product);
         this.tracker.detail(product);
-        this.tracker.add(product, 1);
       });
     }
 
-    shouldHandleAdd(btn) {
+    isCta(btn) {
       var actionAttr = (btn.getAttribute('data-ecom-action') || '').toLowerCase();
       if (actionAttr === 'add' || actionAttr === 'cta') return true;
       var text = normalizeText(btn.textContent);
       if (!text) return false;
       if (CTA_TEXTS.indexOf(text) !== -1) return true;
       return CTA_PREFIXES.some((prefix) => text.indexOf(prefix) === 0);
-    }
-
-    bindRemoveInBuilder() {
-      document.addEventListener('click', (event) => {
-        var toggler = event.target.closest('[data-toggle-sku]');
-        if (!toggler) return;
-        var sku = toggler.getAttribute('data-toggle-sku');
-        var host = document.querySelector('[data-sku="' + sku + '"]') || toggler;
-        var product = this.catalog.resolveFromElement(host);
-        if (!product) return;
-        var isActive = toggler.getAttribute('aria-pressed') === 'true' || toggler.classList.contains('is-active');
-        if (isActive) this.tracker.remove(product, 1);
-        else this.tracker.add(product, 1);
-      });
-    }
-
-    bindPurchaseOnThanks() {
-      var hasThanksMarker = document.querySelector('[data-thanks="1"]');
-      if (location.pathname.indexOf('/spasibo') === -1 && !hasThanksMarker) return;
-      var product = this.popLastProduct();
-      if (!product) return;
-      var revenue = typeof product.price === 'number' ? product.price : 0;
-      var orderId = 'L' + Date.now();
-      this.tracker.purchase(orderId, revenue, [Object.assign({}, product, { quantity: 1 })]);
-    }
-
-    persistLastProduct(product) {
-      try {
-        sessionStorage.setItem(LAST_PRODUCT_KEY, JSON.stringify(product));
-      } catch (_) { /* storage unavailable */ }
-    }
-
-    popLastProduct() {
-      try {
-        var saved = sessionStorage.getItem(LAST_PRODUCT_KEY);
-        if (!saved) return null;
-        sessionStorage.removeItem(LAST_PRODUCT_KEY);
-        return JSON.parse(saved);
-      } catch (_) {
-        return null;
-      }
     }
   }
 
