@@ -1,9 +1,12 @@
-// Simplified Yandex E-commerce Tracker
-// Directly targets .btn-order and tariff buttons
+// Yandex E-commerce Tracker with Cart Flow
+// add → purchase flow for proper funnel tracking
 (function () {
   'use strict';
 
   window.dataLayer = window.dataLayer || [];
+
+  // Cart state - stores product pending purchase
+  let cartProduct = null;
 
   // Product catalog - maps normalized names to product data
   const PRODUCTS = {
@@ -131,9 +134,28 @@
     console.log('💰 Revenue:', revenue, 'RUB');
   }
 
-  // Main function - sends ONLY purchase on click (no cart flow)
+  // Main function - sends ADD event and stores product for later purchase
   function pushToDataLayer(product) {
-    pushPurchase(product, 1);
+    // Store product in cart for later purchase on form submit
+    cartProduct = { ...product };
+    console.log('🛒 Product added to cart:', cartProduct.name);
+    
+    // Push "add" event (add to cart)
+    pushAdd(product, 1);
+  }
+
+  // Called when popup form is submitted
+  function completePurchase() {
+    if (!cartProduct) {
+      console.warn('⚠️ No product in cart to purchase');
+      return;
+    }
+    
+    console.log('💳 Completing purchase for:', cartProduct.name);
+    pushPurchase(cartProduct, 1);
+    
+    // Clear cart after purchase
+    cartProduct = null;
   }
 
   function handleClick(event) {
@@ -219,6 +241,92 @@
     });
     
     console.log('✅ Click handlers attached');
+    
+    // Setup observer for popup form submit button
+    setupPopupObserver();
+  }
+
+  // Watch for popup form appearance and attach purchase handler
+  function setupPopupObserver() {
+    // Selectors for the popup submit button (Tilda uses various structures)
+    const submitButtonSelectors = [
+      'button[data-tilda-event-name="click"]',
+      '.t-submit',
+      'button:not([disabled])[type="submit"]',
+      '.t-form__submit',
+      '.t-btn[type="submit"]'
+    ];
+    
+    // Check if submit button matches "Оставить заявку"
+    function isSubmitButton(el) {
+      const text = el.textContent?.trim() || '';
+      return text.includes('Оставить заявку') || 
+             text.includes('Отправить заявку') ||
+             text.includes('Отправить');
+    }
+    
+    // Attach click handler to submit button
+    function attachSubmitHandler(button) {
+      if (button._purchaseHandlerAttached) return;
+      button._purchaseHandlerAttached = true;
+      
+      console.log('📝 Found popup submit button:', button.textContent?.trim().substring(0, 30));
+      
+      button.addEventListener('click', function(e) {
+        // Only trigger purchase if button is enabled and we have a cart product
+        if (button.disabled) {
+          console.log('⏸️ Submit button is disabled, waiting for form fill');
+          return;
+        }
+        
+        console.log('📤 Form submit button clicked!');
+        completePurchase();
+      });
+    }
+    
+    // Scan DOM for submit buttons
+    function scanForSubmitButtons() {
+      // Look for buttons with "Оставить заявку" text
+      document.querySelectorAll('button, .t-submit, .t-btn').forEach(btn => {
+        if (isSubmitButton(btn)) {
+          attachSubmitHandler(btn);
+        }
+      });
+    }
+    
+    // Initial scan
+    scanForSubmitButtons();
+    
+    // Watch for dynamically added popup elements
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach(node => {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+              // Check if this node or its children contain submit buttons
+              if (node.matches && (node.matches('button') || node.matches('.t-submit'))) {
+                if (isSubmitButton(node)) {
+                  attachSubmitHandler(node);
+                }
+              }
+              // Check children
+              node.querySelectorAll?.('button, .t-submit, .t-btn').forEach(btn => {
+                if (isSubmitButton(btn)) {
+                  attachSubmitHandler(btn);
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+    
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+    
+    console.log('👀 Popup observer active');
   }
 
   // Run on DOM ready
