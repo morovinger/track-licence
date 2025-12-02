@@ -63,42 +63,77 @@
     return isNaN(num) ? null : num;
   }
 
-  function pushToDataLayer(product) {
-    const payload = {
+  // Generate unique order ID
+  function generateOrderId() {
+    return 'ORD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+  }
+
+  // Generic push function with logging
+  function pushEcommerce(actionType, payload) {
+    const ecomPayload = {
       ecommerce: {
         currencyCode: 'RUB',
-        detail: {
-          products: [product]
-        }
+        ...payload
       }
     };
     
-    console.log('📊 PUSHING TO DATALAYER:', payload);
+    console.log(`📊 PUSHING [${actionType}] TO DATALAYER:`, ecomPayload);
     
-    // Push and get new array length
-    const newLength = window.dataLayer.push(payload);
+    const newLength = window.dataLayer.push(ecomPayload);
     console.log('📥 dataLayer.push() returned:', newLength, '(new array length)');
-    
-    // Log current dataLayer contents
     console.log('📋 Current dataLayer contents:', window.dataLayer);
     
-    // Check if Yandex Metrika is loaded
     if (typeof window.ym === 'function') {
       console.log('✅ Yandex Metrika (ym) is available');
-      
-      // You can also verify by checking the counter
-      // Your counter ID from the page is 99544990
-      const counterId = 99544990;
-      
-      // Log that ecommerce is configured
-      console.log('🎯 Metrika counter ID:', counterId);
-      console.log('💡 To verify in Metrika: Check "E-commerce" report in ~30 min');
+      console.log('🎯 Metrika counter ID: 99544990');
     } else {
-      console.warn('⚠️ Yandex Metrika (ym) not found! Is tag.js loaded?');
+      console.warn('⚠️ Yandex Metrika (ym) not found!');
     }
     
-    // Visual confirmation
-    console.log('%c✅ E-COMMERCE EVENT SENT', 'background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px;', product.name);
+    console.log(`%c✅ ${actionType.toUpperCase()} EVENT SENT`, 'background: #4CAF50; color: white; padding: 4px 8px; border-radius: 4px;');
+  }
+
+  // detail - просмотр товара
+  function pushDetail(product) {
+    pushEcommerce('detail', {
+      detail: {
+        products: [product]
+      }
+    });
+  }
+
+  // add - добавление в корзину
+  function pushAdd(product, quantity = 1) {
+    pushEcommerce('add', {
+      add: {
+        products: [{ ...product, quantity }]
+      }
+    });
+  }
+
+  // purchase - покупка (требует actionField.id)
+  function pushPurchase(product, quantity = 1) {
+    const orderId = generateOrderId();
+    const revenue = product.price * quantity;
+    
+    pushEcommerce('purchase', {
+      purchase: {
+        actionField: {
+          id: orderId,
+          revenue: revenue,
+          affiliation: 'тракторные-права.рф'
+        },
+        products: [{ ...product, quantity }]
+      }
+    });
+    
+    console.log('🧾 Order ID:', orderId);
+    console.log('💰 Revenue:', revenue, 'RUB');
+  }
+
+  // Main function - sends ONLY purchase on click (no cart flow)
+  function pushToDataLayer(product) {
+    pushPurchase(product, 1);
   }
 
   function handleClick(event) {
