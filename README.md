@@ -128,6 +128,14 @@ npm run preview
 
 Проект настроен для автоматического деплоя на VDS через GitHub Actions при push в ветку `main`
 
+### PM2 Ecosystem Config
+
+Проект включает `ecosystem.config.js` для продакшен-деплоя с настройками:
+- **Кластерный режим** - использует все CPU cores
+- **Автоматический рестарт** при падении
+- **Логирование** в директорию `logs/`
+- **Лимит памяти** - 1GB (рестарт при превышении)
+
 ### Необходимые GitHub Secrets
 
 Добавьте следующие секреты в настройках репозитория (Settings > Secrets and variables > Actions):
@@ -151,13 +159,140 @@ npm run preview
 - Node.js (v18+)
 - PM2 для управления процессом
 - SSH доступ с ключом
+- Nginx (опционально, для reverse proxy)
 
-Пример запуска на сервере:
+## 🔧 Настройка сервера
+
+### 1. Проверка занятых портов
+
+```bash
+# Показать все прослушиваемые порты
+sudo ss -tulpn
+
+# Альтернатива с netstat
+sudo netstat -tulpn | grep LISTEN
+
+# Проверить конкретный порт (например, 3000)
+sudo lsof -i :3000
+
+# Найти процесс на порту
+sudo fuser 3000/tcp
+```
+
+### 2. Установка Node.js (если не установлен)
+
+```bash
+# Установка Node.js 22 через NodeSource
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Проверка версии
+node --version
+npm --version
+```
+
+### 3. Установка PM2
+
+```bash
+sudo npm install -g pm2
+
+# Настройка автозапуска PM2 при перезагрузке сервера
+pm2 startup
+sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u $USER --hp $HOME
+```
+
+### 4. Создание директории для проекта
+
+```bash
+sudo mkdir -p /var/www/track-licence
+sudo chown $USER:$USER /var/www/track-licence
+cd /var/www/track-licence
+```
+
+### 5. Первый деплой (вручную)
+
+После первого деплоя через GitHub Actions или вручную:
 
 ```bash
 cd /var/www/track-licence
+
+# Создать директорию для логов
+mkdir -p logs
+
+# Запуск через ecosystem.config.js (рекомендуется)
+pm2 start ecosystem.config.js
+
+# Или напрямую
 pm2 start .output/server/index.mjs --name track-licence
+
+# Сохранить конфигурацию PM2
 pm2 save
+
+# Проверить статус
+pm2 status
+pm2 logs track-licence
+```
+
+**Примечание**: Файл `ecosystem.config.js` автоматически деплоится через GitHub Actions и настроен для кластерного режима с автоматическим перезапуском.
+
+### 6. Настройка Nginx (reverse proxy)
+
+Создайте конфигурацию `/etc/nginx/sites-available/track-licence`:
+
+```nginx
+server {
+    listen 80;
+    server_name xn----7sbhhfbvdcqfhb2bpg.xn--p1ai www.xn----7sbhhfbvdcqfhb2bpg.xn--p1ai;
+
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Активируйте конфигурацию:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/track-licence /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### 7. SSL сертификат (опционально, через Let's Encrypt)
+
+```bash
+sudo apt-get install certbot python3-certbot-nginx
+sudo certbot --nginx -d xn----7sbhhfbvdcqfhb2bpg.xn--p1ai -d www.xn----7sbhhfbvdcqfhb2bpg.xn--p1ai
+```
+
+### 8. Полезные команды PM2
+
+```bash
+# Перезапуск приложения
+pm2 restart track-licence
+
+# Остановка
+pm2 stop track-licence
+
+# Просмотр логов
+pm2 logs track-licence
+
+# Мониторинг
+pm2 monit
+
+# Список процессов
+pm2 list
+
+# Удаление процесса
+pm2 delete track-licence
 ```
 
 ## 📝 Nuxt Studio

@@ -61,6 +61,13 @@ jobs:
           include-hidden-files: true
           retention-days: 1
 
+      - name: Upload PM2 config
+        uses: actions/upload-artifact@v4
+        with:
+          name: pm2-config
+          path: ecosystem.config.js
+          retention-days: 1
+
   deploy:
     # Only deploy on push to main, not on PRs
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -74,6 +81,12 @@ jobs:
           name: nuxt-output
           path: .output/
 
+      - name: Download PM2 config
+        uses: actions/download-artifact@v4
+        with:
+          name: pm2-config
+          path: ./
+
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
@@ -81,16 +94,23 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.VDS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy via rsync
+      - name: Deploy .output via rsync
         run: |
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key" \
             .output/ \
+            ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }}:${{ secrets.VDS_PATH }}/.output/
+
+      - name: Deploy PM2 config
+        run: |
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            ecosystem.config.js \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }}:${{ secrets.VDS_PATH }}/
 
-      - name: Restart PM2 process
+      - name: Create logs directory and restart PM2
         run: |
           ssh -i ~/.ssh/deploy_key \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }} \
-            "bash -l -c 'cd ${{ secrets.VDS_PATH }} && pm2 restart ${{ secrets.VDS_PM2_NAME }} --update-env'"
+            "bash -l -c 'cd ${{ secrets.VDS_PATH }} && mkdir -p logs && pm2 restart ecosystem.config.js --update-env || pm2 start ecosystem.config.js'"
 
