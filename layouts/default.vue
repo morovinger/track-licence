@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col">
-    <TheHeader />
+    <TheHeader @toggle-nav="mobileNavOpen = !mobileNavOpen" />
     <MobileNav v-model:open="mobileNavOpen" />
     
     <main class="flex-1">
@@ -23,4 +23,3 @@ provide('openContactModal', () => {
   contactModalOpen.value = true
 })
 </script>
-
