@@ -6,7 +6,8 @@ module.exports = {
     exec_mode: 'cluster',
     env: {
       NODE_ENV: 'production',
-      PORT: 3000,
+      // Change PORT if 3000 is already in use (e.g., 3001, 3002, etc.)
+      PORT: process.env.PORT || 3000,
       HOST: '0.0.0.0'
     },
     error_file: './logs/err.log',
