@@ -44,8 +44,15 @@ export default defineNuxtConfig({
   },
 
   studio: {
-    development: {
-      sync: true
+    // Studio admin route (default: '/_studio')
+    route: '/_studio',
+
+    // Git repository configuration (owner and repo are required)
+    repository: {
+      provider: 'github', // 'github' or 'gitlab'
+      owner: 'morovinger', // your GitHub/GitLab username or organization
+      repo: 'track-licence', // your repository name
+      branch: 'main', // the branch to commit to (default: main)
     }
   }
 })
