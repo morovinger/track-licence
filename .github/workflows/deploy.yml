@@ -68,6 +68,13 @@ jobs:
           path: ecosystem.config.js
           retention-days: 1
 
+      - name: Upload Nginx config
+        uses: actions/upload-artifact@v4
+        with:
+          name: nginx-config
+          path: nginx.conf
+          retention-days: 1
+
   deploy:
     # Only deploy on push to main, not on PRs
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -87,6 +94,12 @@ jobs:
           name: pm2-config
           path: ./
 
+      - name: Download Nginx config
+        uses: actions/download-artifact@v4
+        with:
+          name: nginx-config
+          path: ./
+
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
@@ -101,11 +114,11 @@ jobs:
             .output/ \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }}:${{ secrets.VDS_PATH }}/.output/
 
-      - name: Deploy PM2 config
+      - name: Deploy PM2 and config files
         run: |
           rsync -avz \
             -e "ssh -i ~/.ssh/deploy_key" \
-            ecosystem.config.js \
+            ecosystem.config.js nginx.conf \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }}:${{ secrets.VDS_PATH }}/
 
       - name: Create logs directory and restart PM2
