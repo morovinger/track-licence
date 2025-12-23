@@ -1,6 +1,6 @@
 <template>
   <section id="pricing" class="section bg-gray-50">
-    <div class="container-custom">
+    <div class="container">
       <!-- Section Header -->
       <div class="text-center mb-12">
         <h2 class="section-title">Выбери тариф или создай свой</h2>

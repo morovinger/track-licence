@@ -1,6 +1,6 @@
 <template>
   <section class="section bg-gray-50">
-    <div class="container-custom">
+    <div class="container">
       <!-- Section Header -->
       <div class="text-center mb-10">
         <h2 class="section-title">Отзывы</h2>

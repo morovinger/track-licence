@@ -2,14 +2,14 @@
   <div class="min-h-screen bg-gray-50">
     <!-- Header Banner -->
     <section class="bg-hero-gradient py-16 md:py-24">
-      <div class="container-custom text-center text-white">
+      <div class="container text-center text-white">
         <h1 class="text-4xl md:text-5xl font-bold mb-4">Политика конфиденциальности</h1>
       </div>
     </section>
 
     <!-- Content -->
     <section class="section">
-      <div class="container-custom">
+      <div class="container">
         <div class="max-w-4xl mx-auto card p-8 md:p-12">
           <div class="prose prose-lg max-w-none">
             <h2 class="text-2xl font-bold text-primary-500 mb-4">1. Общие положения</h2>

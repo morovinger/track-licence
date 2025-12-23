@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-50">
     <!-- Header Banner -->
     <section class="bg-hero-gradient py-16 md:py-24">
-      <div class="container-custom text-center text-white">
+      <div class="container text-center text-white">
         <h1 class="text-4xl md:text-5xl font-bold mb-4">О компании</h1>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto">
           АНО ДПО «Псковский учебно-образовательный центр» — №1 в России по обучению на тракторные права
@@ -12,7 +12,7 @@
 
     <!-- Content -->
     <section class="section">
-      <div class="container-custom">
+      <div class="container">
         <div class="max-w-4xl mx-auto">
           <!-- About -->
           <div class="card p-8 mb-8">

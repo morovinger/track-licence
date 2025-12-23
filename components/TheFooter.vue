@@ -1,6 +1,6 @@
 <template>
   <footer class="bg-gradient-to-br from-[#0a1744] via-[#0d2063] to-[#0a1744] text-white">
-    <div class="container-custom py-12 md:py-16">
+    <div class="container py-12 md:py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
         <!-- Logo & Description -->
         <div class="lg:col-span-1">
@@ -104,7 +104,7 @@
 
     <!-- Bottom Bar -->
     <div class="border-t border-white/10">
-      <div class="container-custom py-4">
+      <div class="container py-4">
         <p class="text-blue-300/60 text-sm text-center md:text-left">
           Мы используем файлы cookie для персонализации сервисов и повышения удобства пользования сайтом.
         </p>

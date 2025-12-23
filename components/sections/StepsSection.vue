@@ -1,6 +1,6 @@
 <template>
   <section class="section bg-gray-50 overflow-hidden">
-    <div class="container-custom">
+    <div class="container">
       <!-- Section Header -->
       <div class="text-center mb-12">
         <h2 class="section-title">Всё просто — мы рядом на каждом шаге</h2>

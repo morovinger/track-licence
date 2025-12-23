@@ -64,10 +64,6 @@
     @apply text-lg md:text-xl text-gray-500 max-w-3xl;
   }
 
-  /* Container */
-  .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
 
   /* Price styling */
   .price-current {

@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-50">
     <!-- Header Banner -->
     <section class="bg-hero-gradient py-16 md:py-24">
-      <div class="container-custom text-center text-white">
+      <div class="container text-center text-white">
         <h1 class="text-4xl md:text-5xl font-bold mb-4">Все курсы</h1>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto">
           Ознакомьтесь со всем списком доступных программ обучения на право управления самоходными машинами
@@ -12,7 +12,7 @@
 
     <!-- Courses List -->
     <section class="section">
-      <div class="container-custom">
+      <div class="container">
         <!-- Filters -->
         <div class="flex flex-wrap gap-4 mb-8">
           <button 

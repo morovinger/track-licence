@@ -6,7 +6,7 @@
       <div class="absolute bottom-0 left-0 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl"></div>
     </div>
 
-    <div class="container-custom relative z-10">
+    <div class="container relative z-10">
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <!-- Content -->
         <div class="animate-slide-in-left">

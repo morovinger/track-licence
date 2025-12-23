@@ -1,6 +1,6 @@
 <template>
   <section class="section bg-white">
-    <div class="container-custom">
+    <div class="container">
       <!-- Section Header -->
       <div class="text-center mb-12">
         <h2 class="section-title">Часто задаваемые вопросы</h2>
