@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="container min-h-screen flex flex-col">
     <TheHeader @toggle-nav="mobileNavOpen = !mobileNavOpen" />
     <MobileNav v-model:open="mobileNavOpen" />
     
