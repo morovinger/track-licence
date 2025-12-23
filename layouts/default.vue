@@ -3,7 +3,7 @@
     <TheHeader @toggle-nav="mobileNavOpen = !mobileNavOpen" />
     <MobileNav v-model:open="mobileNavOpen" />
     
-    <main class="flex-1">
+    <main class="flex-1 bg-body">
       <slot />
     </main>
     

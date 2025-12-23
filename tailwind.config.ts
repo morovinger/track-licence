@@ -26,6 +26,9 @@ export default {
     },
     extend: {
       colors: {
+        // Page background
+        body: '#f0f4fa',  // Light blue-gray for page background
+        
         // Primary navy blue palette
         primary: {
           50: '#e6ebf5',

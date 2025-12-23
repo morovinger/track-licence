@@ -1,5 +1,5 @@
 <template>
-  <section class="section bg-white -mt-8 md:-mt-12 relative z-10">
+  <section class="section bg-body -mt-8 md:-mt-12 relative z-10">
     <div class="container">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <div 

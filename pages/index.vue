@@ -1,29 +1,33 @@
 <template>
-  <div>
-    <!-- Hero Section -->
-    <HeroSection />
-    
-    <!-- Features / Benefits -->
-    <FeaturesSection />
-    
-    <!-- Pricing Plans -->
-    <PricingSection />
-    
-    <!-- Popular Courses -->
-    <CoursesSection />
-    
-    <!-- How It Works Steps -->
-    <StepsSection />
-    
-    <!-- Reviews -->
-    <ReviewsSection />
-    
-    <!-- Salary / Career Info -->
-    <SalarySection />
-    
-    <!-- FAQ -->
-    <FAQSection />
-  </div>
+  <!-- Hero Section -->
+  <HeroSection 
+    title="ОБУЧЕНИЕ НА ТРАКТОРНЫЕ ПРАВА"
+    :badges="['Быстро', 'Выгодно', 'Легально']"
+    price="7 000 ₽"
+    cta-text="ОТКРЫТЬ КАТЕГОРИЮ"
+    :quick-links="homeQuickLinks"
+  />
+  
+  <!-- Features / Benefits -->
+  <FeaturesSection />
+  
+  <!-- Pricing Plans -->
+  <PricingSection />
+  
+  <!-- Popular Courses -->
+  <CoursesSection />
+  
+  <!-- How It Works Steps -->
+  <StepsSection />
+  
+  <!-- Reviews -->
+  <ReviewsSection />
+  
+  <!-- Salary / Career Info -->
+  <SalarySection />
+  
+  <!-- FAQ -->
+  <FAQSection />
 </template>
 
 <script setup lang="ts">
@@ -36,6 +40,16 @@ import StepsSection from '~/components/sections/StepsSection.vue'
 import ReviewsSection from '~/components/sections/ReviewsSection.vue'
 import SalarySection from '~/components/sections/SalarySection.vue'
 import FAQSection from '~/components/sections/FAQSection.vue'
+
+// Hero Section quick links
+const homeQuickLinks = [
+  { label: 'Тракторист', path: '/courses?filter=tractor' },
+  { label: 'Погрузчик', path: '/voditel-pogruzchika' },
+  { label: 'Экскаваторщик', path: '/mashinist-ekskavatora' },
+  { label: 'Комбайнёр', path: '/kategoriya-f' },
+  { label: 'Квадроцикл', path: '/kategoriya-a1' },
+  { label: 'Все направления →', path: '/courses' },
+]
 
 // SEO Meta
 useHead({
