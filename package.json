@@ -17,9 +17,9 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "@nuxt/content": "^3.9.0",
+    "@nuxt/content": "^3.1.0",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@types/node": "^25.0.3",
-    "nuxt-studio": "^1.0.0-beta.1"
+    "nuxt-studio": "^1.0.0-beta.3"
   }
 }
