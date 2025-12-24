@@ -1,9 +1,9 @@
 <template>
   <section :class="['relative', bgClass]">
     <div class="container py-6 md:py-10">
-      <div class="flex flex-col lg:flex-row items-stretch min-h-[450px] md:min-h-[500px] bg-white rounded-2xl overflow-hidden shadow-lg">
-        <!-- Left Content - Text -->
-        <div class="left lg:w-[50%] flex flex-col justify-center p-6 md:p-10 lg:p-12">
+      <div class="flex flex-col lg:flex-row gap-6 items-stretch min-h-[450px] md:min-h-[500px]">
+        <!-- Left Content - Text (White Card) -->
+        <div class="left lg:w-[50%] flex flex-col justify-center p-6 md:p-10 lg:p-12 bg-white rounded-3xl shadow-lg">
           <!-- Top badges inline -->
           <div v-if="badges && badges.length > 0" class="flex flex-wrap gap-3 mb-4">
             <span 
@@ -58,26 +58,74 @@
           </div>
         </div>
 
-        <!-- Right Content - Slot for flexibility (image, slider, etc.) -->
-        <div class="right lg:w-[50%] relative flex items-center justify-center p-6 md:p-10 lg:p-12 bg-gradient-to-br from-[#1e5dbf] to-[#1a5cd6]">
+        <!-- Right Content - Image/Slider -->
+        <div class="right lg:w-[50%] relative">
           <slot name="right">
-            <!-- Default: Image with badge -->
-            <div class="relative w-full">
-              <!-- Number 1 Badge with green dot -->
-              <div v-if="showBadge" class="absolute -top-6 left-0 z-20 w-max flex items-center gap-2 rounded-full px-3 md:px-4 py-1.5 md:py-2 bg-white shadow-md">
-                <span class="w-2 md:w-2.5 h-2 md:h-2.5 bg-green-500 rounded-full"></span>
-                <span class="font-bold text-sm md:text-base text-[#0a1744]">{{ badgeText }}</span>
-              </div>
-
-              <!-- Image -->
-              <div class="relative w-full flex items-center justify-center">
-                <img 
-                  :src="imageSrc" 
-                  :alt="imageAlt"
-                  class="w-full max-w-[600px] h-auto object-contain"
-                />
-              </div>
+            <!-- Number 1 Badge with green dot -->
+            <div v-if="showBadge" class="absolute top-0 left-0 z-20 w-max flex items-center gap-2 rounded-full px-3 md:px-4 py-1.5 md:py-2 bg-white shadow-md">
+              <span class="w-2 md:w-2.5 h-2 md:h-2.5 bg-green-500 rounded-full"></span>
+              <span class="font-bold text-sm md:text-base text-[#0a1744]">{{ badgeText }}</span>
             </div>
+
+            <!-- Slider (Multiple Images) -->
+            <template v-if="images && images.length > 1">
+              <div class="relative rounded-3xl overflow-hidden">
+                <div 
+                  class="flex transition-transform duration-500 ease-out"
+                  :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+                >
+                  <img 
+                    v-for="(image, index) in images" 
+                    :key="index"
+                    :src="image" 
+                    :alt="`${imageAlt} ${index + 1}`"
+                    class="w-full flex-shrink-0 h-auto object-cover rounded-3xl"
+                  />
+                </div>
+
+                <!-- Navigation Arrows -->
+                <button 
+                  @click="prevSlide"
+                  class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-[#0a1744] transition-all z-10"
+                  aria-label="Previous slide"
+                >
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button 
+                  @click="nextSlide"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-[#0a1744] transition-all z-10"
+                  aria-label="Next slide"
+                >
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+
+                <!-- Dots Indicator -->
+                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                  <button
+                    v-for="(_, index) in images"
+                    :key="index"
+                    @click="goToSlide(index)"
+                    :class="[
+                      'w-2 h-2 rounded-full transition-all',
+                      currentSlide === index ? 'bg-white w-6' : 'bg-white/50'
+                    ]"
+                    :aria-label="`Go to slide ${index + 1}`"
+                  />
+                </div>
+              </div>
+            </template>
+
+            <!-- Single Image (Backward Compatible) -->
+            <img 
+              v-else
+              :src="imageSrc" 
+              :alt="imageAlt"
+              class="w-full h-auto object-cover rounded-3xl"
+            />
           </slot>
         </div>
       </div>
@@ -108,7 +156,8 @@ interface Props {
   quickLinks?: QuickLink[]
   
   // Right side (when using default slot)
-  imageSrc?: string
+  imageSrc?: string        // Single image (backward compatible)
+  images?: string[]        // Multiple images for slider
   imageAlt?: string
   showBadge?: boolean
   badgeText?: string
@@ -142,4 +191,42 @@ const openContactModal = inject<() => void>('openContactModal')
 const handleCtaClick = () => {
   openContactModal?.()
 }
+
+// Slider functionality
+const currentSlide = ref(0)
+
+const nextSlide = () => {
+  if (props.images && props.images.length > 0) {
+    currentSlide.value = (currentSlide.value + 1) % props.images.length
+  }
+}
+
+const prevSlide = () => {
+  if (props.images && props.images.length > 0) {
+    currentSlide.value = currentSlide.value === 0 
+      ? props.images.length - 1 
+      : currentSlide.value - 1
+  }
+}
+
+const goToSlide = (index: number) => {
+  currentSlide.value = index
+}
+
+// Auto-play slider (optional)
+let autoPlayInterval: NodeJS.Timeout | null = null
+
+onMounted(() => {
+  if (props.images && props.images.length > 1) {
+    autoPlayInterval = setInterval(() => {
+      nextSlide()
+    }, 5000) // Change slide every 5 seconds
+  }
+})
+
+onUnmounted(() => {
+  if (autoPlayInterval) {
+    clearInterval(autoPlayInterval)
+  }
+})
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <!-- Hero with custom content for "Профессионал" package -->
+  <!-- Hero with slider for "Профессионал" package -->
   <HeroSection
     title="Пакет Профессионал"
     subtitle="Максимально полное обучение на всю линейку востребованной спецтехники с получением 9 квалификаций"
@@ -8,10 +8,7 @@
     old-price="68 000 ₽"
     cta-text="Записаться на курс"
     :quick-links="[]"
-    bg-class="bg-body"
-    show-badge
-    badge-text="№ 1 в РФ"
-    image-src="/images/hero.webp"
+    :images="packageImages"
     image-alt="Пакет Профессионал"
   />
 
@@ -113,6 +110,13 @@
 <script setup lang="ts">
 import HeroSection from '~/components/sections/HeroSection.vue'
 import FAQSection from '~/components/sections/FAQSection.vue'
+
+// Hero slider images
+const packageImages = [
+  '/images/hero.webp',
+  '/images/hero.webp', // TODO: Replace with actual package images
+  '/images/hero.webp',
+]
 
 // SEO Meta
 useHead({
