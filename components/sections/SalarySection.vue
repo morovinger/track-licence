@@ -1,5 +1,5 @@
 <template>
-  <section class="section bg-gradient-to-br from-[#0a1744] via-[#0d2063] to-[#0a1744] text-white overflow-hidden relative">
+  <section class="section bg-gradient-to-br from-primary-700 via-primary to-primary-700 text-white overflow-hidden relative">
     <!-- Background decorations -->
     <div class="absolute inset-0">
       <div class="absolute top-0 right-0 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"></div>

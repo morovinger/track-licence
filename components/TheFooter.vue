@@ -1,12 +1,12 @@
 <template>
-  <footer class="bg-gradient-to-br from-[#0a1744] via-[#0d2063] to-[#0a1744] text-white">
+  <footer class="bg-gradient-to-br from-primary-700 via-primary to-primary-700 text-white">
     <div class="container py-12 md:py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
         <!-- Logo & Description -->
         <div class="lg:col-span-1">
           <NuxtLink to="/" class="flex items-center gap-3 mb-4">
             <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-lg flex items-center justify-center shadow-md">
-              <svg class="w-6 h-6 text-[#0a1744]" viewBox="0 0 24 24" fill="currentColor">
+              <svg class="w-6 h-6 text-primary-900" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 11H6V6h10.5L18 3H8c-1.1 0-2 .9-2 2v6H4c-1.1 0-2 .9-2 2v7h2v-3h16v3h2v-7c0-1.1-.9-2-2-2z"/>
               </svg>
             </div>
@@ -93,7 +93,7 @@
 
             <button 
               @click="openModal"
-              class="w-full py-3 px-4 bg-gradient-to-r from-amber-400 to-yellow-500 text-[#0a1744] font-bold text-sm rounded-xl hover:shadow-lg transition-all"
+              class="w-full py-3 px-4 bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900 font-bold text-sm rounded-xl hover:shadow-lg transition-all"
             >
               Получить консультацию
             </button>

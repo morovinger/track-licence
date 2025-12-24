@@ -1,5 +1,5 @@
 <template>
-  <header class="mt-5 mb-5 rounded-2xl bg-[#0d2063]">
+  <header class="mt-5 mb-5 rounded-2xl bg-primary">
     <div class="container">
       <div class="flex items-center justify-between h-16 md:h-20">
         <!-- Logo -->
@@ -21,7 +21,7 @@
           </div>
           <button 
             @click="openModal"
-            class="px-5 py-2.5 bg-transparent border-2 border-white text-white font-bold text-sm rounded-xl hover:bg-white hover:text-[#0d2063] transition-all"
+            class="px-5 py-2.5 bg-transparent border-2 border-white text-white font-bold text-sm rounded-xl hover:bg-white hover:text-primary transition-all"
           >
             Заказать звонок
           </button>

@@ -27,8 +27,8 @@
               {{ item.title }}
             </span>
             <span 
-              class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[#0a1744] bg-white border border-gray-200 transition-transform duration-300"
-              :class="openItems.includes(index) ? 'rotate-45 bg-[#0a1744] text-white border-[#0a1744]' : ''"
+              class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-primary-900 bg-white border border-gray-200 transition-transform duration-300"
+              :class="openItems.includes(index) ? 'rotate-45 bg-primary-900 text-white border-[#0a1744]' : ''"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/>
@@ -47,7 +47,7 @@
                   :href="item.link"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 mt-4 text-[#0a1744] font-semibold hover:text-[#1a3a8a] transition-colors"
+                  class="inline-flex items-center gap-2 mt-4 text-primary-900 font-semibold hover:text-[#1a3a8a] transition-colors"
                 >
                   {{ item.linkText || 'Подробнее' }}
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

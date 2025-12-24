@@ -14,7 +14,7 @@
         <!-- Overall Rating -->
         <div class="text-center">
           <div class="flex items-baseline justify-center gap-1">
-            <span class="text-5xl font-black text-[#0a1744]">5.0</span>
+            <span class="text-5xl font-black text-primary-900">5.0</span>
             <span class="text-gray-500">из 5</span>
           </div>
           <div class="flex items-center justify-center gap-1 mt-2">
@@ -61,7 +61,7 @@
               >
                 <!-- Author -->
                 <div class="flex items-center gap-3 mb-4">
-                  <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center text-[#0a1744] font-bold text-lg">
+                  <div class="w-12 h-12 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center text-primary-900 font-bold text-lg">
                     {{ review.author.charAt(0) }}
                   </div>
                   <div class="flex-1 min-w-0">
@@ -95,7 +95,7 @@
         <!-- Navigation Arrows -->
         <button 
           @click="prevSlide"
-          class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-[#0a1744] hover:bg-gray-50 transition-colors hidden lg:flex disabled:opacity-40"
+          class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-primary-900 hover:bg-gray-50 transition-colors hidden lg:flex disabled:opacity-40"
           :disabled="currentSlide === 0"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,7 +104,7 @@
         </button>
         <button 
           @click="nextSlide"
-          class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-[#0a1744] hover:bg-gray-50 transition-colors hidden lg:flex disabled:opacity-40"
+          class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-primary-900 hover:bg-gray-50 transition-colors hidden lg:flex disabled:opacity-40"
           :disabled="currentSlide === reviewSlides.length - 1"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +119,7 @@
             :key="index"
             @click="currentSlide = index"
             class="w-2.5 h-2.5 rounded-full transition-all duration-300"
-            :class="currentSlide === index ? 'bg-[#0a1744] w-8' : 'bg-gray-300 hover:bg-gray-400'"
+            :class="currentSlide === index ? 'bg-primary-900 w-8' : 'bg-gray-300 hover:bg-gray-400'"
           />
         </div>
       </div>
@@ -130,7 +130,7 @@
           href="https://yandex.ru/maps/org/26536564008/reviews/"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-6 py-3 text-[#0a1744] font-semibold border-2 border-[#0a1744] rounded-xl hover:bg-[#0a1744] hover:text-white transition-all"
+          class="inline-flex items-center gap-2 px-6 py-3 text-primary-900 font-semibold border-2 border-[#0a1744] rounded-xl hover:bg-primary-900 hover:text-white transition-all"
         >
           Ещё отзывы
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

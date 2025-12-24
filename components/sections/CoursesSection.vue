@@ -18,7 +18,7 @@
           :class="`animation-delay-${(index % 4 + 1) * 100}`"
         >
           <!-- Image -->
-          <div class="relative h-44 bg-gradient-to-br from-[#1a3a8a] to-[#0a1744] overflow-hidden">
+          <div class="relative h-44 bg-gradient-to-br from-primary-700 to-primary-900 overflow-hidden">
             <div class="absolute inset-0 flex items-center justify-center">
               <!-- Icon -->
               <component :is="course.icon" class="w-20 h-20 text-white/25" />
@@ -33,7 +33,7 @@
 
           <!-- Content -->
           <div class="p-5">
-            <h3 class="text-lg font-bold text-[#0a1744] mb-2 group-hover:text-[#1a3a8a] transition-colors leading-tight">
+            <h3 class="text-lg font-bold text-primary-900 mb-2 group-hover:text-primary-700 transition-colors leading-tight">
               {{ course.title }}
             </h3>
 
@@ -52,13 +52,13 @@
             <div class="flex gap-2">
               <NuxtLink 
                 :to="`/${course.slug}`"
-                class="flex-1 py-2.5 px-3 text-sm font-semibold text-[#0a1744] bg-transparent border-2 border-[#0a1744] rounded-xl text-center hover:bg-[#0a1744] hover:text-white transition-all"
+                class="flex-1 py-2.5 px-3 text-sm font-semibold text-primary-900 bg-transparent border-2 border-primary-900 rounded-xl text-center hover:bg-primary-900 hover:text-white transition-all"
               >
                 Подробнее
               </NuxtLink>
               <button 
                 @click="openModal"
-                class="flex-1 py-2.5 px-3 text-sm font-semibold text-[#0a1744] bg-gradient-to-r from-amber-400 to-yellow-500 rounded-xl hover:shadow-lg transition-all"
+                class="flex-1 py-2.5 px-3 text-sm font-semibold text-primary-900 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-xl hover:shadow-lg transition-all"
               >
                 Записаться
               </button>
@@ -69,14 +69,14 @@
         <!-- View All Card -->
         <NuxtLink 
           to="/courses"
-          class="group flex flex-col items-center justify-center min-h-[380px] bg-white rounded-2xl shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-gray-100 hover:bg-gradient-to-br hover:from-[#0d2063] hover:to-[#0a1744] transition-all duration-300 hover:-translate-y-1"
+          class="group flex flex-col items-center justify-center min-h-[380px] bg-white rounded-2xl shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-gray-100 hover:bg-gradient-to-br hover:from-primary hover:to-primary-700 transition-all duration-300 hover:-translate-y-1"
         >
           <div class="w-16 h-16 bg-blue-50 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-4 transition-colors">
-            <svg class="w-8 h-8 text-[#0a1744] group-hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <svg class="w-8 h-8 text-primary-900 group-hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
             </svg>
           </div>
-          <h3 class="text-xl font-bold text-[#0a1744] group-hover:text-white mb-2 transition-colors">
+          <h3 class="text-xl font-bold text-primary-900 group-hover:text-white mb-2 transition-colors">
             Все курсы
           </h3>
           <p class="text-gray-500 group-hover:text-white/70 text-center text-sm px-4 transition-colors">

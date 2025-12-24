@@ -21,13 +21,13 @@
           <div 
             class="relative h-full rounded-2xl overflow-hidden transition-all duration-300 group-hover:-translate-y-2"
             :class="plan.popular 
-              ? 'bg-gradient-to-b from-[#0d2063] to-[#0a1744] text-white shadow-xl' 
+              ? 'bg-gradient-to-b from-primary to-primary-700 text-white shadow-xl' 
               : 'bg-white border border-gray-100 shadow-md'"
           >
             <!-- Popular Badge -->
             <div 
               v-if="plan.popular"
-              class="absolute top-0 left-0 right-0 bg-gradient-to-r from-amber-400 to-yellow-500 text-[#0a1744] text-center py-2 text-sm font-bold"
+              class="absolute top-0 left-0 right-0 bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900 text-center py-2 text-sm font-bold"
             >
               Хит
             </div>
@@ -36,7 +36,7 @@
               <!-- Plan Name -->
               <h3 
                 class="text-xl font-bold mb-4"
-                :class="plan.popular ? 'text-white' : 'text-[#0a1744]'"
+                :class="plan.popular ? 'text-white' : 'text-primary-900'"
               >
                 {{ plan.name }}
               </h3>
@@ -92,8 +92,8 @@
                   @click="openModal"
                   class="w-full py-3 px-4 rounded-xl font-bold text-sm transition-all duration-300"
                   :class="plan.popular 
-                    ? 'bg-gradient-to-r from-amber-400 to-yellow-500 text-[#0a1744] hover:shadow-lg' 
-                    : 'bg-gradient-to-r from-amber-400 to-yellow-500 text-[#0a1744] hover:shadow-lg'"
+                    ? 'bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900 hover:shadow-lg' 
+                    : 'bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900 hover:shadow-lg'"
                 >
                   Записаться
                 </button>
@@ -102,7 +102,7 @@
                   class="block w-full text-center py-2 text-sm font-medium transition-colors"
                   :class="plan.popular 
                     ? 'text-gray-300 hover:text-white' 
-                    : 'text-gray-500 hover:text-[#0a1744]'"
+                    : 'text-gray-500 hover:text-primary-900'"
                 >
                   Подробнее
                 </NuxtLink>
@@ -118,12 +118,12 @@
         class="group block bg-white rounded-2xl p-6 text-center shadow-md border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
       >
         <div class="flex items-center justify-center gap-4">
-          <div class="w-14 h-14 bg-gradient-to-br from-[#0d2063] to-[#0a1744] rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+          <div class="w-14 h-14 bg-gradient-to-br from-primary to-primary-700 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
             <svg class="w-7 h-7 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/>
             </svg>
           </div>
-          <span class="text-xl font-bold text-[#0a1744]">Создать свой тариф</span>
+          <span class="text-xl font-bold text-primary-900">Создать свой тариф</span>
         </div>
       </NuxtLink>
     </div>

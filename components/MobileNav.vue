@@ -6,7 +6,7 @@
     >
       <div class="flex flex-col h-full">
         <!-- Header -->
-        <div class="flex items-center justify-between p-4 border-b bg-[#0d2063]">
+        <div class="flex items-center justify-between p-4 border-b bg-primary">
           <span class="text-lg font-bold text-white">Меню</span>
           <button 
             @click="emit('update:open', false)"
@@ -27,7 +27,7 @@
             <li v-for="category in categories" :key="category.path">
               <NuxtLink 
                 :to="category.path"
-                class="block px-4 py-3 text-gray-700 hover:bg-[#0d2063]/10 hover:text-[#0d2063] transition-colors"
+                class="block px-4 py-3 text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors"
                 @click="emit('update:open', false)"
               >
                 {{ category.label }}
@@ -41,7 +41,7 @@
             <li v-for="item in mainNav" :key="item.path">
               <NuxtLink 
                 :to="item.path"
-                class="block px-4 py-3 font-medium text-gray-900 hover:bg-[#0d2063]/10 hover:text-[#0d2063] transition-colors"
+                class="block px-4 py-3 font-medium text-gray-900 hover:bg-primary/10 hover:text-primary transition-colors"
                 @click="emit('update:open', false)"
               >
                 {{ item.label }}
@@ -54,7 +54,7 @@
         <div class="p-4 border-t bg-gray-50">
           <a 
             href="tel:79014693441" 
-            class="flex items-center gap-3 text-[#0d2063] font-bold"
+            class="flex items-center gap-3 text-primary font-bold"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
@@ -63,7 +63,7 @@
           </a>
           <button 
             @click="openModal"
-            class="w-full mt-3 bg-gradient-to-r from-amber-400 to-yellow-500 text-[#0a1744] font-bold text-sm py-3 rounded-xl hover:shadow-lg transition-all"
+            class="w-full mt-3 bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900 font-bold text-sm py-3 rounded-xl hover:shadow-lg transition-all"
           >
             Заказать звонок
           </button>

@@ -21,7 +21,7 @@
   /* Button styles - Updated to match original */
   .btn-primary {
     @apply inline-flex items-center justify-center px-8 py-4 text-lg font-bold
-           bg-gradient-to-r from-amber-400 to-yellow-500 text-[#0a1744]
+           bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900
            rounded-xl shadow-[0_4px_20px_rgba(251,191,36,0.4)]
            hover:shadow-[0_6px_30px_rgba(251,191,36,0.5)] hover:scale-105 
            transition-all duration-300 ease-out;
@@ -29,15 +29,15 @@
   
   .btn-secondary {
     @apply inline-flex items-center justify-center px-6 py-3 text-base font-semibold 
-           text-white bg-[#0a1744] rounded-xl
-           hover:bg-[#0d2063] 
+           text-white bg-primary-700 rounded-xl
+           hover:bg-primary 
            transition-all duration-300;
   }
   
   .btn-outline {
     @apply inline-flex items-center justify-center px-6 py-3 text-base font-semibold 
-           text-[#0a1744] bg-transparent border-2 border-[#0a1744] rounded-xl
-           hover:bg-[#0a1744] hover:text-white 
+           text-primary-900 bg-transparent border-2 border-primary-900 rounded-xl
+           hover:bg-primary-900 hover:text-white 
            transition-all duration-300;
   }
 
@@ -49,7 +49,7 @@
   }
   
   .card-blue {
-    @apply bg-gradient-to-b from-[#0d2063] to-[#0a1744] rounded-2xl text-white shadow-lg;
+    @apply bg-gradient-to-b from-primary to-primary-700 rounded-2xl text-white shadow-lg;
   }
 
   /* Section styles */
@@ -58,7 +58,7 @@
   }
   
   .section-title {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-[#0a1744] mb-4;
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-primary-900 mb-4;
   }
   
   .section-subtitle {
@@ -77,16 +77,16 @@
 
   /* Badge */
   .badge-hit {
-    @apply inline-block px-4 py-1 text-sm font-bold text-[#0a1744] bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full;
+    @apply inline-block px-4 py-1 text-sm font-bold text-primary-900 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full;
   }
 
   /* Navigation link */
   .nav-link {
-    @apply text-gray-600 hover:text-[#0a1744] font-medium transition-colors duration-200;
+    @apply text-gray-600 hover:text-primary-900 font-medium transition-colors duration-200;
   }
   
   .nav-link-active {
-    @apply text-[#0a1744] font-semibold;
+    @apply text-primary-900 font-semibold;
   }
 }
 

@@ -17,7 +17,7 @@
 
           <!-- Main Title -->
           <div class="mb-6 md:mb-8">
-            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-[2.8rem] xl:text-5xl font-black text-[#0a1744] leading-[1.15] tracking-tight uppercase">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-[2.8rem] xl:text-5xl font-black text-primary-900 leading-[1.15] tracking-tight uppercase">
               {{ title }}
             </h1>
             
@@ -40,7 +40,7 @@
           <!-- CTA Button -->
           <button 
             @click="handleCtaClick"
-            class="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-[#0a1744] text-white font-bold text-sm md:text-base rounded-full hover:bg-[#132456] transition-colors duration-300 mb-6 md:mb-8 w-fit"
+            class="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-primary-900 text-white font-bold text-sm md:text-base rounded-full hover:bg-primary-800 transition-colors duration-300 mb-6 md:mb-8 w-fit"
           >
             {{ ctaText }}
           </button>
@@ -64,7 +64,7 @@
             <!-- Number 1 Badge with green dot -->
             <div v-if="showBadge" class="absolute top-0 left-0 z-20 w-max flex items-center gap-2 rounded-full px-3 md:px-4 py-1.5 md:py-2 bg-white shadow-md">
               <span class="w-2 md:w-2.5 h-2 md:h-2.5 bg-green-500 rounded-full"></span>
-              <span class="font-bold text-sm md:text-base text-[#0a1744]">{{ badgeText }}</span>
+              <span class="font-bold text-sm md:text-base text-primary-900">{{ badgeText }}</span>
             </div>
 
             <!-- Slider (Multiple Images) -->
@@ -86,7 +86,7 @@
                 <!-- Navigation Arrows -->
                 <button 
                   @click="prevSlide"
-                  class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-[#0a1744] transition-all z-10"
+                  class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-primary-900 transition-all z-10"
                   aria-label="Previous slide"
                 >
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,7 +95,7 @@
                 </button>
                 <button 
                   @click="nextSlide"
-                  class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-[#0a1744] transition-all z-10"
+                  class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-primary-900 transition-all z-10"
                   aria-label="Next slide"
                 >
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

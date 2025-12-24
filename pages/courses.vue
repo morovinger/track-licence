@@ -36,7 +36,7 @@
             class="card overflow-hidden"
           >
             <!-- Image Placeholder -->
-            <div class="h-48 bg-gradient-to-br from-primary-400 to-accent-600 flex items-center justify-center">
+            <div class="h-48 bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
               <svg class="w-20 h-20 text-white/40" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M20 11H6V6h10.5L18 3H8c-1.1 0-2 .9-2 2v6H4c-1.1 0-2 .9-2 2v7h2v-3h16v3h2v-7c0-1.1-.9-2-2-2z"/>
               </svg>
@@ -52,7 +52,7 @@
               <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ course.description }}</p>
 
               <div class="flex items-baseline gap-2 mb-4">
-                <span class="text-2xl font-bold text-gold-500">{{ course.price }}</span>
+                <span class="text-2xl font-bold text-amber-500">{{ course.price }}</span>
                 <span class="text-sm text-gray-400 line-through">{{ course.originalPrice }}</span>
               </div>
 

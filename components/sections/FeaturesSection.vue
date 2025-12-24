@@ -10,11 +10,11 @@
         >
           <!-- Icon -->
           <div class="w-14 h-14 mb-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-            <component :is="feature.icon" class="w-7 h-7 text-[#0d2063]" />
+            <component :is="feature.icon" class="w-7 h-7 text-primary" />
           </div>
 
           <!-- Title -->
-          <h3 class="text-base md:text-lg font-bold text-[#0a1744] mb-2 leading-tight">
+          <h3 class="text-base md:text-lg font-bold text-primary-900 mb-2 leading-tight">
             {{ feature.title }}
           </h3>
 

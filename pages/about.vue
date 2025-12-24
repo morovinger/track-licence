@@ -30,19 +30,19 @@
           <!-- Stats -->
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
             <div class="card p-6 text-center">
-              <div class="text-4xl font-black text-gold-500 mb-2">99%</div>
+              <div class="text-4xl font-black text-amber-500 mb-2">99%</div>
               <div class="text-gray-600 text-sm">Сдают с 1 раза</div>
             </div>
             <div class="card p-6 text-center">
-              <div class="text-4xl font-black text-gold-500 mb-2">222+</div>
+              <div class="text-4xl font-black text-amber-500 mb-2">222+</div>
               <div class="text-gray-600 text-sm">Положительных отзывов</div>
             </div>
             <div class="card p-6 text-center">
-              <div class="text-4xl font-black text-gold-500 mb-2">10+</div>
+              <div class="text-4xl font-black text-amber-500 mb-2">10+</div>
               <div class="text-gray-600 text-sm">Категорий обучения</div>
             </div>
             <div class="card p-6 text-center">
-              <div class="text-4xl font-black text-gold-500 mb-2">97%</div>
+              <div class="text-4xl font-black text-amber-500 mb-2">97%</div>
               <div class="text-gray-600 text-sm">Рекомендуют нас</div>
             </div>
           </div>
@@ -79,7 +79,7 @@
                 </div>
                 <div>
                   <p class="text-sm text-gray-500">Телефон (бесплатный)</p>
-                  <a href="tel:79014693441" class="text-xl font-bold text-primary-500 hover:text-accent-500">
+                  <a href="tel:79014693441" class="text-xl font-bold text-primary-500 hover:text-primary-600">
                     8 (901) 469 34 41
                   </a>
                 </div>

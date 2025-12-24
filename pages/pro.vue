@@ -30,18 +30,18 @@
           class="bg-white rounded-2xl overflow-hidden shadow-[0_2px_20px_rgba(10,23,68,0.08)] hover:shadow-[0_8px_30px_rgba(10,23,68,0.15)] border border-gray-100 transition-all duration-300 hover:-translate-y-1"
         >
           <!-- Image -->
-          <div class="relative h-44 bg-gradient-to-br from-[#1a3a8a] to-[#0a1744] overflow-hidden">
+          <div class="relative h-44 bg-gradient-to-br from-primary-700 to-primary-900 overflow-hidden">
             <div class="absolute inset-0 flex items-center justify-center">
               <svg class="w-20 h-20 text-white/25" fill="currentColor" viewBox="0 0 24 24">
                 <path :d="category.icon" />
               </svg>
             </div>
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0a1744]/60 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-900/60 to-transparent"></div>
             
             <!-- Badge -->
             <span
               v-if="category.badge"
-              class="absolute top-3 left-3 px-3 py-1 bg-gradient-to-r from-amber-400 to-yellow-500 text-[#0a1744] text-xs font-bold rounded-full"
+              class="absolute top-3 left-3 px-3 py-1 bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900 text-xs font-bold rounded-full"
             >
               {{ category.badge }}
             </span>
@@ -49,7 +49,7 @@
 
           <!-- Content -->
           <div class="p-5">
-            <h3 class="text-lg font-bold text-[#0a1744] mb-2 leading-tight">
+            <h3 class="text-lg font-bold text-primary-900 mb-2 leading-tight">
               {{ category.name }}
             </h3>
             <p class="text-sm text-gray-500 leading-relaxed">
@@ -86,7 +86,7 @@
         </p>
 
         <div class="bg-white rounded-2xl p-6 border border-gray-200">
-          <h3 class="text-xl font-bold text-[#0a1744] mb-4">Какая техника входит в обучение</h3>
+          <h3 class="text-xl font-bold text-primary-900 mb-4">Какая техника входит в обучение</h3>
           <ul class="space-y-2 text-gray-700">
             <li><strong>Категория B</strong> — мини-тракторы от 4 до 25,7 кВт</li>
             <li><strong>Категория C</strong> — колёсные тракторы 25,7–110,3 кВт</li>
