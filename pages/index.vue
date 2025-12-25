@@ -9,7 +9,36 @@
   />
   
   <!-- Features / Benefits -->
-  <FeaturesSection />
+  <section class="section bg-body -mt-8 md:-mt-12 relative z-10">
+    <div class="container">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <FeatureSection
+          icon-src="/images/checkmark.svg"
+          title="99% сдают с 1 раза"
+          description="Благодаря усиленной подготовке наши студенты сдают экзамен с первого раза"
+          :animation-delay="100"
+        />
+        <FeatureSection
+          icon-src="/images/pc.svg"
+          title="Обучение без границ"
+          description="Учитесь на любом устройстве в удобное для вас время на нашей платформе"
+          :animation-delay="200"
+        />
+        <FeatureSection
+          icon-src="/images/percentage.svg"
+          title="Больше категорий - больше выгода"
+          description="При обучении на несколько категорий действует система скидок — до 12 000 ₽"
+          :animation-delay="300"
+        />
+        <FeatureSection
+          icon-src="/images/person.svg"
+          title="Сопроводим от заявки до прав"
+          description="Личный менеджер и наставники помогут вам на каждом этапе — от заявки до получения прав"
+          :animation-delay="400"
+        />
+      </div>
+    </div>
+  </section>
   
   <!-- Pricing Plans -->
   <PricingSection />
@@ -33,7 +62,7 @@
 <script setup lang="ts">
 // Import section components
 import HeroSection from '~/components/sections/HeroSection.vue'
-import FeaturesSection from '~/components/sections/FeaturesSection.vue'
+import FeatureSection from '~/components/sections/FeatureSection.vue'
 import PricingSection from '~/components/sections/PricingSection.vue'
 import CoursesSection from '~/components/sections/CoursesSection.vue'
 import StepsSection from '~/components/sections/StepsSection.vue'
