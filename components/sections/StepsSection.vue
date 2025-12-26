@@ -1,86 +1,71 @@
 <template>
-  <section class="section bg-gray-50 overflow-hidden">
+  <section class="section overflow-hidden">
     <div class="container">
       <!-- Section Header -->
-      <div class="text-center mb-12">
+      <div class="text-left mb-12">
         <h2 class="section-title">Всё просто — мы рядом на каждом шаге</h2>
-        <p class="section-subtitle mx-auto">
+        <p class="text-gray-600 text-lg">
           От заявки до прав — мы поможем, подскажем и всё организуем. Обучение без стресса.
         </p>
       </div>
 
       <!-- Steps Timeline -->
-      <div class="relative max-w-5xl mx-auto">
+      <div class="relative max-w-4xl mx-auto">
         <!-- Central Line - Desktop -->
-        <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-amber-400 via-primary to-amber-400 transform -translate-x-1/2 hidden md:block rounded-full"></div>
+        <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-400 via-primary to-emerald-400 transform -translate-x-1/2 hidden md:block rounded-full"></div>
 
         <!-- Steps -->
         <div class="space-y-6 md:space-y-0">
           <div 
             v-for="(step, index) in steps" 
             :key="step.number"
-            class="relative md:grid md:grid-cols-2 md:gap-12 animate-slide-up"
-            :class="`animation-delay-${(index + 1) * 100}`"
+            class="group/step relative md:grid md:grid-cols-2 md:gap-16 md:py-8"
           >
             <!-- Content Card - Alternating sides -->
             <div 
               :class="[
                 'relative',
-                index % 2 === 0 ? 'md:col-start-1 md:pr-8' : 'md:col-start-2 md:pl-8'
+                index % 2 === 0 ? 'md:col-start-2 md:pl-12' : 'md:col-start-1 md:pr-12'
               ]"
             >
               <div 
-                class="bg-white rounded-2xl p-6 shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-gray-100 hover:shadow-[0_8px_30px_rgba(10,23,68,0.12)] transition-all duration-300"
-                :class="index % 2 === 0 ? 'md:text-right' : ''"
+                class="bg-white rounded-2xl p-6 shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-gray-100 transition-all duration-300 group-hover/step:shadow-[0_8px_30px_rgba(10,23,68,0.15)] group-hover/step:-translate-y-1"
+                :class="index % 2 === 1 ? 'md:text-right' : ''"
               >
                 <!-- Mobile Number -->
                 <div class="flex items-center gap-3 mb-3 md:hidden">
-                  <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-full flex items-center justify-center text-primary-900 font-bold text-lg shadow-md">
+                  <div 
+                    class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md"
+                    :class="getCircleColor(index)"
+                  >
                     {{ step.number }}
                   </div>
-                  <div class="flex-1 h-0.5 bg-gradient-to-r from-amber-400 to-transparent"></div>
+                  <div class="flex-1 h-0.5 bg-gradient-to-r from-primary to-transparent"></div>
                 </div>
 
-                <h3 class="text-xl font-bold text-primary-900 mb-2">{{ step.title }}</h3>
-                <p class="text-gray-500 leading-relaxed">{{ step.description }}</p>
+                <h3 class="text-lg font-bold text-primary-900 mb-2">{{ step.title }}</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">{{ step.description }}</p>
               </div>
             </div>
 
             <!-- Number Circle - Desktop -->
             <div 
               class="hidden md:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 
-                     w-14 h-14 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-full items-center justify-center 
-                     text-primary-900 font-bold text-xl shadow-lg z-10 ring-4 ring-white"
+                     w-12 h-12 rounded-full items-center justify-center 
+                     text-white font-bold text-xl shadow-lg z-10 ring-4 ring-white
+                     transition-all duration-300 group-hover/step:scale-110 group-hover/step:shadow-xl"
+              :class="getCircleColor(index)"
             >
               {{ step.number }}
             </div>
           </div>
         </div>
       </div>
-
-      <!-- CTA -->
-      <div class="text-center mt-12">
-        <button 
-          @click="openModal"
-          class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900 font-bold text-lg rounded-xl shadow-[0_4px_20px_rgba(251,191,36,0.4)] hover:shadow-[0_6px_30px_rgba(251,191,36,0.5)] hover:scale-105 transition-all duration-300"
-        >
-          Начать обучение
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-          </svg>
-        </button>
-      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-const openContactModal = inject<() => void>('openContactModal')
-
-const openModal = () => {
-  openContactModal?.()
-}
-
 interface Step {
   number: string
   title: string
@@ -114,4 +99,12 @@ const steps: Step[] = [
     description: 'После успешной сдачи — выдача удостоверения в день экзамена.'
   }
 ]
+
+const getCircleColor = (index: number): string => {
+  // First and last steps are green, middle steps are blue (matching original design)
+  if (index === 0 || index === steps.length - 1) {
+    return 'bg-emerald-500'
+  }
+  return 'bg-primary'
+}
 </script>
