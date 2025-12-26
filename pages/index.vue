@@ -16,25 +16,21 @@
           icon-src="/images/checkmark.svg"
           title="99% сдают с 1 раза"
           description="Благодаря усиленной подготовке наши студенты сдают экзамен с первого раза"
-          :animation-delay="100"
         />
         <FeatureSection
           icon-src="/images/pc.svg"
           title="Обучение без границ"
           description="Учитесь на любом устройстве в удобное для вас время на нашей платформе"
-          :animation-delay="200"
         />
         <FeatureSection
           icon-src="/images/percentage.svg"
           title="Больше категорий - больше выгода"
           description="При обучении на несколько категорий действует система скидок — до 12 000 ₽"
-          :animation-delay="300"
         />
         <FeatureSection
           icon-src="/images/person.svg"
           title="Сопроводим от заявки до прав"
           description="Личный менеджер и наставники помогут вам на каждом этапе — от заявки до получения прав"
-          :animation-delay="400"
         />
       </div>
     </div>
@@ -59,7 +55,6 @@
           :original-price="48000"
           :features="['Категория B, C, D, E', 'Погрузчик', 'Экскаватор']"
           details-link="/tariff/universal"
-          :animation-delay="100"
         />
         
         <PricingCard
@@ -70,7 +65,6 @@
           bonus="A1 в подарок!"
           :popular="true"
           details-link="/tariff/specialist"
-          :animation-delay="200"
         />
         
         <PricingCard
@@ -80,7 +74,6 @@
           :features="['Категория B, C, D, E', 'Категория F', 'Погрузчик', 'Экскаватор', 'Бульдозер', 'Машинист крана']"
           bonus="A1 в подарок!"
           details-link="/tariff/professional"
-          :animation-delay="300"
         />
         
         <PricingCard
@@ -90,7 +83,6 @@
           :features="['A2, B, C, D, E, F', 'Погрузчик', 'Экскаватор', 'Бульдозер', 'Машинист крана', 'Машинист катка']"
           bonus="A1 в подарок!"
           details-link="/tariff/master"
-          :animation-delay="400"
         />
       </div>
 
@@ -110,7 +102,110 @@
   </section>
   
   <!-- Popular Courses -->
-  <CoursesSection />
+  <section class="section">
+    <div class="container">
+      <!-- Section Header -->
+      <div class="text-left mb-10">
+        <h2 class="section-title">Популярные направления</h2>
+        <p class="text-gray-600 text-lg">
+          Стоимость указана за одну категорию или отметку
+        </p>
+      </div>
+
+      <!-- Courses Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <CourseCard
+          title="Тракторист - В, С, D, E"
+          price="8 000 ₽*"
+          original-price="16 000 ₽"
+          description="Тракторы с колесным и гусеничным ходом, мощность которых свыше 4 кВт. *Стоимость указана за одну категорию"
+          image-src="/images/cards/bcde.webp"
+          details-link="/traktorist-bcde"
+        />
+        
+        <CourseCard
+          title="Категория - F"
+          price="8 000 ₽"
+          original-price="16 000 ₽"
+          description="Комбайны и другая сельскохозяйственная техника с любым видом трансмиссии"
+          image-src="/images/cards/f.webp"
+          details-link="/kategoriya-f"
+        />
+        
+        <CourseCard
+          title="Водитель погрузчика"
+          price="8 000 ₽"
+          original-price="16 000 ₽"
+          description="Даёт право работы на любых видах погрузчиков от вилочных до телескопических, с мощностью от 3 до 147 кВт"
+          image-src="/images/cards/forklift.webp"
+          details-link="/voditel-pogruzchika"
+        />
+        
+        <CourseCard
+          title="Машинист экскаватора"
+          price="8 000 ₽"
+          original-price="16 000 ₽"
+          description="Даёт возможность работать на любых экскаваторах, от одноковшового с ковшом 0,15 м³ до роторных"
+          image-src="/images/cards/excavator.webp"
+          details-link="/mashinist-ekskavatora"
+        />
+        
+        <CourseCard
+          title="Машинист бульдозера"
+          price="8 000 ₽"
+          original-price="16 000 ₽"
+          description="Даёт возможность работы на бульдозерах мощностью от 20 кВт до 150 кВт"
+          image-src="/images/cards/bulldozer.webp"
+          details-link="/mashinist-buldozera"
+        />
+        
+        <CourseCard
+          title="Машинист катка"
+          price="8 000 ₽"
+          original-price="16 000 ₽"
+          description="Даёт право работы на катках с гладким вальцом и полуприцепных на пневматических шинах массой от 5 тонн"
+          image-src="/images/cards/roller.webp"
+          details-link="/mashinist-katka"
+        />
+        
+        <CourseCard
+          title="Категория А1"
+          price="8 000 ₽"
+          original-price="16 000 ₽"
+          description="Внедорожный мототранспорт. К этой подкатегории относятся: квадроциклы и снегоходы"
+          image-src="/images/cards/a1.webp"
+          details-link="/kategoriya-a1"
+        />
+        
+        <CourseCard
+          title="Категория А2"
+          price="9 000 ₽"
+          original-price="18 000 ₽"
+          description="Внедорожные автотранспортные средства массой менее 3,5 тонн такие как багги и трэколы"
+          image-src="/images/cards/a2.webp"
+          details-link="/kategoriya-a2"
+        />
+
+        <!-- View All Card -->
+        <NuxtLink 
+          to="/courses"
+          class="group flex flex-col items-center justify-center min-h-[380px] bg-white rounded-2xl shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-gray-100 hover:bg-gradient-to-br hover:from-primary hover:to-primary-700 transition-all duration-300 hover:-translate-y-1"
+        >
+          <div class="w-16 h-16 bg-blue-50 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-4 transition-colors">
+            <svg class="w-8 h-8 text-primary-900 group-hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-primary-900 group-hover:text-white mb-2 transition-colors">
+            Все курсы
+          </h3>
+          <p class="text-gray-500 group-hover:text-white/70 text-center text-sm px-4 transition-colors">
+            Ознакомьтесь со всем списком доступных программ
+          </p>
+        </NuxtLink>
+      </div>
+    </div>
+  </section>
   
   <!-- How It Works Steps -->
   <StepsSection />
@@ -130,7 +225,7 @@
 import HeroSection from '~/components/sections/HeroSection.vue'
 import FeatureSection from '~/components/sections/FeatureSection.vue'
 import PricingCard from '~/components/sections/PricingCard.vue'
-import CoursesSection from '~/components/sections/CoursesSection.vue'
+import CourseCard from '~/components/sections/CourseCard.vue'
 import StepsSection from '~/components/sections/StepsSection.vue'
 import ReviewsSection from '~/components/sections/ReviewsSection.vue'
 import SalarySection from '~/components/sections/SalarySection.vue'

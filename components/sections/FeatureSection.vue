@@ -1,10 +1,9 @@
 <template>
   <div 
-    class="group bg-primary rounded-2xl p-5 md:p-6 text-center shadow-[0_2px_20px_rgba(10,23,68,0.08)] hover:shadow-[0_8px_30px_rgba(10,23,68,0.15)] border border-primary-700 transition-all duration-300 hover:-translate-y-1 animate-slide-up"
-    :class="animationClass"
+    class="bg-primary rounded-2xl p-5 md:p-6 text-center shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-primary-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(10,23,68,0.15)]"
   >
     <!-- Icon -->
-    <div class="w-12 h-12 mb-4 rounded-xl flex items-center justify-center justify-self-center group-hover:scale-110 transition-transform">
+    <div class="w-12 h-12 mb-4 rounded-xl flex items-center justify-center justify-self-center">
       <NuxtImg 
         :src="iconSrc" 
         :alt="title"
@@ -30,15 +29,8 @@ interface Props {
   iconSrc: string
   title: string
   description: string
-  animationDelay?: number
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  animationDelay: 0
-})
-
-const animationClass = computed(() => 
-  props.animationDelay > 0 ? `animation-delay-${props.animationDelay}` : ''
-)
+defineProps<Props>()
 </script>
 

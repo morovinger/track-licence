@@ -1,11 +1,8 @@
 <template>
-  <div 
-    class="relative group animate-slide-up"
-    :class="animationClass"
-  >
+  <div class="relative">
     <!-- Card -->
     <div 
-      class="relative h-full rounded-2xl overflow-hidden transition-all duration-300 group-hover:-translate-y-2 bg-primary text-white shadow-xl p-6"
+      class="relative h-full rounded-2xl overflow-hidden bg-primary text-white shadow-xl p-6 transition-transform duration-300 hover:-translate-y-2"
       :class="popular ? 'pt-12' : ''"
     >
       <!-- Popular Badge -->
@@ -87,11 +84,9 @@ interface Props {
   bonus?: string
   popular?: boolean
   detailsLink: string
-  animationDelay?: number
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  animationDelay: 0,
+withDefaults(defineProps<Props>(), {
   popular: false
 })
 
@@ -104,9 +99,5 @@ const openModal = () => {
 const formatPrice = (price: number): string => {
   return new Intl.NumberFormat('ru-RU').format(price) + ' ₽'
 }
-
-const animationClass = computed(() => 
-  props.animationDelay > 0 ? `animation-delay-${props.animationDelay}` : ''
-)
 </script>
 
