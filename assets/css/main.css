@@ -54,11 +54,11 @@
 
   /* Section styles */
   .section {
-    @apply py-16 md:py-24;
+    @apply py-8 md:py-12;
   }
   
   .section-title {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-primary-900 mb-4;
+    @apply text-xl md:text-2xl lg:text-3xl font-bold text-primary-900 mb-4;
   }
   
   .section-subtitle {

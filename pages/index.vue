@@ -44,7 +44,7 @@
   <section id="pricing" class="section bg-body">
     <div class="container">
       <!-- Section Header -->
-      <div class="text-center mb-12">
+      <div class="text-left mb-12">
         <h2 class="section-title">Выбери тариф или создай свой</h2>
         <p class="text-gray-600 text-lg">
           При оформлении пакета — <span class="inline-block bg-red-500 text-white px-4 py-1 rounded-full font-bold">Экономия до 50%</span>
