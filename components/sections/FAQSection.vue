@@ -1,5 +1,5 @@
 <template>
-  <section class="section bg-white">
+  <section class="section">
     <div class="container">
       <!-- Section Header -->
       <div class="text-center mb-12">
@@ -65,16 +65,6 @@
         <p>Вопросы скоро появятся...</p>
       </div>
 
-      <!-- More Questions CTA -->
-      <div class="text-center mt-12">
-        <p class="text-gray-600 mb-4">Не нашли ответ на свой вопрос?</p>
-        <button 
-          @click="openModal"
-          class="btn-primary"
-        >
-          Задать вопрос
-        </button>
-      </div>
     </div>
   </section>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <section class="section bg-gray-50">
+  <section class="section">
     <div class="container">
       <!-- Section Header -->
       <div class="text-left mb-8">
