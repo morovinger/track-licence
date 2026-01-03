@@ -137,8 +137,6 @@ npm run dev
 npm run build
 ```
 
-**Примечание**: Скрипт сборки настроен с увеличенным лимитом памяти Node.js (4GB) для предотвращения ошибок "heap out of memory" на production сервере. Если требуется больше памяти, можно увеличить значение `--max-old-space-size` в `package.json`.
-
 ### Предпросмотр production сборки
 
 ```bash
@@ -328,60 +326,6 @@ pm2 delete track-licence
 ## 📝 Nuxt Studio
 
 Проект настроен для работы с [Nuxt Studio](https://nuxt.studio/). Контент можно редактировать через визуальный редактор.
-
-### Конфигурация для production
-
-При деплое на production сервер, nuxt-studio требует настройки OAuth. Добавьте в `.env` на сервере:
-
-```bash
-STUDIO_GITHUB_CLIENT_ID=your_github_oauth_client_id
-STUDIO_GITHUB_CLIENT_SECRET=your_github_oauth_secret
-# Или используйте Google OAuth:
-STUDIO_GOOGLE_CLIENT_ID=your_google_client_id
-STUDIO_GOOGLE_CLIENT_SECRET=your_google_secret
-STUDIO_GITHUB_TOKEN=your_github_token
-```
-
-Если Nuxt Studio не используется в production, модуль можно отключить в `nuxt.config.ts` или переместить в `devDependencies`.
-
-## 🐛 Устранение неполадок
-
-### JavaScript heap out of memory
-
-Если при сборке возникает ошибка нехватки памяти, скрипт `npm run build` уже настроен с лимитом 4GB. Для увеличения лимита отредактируйте `--max-old-space-size` в `package.json`:
-
-```json
-"build": "NODE_OPTIONS='--max-old-space-size=8192' nuxt build"
-```
-
-### Большой размер сборки (Build Size)
-
-Проект оптимизирован для уменьшения размера сборки:
-- ✅ Удалены неиспользуемые зависимости (`better-sqlite3`)
-- ✅ Настроено разделение кода (code splitting) через Vite
-- ✅ Включена минификация серверного кода Nitro
-- ✅ Vendor chunks разделены на модули (Vue, Content, Studio)
-
-После установки зависимостей убедитесь, что выполнили:
-```bash
-npm install
-```
-
-### Nuxt Studio OAuth ошибка
-
-Для работы Nuxt Studio в production добавьте в `.env` на сервере:
-
-```bash
-STUDIO_GITHUB_CLIENT_ID=your_github_oauth_client_id
-STUDIO_GITHUB_CLIENT_SECRET=your_github_oauth_secret
-```
-
-Или используйте Google OAuth:
-```bash
-STUDIO_GOOGLE_CLIENT_ID=your_google_client_id
-STUDIO_GOOGLE_CLIENT_SECRET=your_google_secret
-STUDIO_GITHUB_TOKEN=your_github_token
-```
 
 ## 🔗 Оригинальный сайт
 

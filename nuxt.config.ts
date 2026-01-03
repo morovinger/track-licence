@@ -10,45 +10,11 @@ export default defineNuxtConfig({
     '@nuxt/image',
   ],
 
-  // Fix for nuxt-studio H3Error + Build optimizations
+  // Fix for nuxt-studio H3Error
   vite: {
     optimizeDeps: {
       include: ['brace-expansion']
-    },
-    build: {
-      // Reduce chunk size warnings threshold
-      chunkSizeWarningLimit: 1000,
-      rollupOptions: {
-        output: {
-          // Manual chunking to reduce bundle size
-          manualChunks: (id) => {
-            // Split vendor chunks
-            if (id.includes('node_modules')) {
-              if (id.includes('@nuxt/content')) {
-                return 'content-vendor';
-              }
-              if (id.includes('vue') || id.includes('@vue')) {
-                return 'vue-vendor';
-              }
-              if (id.includes('nuxt-studio')) {
-                return 'studio-vendor';
-              }
-              return 'vendor';
-            }
-          }
-        }
-      }
     }
-  },
-
-  // Nitro optimizations
-  nitro: {
-    // Externalize server dependencies to reduce bundle size
-    externals: {
-      inline: ['nuxt-studio']
-    },
-    // Minify server code
-    minify: true
   },
 
   app: {
