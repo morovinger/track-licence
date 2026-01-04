@@ -90,9 +90,26 @@ jobs:
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
-          printf '%s\n' "${{ secrets.VDS_SSH_KEY }}" > ~/.ssh/deploy_key
+          echo "${{ secrets.VDS_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.VDS_HOST }} >> ~/.ssh/known_hosts
+          
+      - name: Debug SSH key
+        run: |
+          echo "=== SSH key file info ==="
+          ls -la ~/.ssh/deploy_key
+          echo "=== First line of key ==="
+          head -n 1 ~/.ssh/deploy_key
+          echo "=== Last line of key ==="
+          tail -n 1 ~/.ssh/deploy_key
+          echo "=== Line count ==="
+          wc -l ~/.ssh/deploy_key
+          
+      - name: Test SSH connection
+        run: |
+          ssh -vvv -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
+            ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }} \
+            "echo 'SSH connection successful!'"
 
       - name: Deploy .output via rsync
         run: |
