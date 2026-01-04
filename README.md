@@ -247,7 +247,7 @@ cd /var/www/track-licence
 # Создать директорию для логов
 mkdir -p logs
 
-# Запуск через ecosystem.config.js (рекомендуется)
+# Запуск через ecosystem.config.js (рекомендуется).
 pm2 start ecosystem.config.js
 
 # Или напрямую
