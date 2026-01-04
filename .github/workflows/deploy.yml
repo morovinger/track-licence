@@ -65,7 +65,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pm2-config
-          path: ecosystem.config.js
+          path: ecosystem.config.cjs
           retention-days: 1
 
   deploy:
@@ -105,12 +105,12 @@ jobs:
         run: |
           rsync -avz \
             -e "ssh -i ~/.ssh/deploy_key" \
-            ecosystem.config.js \
+            ecosystem.config.cjs \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }}:${{ secrets.VDS_PATH }}/
 
       - name: Create logs directory and restart PM2
         run: |
           ssh -i ~/.ssh/deploy_key \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }} \
-            "bash -l -c 'cd ${{ secrets.VDS_PATH }} && mkdir -p logs && pm2 restart ecosystem.config.js --update-env || pm2 start ecosystem.config.js'"
+            "bash -l -c 'cd ${{ secrets.VDS_PATH }} && mkdir -p logs && pm2 restart ecosystem.config.cjs --update-env || pm2 start ecosystem.config.cjs'"
 
