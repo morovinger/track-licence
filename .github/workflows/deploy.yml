@@ -125,15 +125,15 @@ jobs:
             ecosystem.config.cjs \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }}:${{ secrets.VDS_PATH }}/
 
-      - name: Verify Node.js and PM2 setup
+      - name: Find Node.js and PM2 paths
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }} \
-            "bash -l -c 'echo \"=== Node version ===\"; node --version; echo \"=== NPM version ===\"; npm --version; echo \"=== NPX version ===\"; npx --version; echo \"=== PM2 check ===\"; which pm2 || echo \"PM2 not in PATH, will use npx\"; echo \"=== PATH ===\"; echo \$PATH'"
+            "find /usr/local/bin /usr/bin ~/.nvm ~/.npm-global /opt -name 'node' -o -name 'pm2' 2>/dev/null | head -20"
             
       - name: Create logs directory and restart PM2
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }} \
-            "bash -l -c 'cd ${{ secrets.VDS_PATH }} && mkdir -p logs && npx pm2 restart ecosystem.config.cjs --update-env || npx pm2 start ecosystem.config.cjs'"
+            "cd ${{ secrets.VDS_PATH }} && mkdir -p logs && /usr/bin/pm2 restart ecosystem.config.cjs --update-env || /usr/bin/pm2 start ecosystem.config.cjs"
 
