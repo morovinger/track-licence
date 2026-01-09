@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(claude mcp list:*)"
+      "Bash(claude mcp list:*)",
+      "Bash(claude mcp add:*)",
+      "Bash(git diff:*)",
+      "Bash(git config:*)",
+      "Bash(if not exist \".vscode\" mkdir .vscode)"
     ]
   }
 }
