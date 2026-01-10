@@ -15,13 +15,13 @@
       <div class="container">
         <!-- Filters -->
         <div class="flex flex-wrap gap-4 mb-8">
-          <button 
-            v-for="filter in filters" 
+          <button
+            v-for="filter in filters"
             :key="filter.value"
             @click="activeFilter = filter.value"
             class="px-6 py-2 rounded-full text-sm font-medium transition-all"
-            :class="activeFilter === filter.value 
-              ? 'bg-primary-500 text-white' 
+            :class="activeFilter === filter.value
+              ? 'bg-primary-500 text-white'
               : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'"
           >
             {{ filter.label }}
@@ -30,8 +30,8 @@
 
         <!-- Courses Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div 
-            v-for="course in filteredCourses" 
+          <div
+            v-for="course in filteredCourses"
             :key="course.slug"
             class="card overflow-hidden"
           >
@@ -46,9 +46,9 @@
               <span class="inline-block px-3 py-1 bg-primary-100 text-primary-600 text-xs font-medium rounded-full mb-3">
                 {{ course.category }}
               </span>
-              
+
               <h3 class="text-xl font-bold text-primary-500 mb-2">{{ course.title }}</h3>
-              
+
               <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ course.description }}</p>
 
               <div class="flex items-baseline gap-2 mb-4">
@@ -57,13 +57,13 @@
               </div>
 
               <div class="flex gap-2">
-                <NuxtLink 
+                <NuxtLink
                   :to="`/${course.slug}`"
                   class="flex-1 btn-outline text-sm py-2"
                 >
                   Подробнее
                 </NuxtLink>
-                <button 
+                <button
                   @click="openModal"
                   class="flex-1 btn-secondary text-sm py-2"
                 >
@@ -229,5 +229,3 @@ useHead({
   ]
 })
 </script>
-
-

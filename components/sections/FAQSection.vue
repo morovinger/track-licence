@@ -60,6 +60,22 @@
 </template>
 
 <script setup lang="ts">
+interface FAQItem {
+  id?: number
+  question: string
+  answer: string
+  link?: string
+  linkText?: string
+}
+
+interface Props {
+  items?: FAQItem[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  items: () => []
+})
+
 const openItems = ref<number[]>([])
 
 const toggleItem = (index: number) => {
@@ -71,15 +87,8 @@ const toggleItem = (index: number) => {
   }
 }
 
-interface FAQItem {
-  id: number
-  question: string
-  answer: string
-  link?: string
-  linkText?: string
-}
-
-const faqItems: FAQItem[] = [
+// Use props.items if provided, otherwise use defaults
+const defaultFaqItems: FAQItem[] = [
   {
     id: 1,
     question: 'Как проходит практика при обучении на права и категорию спецтехники?',
@@ -208,6 +217,11 @@ const faqItems: FAQItem[] = [
     linkText: 'Проверить'
   }
 ]
+
+// Use props.items if provided and not empty, otherwise use defaults
+const faqItems = computed(() =>
+  props.items && props.items.length > 0 ? props.items : defaultFaqItems
+)
 </script>
 
 <style scoped>

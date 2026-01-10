@@ -24,7 +24,7 @@ track-licence/
 │   ├── ContactModal.vue      # Contact form modal
 │   └── sections/
 │       ├── HeroSection.vue       # Hero banner
-│       ├── FeatureSection.vue    # Individual feature card (reusable, used 4x in index.vue)
+│       ├── FeaturesSection.vue   # Features section (4 cards, static data)
 │       ├── PricingCard.vue       # Individual pricing card (reusable, used 4x in index.vue)
 │       ├── CoursesSection.vue    # Popular courses grid
 │       ├── StepsSection.vue      # How it works timeline
@@ -101,11 +101,10 @@ linkText: Текст ссылки     # опционально
 Проект использует максимально модульный подход для гибкости и переиспользования:
 
 **Секция преимуществ (Features):**
-- **FeatureSection.vue** - переиспользуемый компонент для отдельной карточки преимущества
-- Карточки рендерятся напрямую в `pages/index.vue` (4 отдельных компонента)
+- **FeaturesSection.vue** - самодостаточный компонент с 4 карточками преимуществ
+- Переиспользуется на главной и всех страницах курсов (одинаковый контент)
 - Иконки загружаются из `public/images/` (checkmark.svg, pc.svg, percentage.svg, person.svg)
 - Синий фон с белым текстом
-- Легко изменять порядок, добавлять, удалять или редактировать каждую карточку индивидуально
 
 **Секция тарифов (Pricing):**
 - **PricingCard.vue** - переиспользуемый компонент для отдельной карточки тарифа

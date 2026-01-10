@@ -5,7 +5,10 @@
       "Bash(claude mcp add:*)",
       "Bash(git diff:*)",
       "Bash(git config:*)",
-      "Bash(if not exist \".vscode\" mkdir .vscode)"
+      "Bash(if not exist \".vscode\" mkdir .vscode)",
+      "Bash(curl:*)",
+      "Bash(del \"c:\\\\Users\\\\pc\\\\Desktop\\\\track-licence\\\\pages\\\\courses.vue\")",
+      "Bash(npx @anthropic-ai/mcp-server-playwright@latest browser_navigate --url \"https://xn----7sbbajp8ayainedesd1m.xn--p1ai/traktorist-d\")"
     ]
   }
 }

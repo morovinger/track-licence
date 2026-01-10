@@ -3,9 +3,9 @@
     <div class="container">
       <!-- Section Header -->
       <div class="text-left mb-12">
-        <h2 class="section-title">Всё просто — мы рядом на каждом шаге</h2>
+        <h2 class="section-title">{{ title }}</h2>
         <p class="text-gray-600 text-lg">
-          От заявки до прав — мы поможем, подскажем и всё организуем. Обучение без стресса.
+          {{ subtitle }}
         </p>
       </div>
 
@@ -72,37 +72,49 @@ interface Step {
   description: string
 }
 
-const steps: Step[] = [
-  {
-    number: '1',
-    title: 'Оставьте заявку',
-    description: 'Менеджер свяжется с вами, подберёт подходящую категорию и расскажет обо всех деталях.'
-  },
-  {
-    number: '2',
-    title: 'Сбор документов',
-    description: 'Подготовьте минимальный пакет — мы подскажем, что нужно.'
-  },
-  {
-    number: '3',
-    title: 'Изучение теории',
-    description: 'Проходите теорию в удобное время с любого устройства на нашей платформе.'
-  },
-  {
-    number: '4',
-    title: 'Экзамен',
-    description: 'Сдача теории и практики в присутствии инспектора Гостехнадзора.'
-  },
-  {
-    number: '5',
-    title: 'Получение прав',
-    description: 'После успешной сдачи — выдача удостоверения в день экзамена.'
-  }
-]
+interface Props {
+  title?: string
+  subtitle?: string
+  steps?: Step[]
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  title: 'Всё просто — мы рядом на каждом шаге',
+  subtitle: 'От заявки до прав — мы поможем, подскажем и всё организуем. Обучение без стресса.',
+  steps: () => [
+    {
+      number: '1',
+      title: 'Оставьте заявку',
+      description: 'Менеджер свяжется с вами, подберёт подходящую категорию и расскажет обо всех деталях.'
+    },
+    {
+      number: '2',
+      title: 'Сбор документов',
+      description: 'Подготовьте минимальный пакет — мы подскажем, что нужно.'
+    },
+    {
+      number: '3',
+      title: 'Изучение теории',
+      description: 'Проходите теорию в удобное время с любого устройства на нашей платформе.'
+    },
+    {
+      number: '4',
+      title: 'Экзамен',
+      description: 'Сдача теории и практики в присутствии инспектора Гостехнадзора.'
+    },
+    {
+      number: '5',
+      title: 'Получение прав',
+      description: 'После успешной сдачи — выдача удостоверения в день экзамена.'
+    }
+  ]
+})
+
+const steps = computed(() => props.steps)
 
 const getCircleColor = (index: number): string => {
   // First and last steps are green, middle steps are blue (matching original design)
-  if (index === 0 || index === steps.length - 1) {
+  if (index === 0 || index === steps.value.length - 1) {
     return 'bg-emerald-500'
   }
   return 'bg-primary'

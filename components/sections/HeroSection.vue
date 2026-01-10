@@ -4,17 +4,6 @@
       <div class="flex flex-col lg:flex-row gap-6 items-stretch min-h-[450px] md:min-h-[500px]">
         <!-- Left Content - Text (White Card) -->
         <div class="left lg:w-[50%] flex flex-col justify-center p-6 md:p-10 lg:p-12 bg-white rounded-3xl shadow-lg">
-          <!-- Top badges inline -->
-          <div v-if="badges && badges.length > 0" class="flex flex-wrap gap-3 mb-4">
-            <span
-              v-for="(badge, index) in badges"
-              :key="index"
-              class="text-[#1a5cd6] font-bold text-xs sm:text-sm uppercase tracking-wider"
-            >
-              {{ badge }}
-            </span>
-          </div>
-
           <!-- Main Title -->
           <div class="mb-6 md:mb-8">
             <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-[2.8rem] xl:text-5xl font-black text-primary-900 leading-[1.15] tracking-tight uppercase">
@@ -143,7 +132,6 @@ interface Props {
   // Text content
   title?: string
   subtitle?: string
-  badges?: string[]
 
   // Pricing
   price?: string
@@ -168,7 +156,6 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   title: 'ОБУЧЕНИЕ НА\nТРАКТОРНЫЕ ПРАВА',
-  badges: () => ['Быстро', 'Выгодно', 'Легально'],
   price: '7 000 ₽',
   ctaText: 'ОТКРЫТЬ КАТЕГОРИЮ',
   quickLinks: () => [

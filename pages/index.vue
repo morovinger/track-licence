@@ -1,41 +1,16 @@
 <template>
   <!-- Hero Section -->
-  <HeroSection 
+  <HeroSection
     title="ОБУЧЕНИЕ НА ТРАКТОРНЫЕ ПРАВА"
     :badges="['Быстро', 'Выгодно', 'Легально']"
     price="7 000 ₽"
     cta-text="ОТКРЫТЬ КАТЕГОРИЮ"
     :quick-links="homeQuickLinks"
   />
-  
+
   <!-- Features / Benefits -->
-  <section class="section bg-body -mt-8 md:-mt-12 relative z-10">
-    <div class="container">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <FeatureSection
-          icon-src="/images/checkmark.svg"
-          title="99% сдают с 1 раза"
-          description="Благодаря усиленной подготовке наши студенты сдают экзамен с первого раза"
-        />
-        <FeatureSection
-          icon-src="/images/pc.svg"
-          title="Обучение без границ"
-          description="Учитесь на любом устройстве в удобное для вас время на нашей платформе"
-        />
-        <FeatureSection
-          icon-src="/images/percentage.svg"
-          title="Больше категорий - больше выгода"
-          description="При обучении на несколько категорий действует система скидок — до 12 000 ₽"
-        />
-        <FeatureSection
-          icon-src="/images/person.svg"
-          title="Сопроводим от заявки до прав"
-          description="Личный менеджер и наставники помогут вам на каждом этапе — от заявки до получения прав"
-        />
-      </div>
-    </div>
-  </section>
-  
+  <FeaturesSection />
+
   <!-- Pricing Plans -->
   <section id="pricing" class="section bg-body">
     <div class="container">
@@ -56,7 +31,7 @@
           :features="['Категория B, C, D, E', 'Погрузчик', 'Экскаватор']"
           details-link="/tariff/universal"
         />
-        
+
         <PricingCard
           name="Специалист"
           :price="60000"
@@ -66,7 +41,7 @@
           :popular="true"
           details-link="/tariff/specialist"
         />
-        
+
         <PricingCard
           name="Профессионал"
           :price="68000"
@@ -75,7 +50,7 @@
           bonus="A1 в подарок!"
           details-link="/tariff/professional"
         />
-        
+
         <PricingCard
           name="Мастер"
           :price="89000"
@@ -87,7 +62,7 @@
       </div>
 
       <!-- Custom Tariff CTA -->
-      <NuxtLink 
+      <NuxtLink
         to="/tariff-builder"
         class="group flex items-center justify-center gap-4 bg-primary text-white rounded-full py-4 px-8 text-center shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 max-w-md mx-auto"
       >
@@ -100,7 +75,7 @@
       </NuxtLink>
     </div>
   </section>
-  
+
   <!-- Popular Courses -->
   <section class="section">
     <div class="container">
@@ -122,7 +97,7 @@
           image-src="/images/cards/bcde.webp"
           details-link="/traktorist-bcde"
         />
-        
+
         <CourseCard
           title="Категория - F"
           price="8 000 ₽"
@@ -131,7 +106,7 @@
           image-src="/images/cards/f.webp"
           details-link="/kategoriya-f"
         />
-        
+
         <CourseCard
           title="Водитель погрузчика"
           price="8 000 ₽"
@@ -140,7 +115,7 @@
           image-src="/images/cards/forklift.webp"
           details-link="/voditel-pogruzchika"
         />
-        
+
         <CourseCard
           title="Машинист экскаватора"
           price="8 000 ₽"
@@ -149,7 +124,7 @@
           image-src="/images/cards/excavator.webp"
           details-link="/mashinist-ekskavatora"
         />
-        
+
         <CourseCard
           title="Машинист бульдозера"
           price="8 000 ₽"
@@ -158,7 +133,7 @@
           image-src="/images/cards/bulldozer.webp"
           details-link="/mashinist-buldozera"
         />
-        
+
         <CourseCard
           title="Машинист катка"
           price="8 000 ₽"
@@ -167,7 +142,7 @@
           image-src="/images/cards/roller.webp"
           details-link="/mashinist-katka"
         />
-        
+
         <CourseCard
           title="Категория А1"
           price="8 000 ₽"
@@ -176,7 +151,7 @@
           image-src="/images/cards/a1.webp"
           details-link="/kategoriya-a1"
         />
-        
+
         <CourseCard
           title="Категория А2"
           price="9 000 ₽"
@@ -187,7 +162,7 @@
         />
 
         <!-- View All Card -->
-        <NuxtLink 
+        <NuxtLink
           to="/courses"
           class="group flex flex-col items-center justify-center min-h-[380px] bg-white rounded-2xl shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-gray-100 hover:bg-gradient-to-br hover:from-primary hover:to-primary-700 transition-all duration-300 hover:-translate-y-1"
         >
@@ -206,16 +181,16 @@
       </div>
     </div>
   </section>
-  
+
   <!-- How It Works Steps -->
   <StepsSection />
-  
+
   <!-- Reviews -->
   <ReviewsSection />
-  
+
   <!-- Salary / Career Info -->
   <SalarySection />
-  
+
   <!-- FAQ -->
   <FAQSection />
 </template>
@@ -223,7 +198,7 @@
 <script setup lang="ts">
 // Import section components
 import HeroSection from '~/components/sections/HeroSection.vue'
-import FeatureSection from '~/components/sections/FeatureSection.vue'
+import FeaturesSection from '~/components/sections/FeaturesSection.vue'
 import PricingCard from '~/components/sections/PricingCard.vue'
 import CourseCard from '~/components/sections/CourseCard.vue'
 import StepsSection from '~/components/sections/StepsSection.vue'
@@ -245,13 +220,13 @@ const homeQuickLinks = [
 useHead({
   title: 'Тракторные Права РФ - Обучение на тракторные права от 7000 ₽',
   meta: [
-    { 
-      name: 'description', 
-      content: 'Обучение на тракторные права в России. Категории B, C, D, E, F. Погрузчик, экскаватор, бульдозер. 99% сдают с первого раза. Стоимость от 7000 ₽.' 
+    {
+      name: 'description',
+      content: 'Обучение на тракторные права в России. Категории B, C, D, E, F. Погрузчик, экскаватор, бульдозер. 99% сдают с первого раза. Стоимость от 7000 ₽.'
     },
-    { 
-      name: 'keywords', 
-      content: 'тракторные права, удостоверение тракториста, обучение на трактор, категория B трактор, погрузчик права, экскаватор обучение' 
+    {
+      name: 'keywords',
+      content: 'тракторные права, удостоверение тракториста, обучение на трактор, категория B трактор, погрузчик права, экскаватор обучение'
     },
     { property: 'og:title', content: 'Тракторные Права РФ - Обучение на тракторные права' },
     { property: 'og:description', content: 'Обучение на тракторные права. Быстро, выгодно, легально. 99% сдают с первого раза.' },
@@ -259,5 +234,3 @@ useHead({
   ]
 })
 </script>
-
-
