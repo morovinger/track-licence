@@ -21,37 +21,20 @@
       :content="course.courseContent.content"
     />
 
-    <!-- Credentials Section -->
-    <CredentialsSection
-      v-if="course.credentials"
-      :title="course.credentials.title"
-      :license-number="course.credentials.licenseNumber"
-      :license-org="course.credentials.licenseOrg"
-      :accreditations="course.credentials.accreditations"
-      :documents="course.credentials.documents"
-      :verify-link="course.credentials.verifyLink"
-      :verify-text="course.credentials.verifyText"
-    />
+    <!-- Credentials Section (static) -->
+    <CredentialsSection />
 
-    <!-- Steps Section -->
-    <StepsSection
-      v-if="course.steps"
-      :title="course.steps.title"
-      :subtitle="course.steps.subtitle"
-      :steps="course.steps.items"
-    />
+    <!-- Steps Section (static) -->
+    <StepsSection />
 
-    <!-- Reviews -->
+    <!-- Reviews (static) -->
     <ReviewsSection />
 
-    <!-- Salary Section -->
+    <!-- Salary Section (static) -->
     <SalarySection />
 
-    <!-- FAQ Section -->
-    <FAQSection
-      v-if="course.faq && course.faq.length > 0"
-      :items="course.faq"
-    />
+    <!-- FAQ Section (static) -->
+    <FAQSection />
   </div>
 
   <!-- 404 Fallback -->
