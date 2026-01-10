@@ -6,8 +6,8 @@
         <div class="left lg:w-[50%] flex flex-col justify-center p-6 md:p-10 lg:p-12 bg-white rounded-3xl shadow-lg">
           <!-- Top badges inline -->
           <div v-if="badges && badges.length > 0" class="flex flex-wrap gap-3 mb-4">
-            <span 
-              v-for="(badge, index) in badges" 
+            <span
+              v-for="(badge, index) in badges"
               :key="index"
               class="text-[#1a5cd6] font-bold text-xs sm:text-sm uppercase tracking-wider"
             >
@@ -20,12 +20,12 @@
             <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-[2.8rem] xl:text-5xl font-black text-primary-900 leading-[1.15] tracking-tight uppercase">
               {{ title }}
             </h1>
-            
+
             <!-- Subtitle (optional) -->
             <p v-if="subtitle" class="mt-3 md:mt-4 text-base md:text-lg text-gray-600">
               {{ subtitle }}
             </p>
-            
+
             <!-- Price -->
             <div v-if="price" class="mt-2 md:mt-3">
               <span class="text-2xl sm:text-3xl md:text-4xl lg:text-[2.8rem] xl:text-5xl font-black text-[#1a5cd6]">
@@ -38,7 +38,7 @@
           </div>
 
           <!-- CTA Button -->
-          <button 
+          <button
             @click="handleCtaClick"
             class="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-primary-900 text-white font-bold text-sm md:text-base rounded-full hover:bg-primary-800 transition-colors duration-300 mb-6 md:mb-8 w-fit"
           >
@@ -47,8 +47,8 @@
 
           <!-- Quick Links -->
           <div v-if="quickLinks && quickLinks.length > 0" class="flex flex-wrap gap-2">
-            <NuxtLink 
-              v-for="link in quickLinks" 
+            <NuxtLink
+              v-for="link in quickLinks"
               :key="link.path"
               :to="link.path"
               class="px-3 md:px-4 py-2 border border-gray-200 hover:border-[#1a5cd6] hover:bg-blue-50 rounded-full text-xs md:text-sm text-gray-700 hover:text-[#1a5cd6] transition-all duration-300"
@@ -70,21 +70,21 @@
             <!-- Slider (Multiple Images) -->
             <template v-if="images && images.length > 1">
               <div class="relative rounded-3xl overflow-hidden">
-                <div 
+                <div
                   class="flex transition-transform duration-500 ease-out"
                   :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
                 >
-                  <img 
-                    v-for="(image, index) in images" 
+                  <img
+                    v-for="(image, index) in images"
                     :key="index"
-                    :src="image" 
+                    :src="image"
                     :alt="`${imageAlt} ${index + 1}`"
                     class="w-full flex-shrink-0 h-auto object-cover rounded-3xl"
                   />
                 </div>
 
                 <!-- Navigation Arrows -->
-                <button 
+                <button
                   @click="prevSlide"
                   class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-primary-900 transition-all z-10"
                   aria-label="Previous slide"
@@ -93,7 +93,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
-                <button 
+                <button
                   @click="nextSlide"
                   class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-primary-900 transition-all z-10"
                   aria-label="Next slide"
@@ -120,9 +120,9 @@
             </template>
 
             <!-- Single Image (Backward Compatible) -->
-            <img 
+            <img
               v-else
-              :src="imageSrc" 
+              :src="imageSrc"
               :alt="imageAlt"
               class="w-full h-auto object-cover rounded-3xl"
             />
@@ -144,24 +144,24 @@ interface Props {
   title?: string
   subtitle?: string
   badges?: string[]
-  
+
   // Pricing
   price?: string
   oldPrice?: string
-  
+
   // CTA
   ctaText?: string
-  
+
   // Quick links
   quickLinks?: QuickLink[]
-  
+
   // Right side (when using default slot)
   imageSrc?: string        // Single image (backward compatible)
   images?: string[]        // Multiple images for slider
   imageAlt?: string
   showBadge?: boolean
   badgeText?: string
-  
+
   // Styling
   bgClass?: string
 }
@@ -203,8 +203,8 @@ const nextSlide = () => {
 
 const prevSlide = () => {
   if (props.images && props.images.length > 0) {
-    currentSlide.value = currentSlide.value === 0 
-      ? props.images.length - 1 
+    currentSlide.value = currentSlide.value === 0
+      ? props.images.length - 1
       : currentSlide.value - 1
   }
 }
