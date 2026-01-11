@@ -10,7 +10,8 @@
       "Bash(del \"c:\\\\Users\\\\pc\\\\Desktop\\\\track-licence\\\\pages\\\\courses.vue\")",
       "Bash(npx @anthropic-ai/mcp-server-playwright@latest browser_navigate --url \"https://xn----7sbbajp8ayainedesd1m.xn--p1ai/traktorist-d\")",
       "Bash(npx @anthropic-ai/mcp-server-playwright@latest)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(dir:*)"
     ]
   }
 }
