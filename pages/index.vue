@@ -63,7 +63,7 @@
 
       <!-- Custom Tariff CTA -->
       <NuxtLink
-        to="/tariff-builder"
+        to="/tarif"
         class="group flex items-center justify-center gap-4 bg-primary text-white rounded-full py-4 px-8 text-center shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 max-w-md mx-auto"
       >
         <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
