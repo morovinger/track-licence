@@ -110,7 +110,7 @@ const quickLinks = [
 ]
 
 const popularCategories = [
-  { label: 'Тракторист B, C, D, E', path: '/courses' },
+  { label: 'Тракторист B, C, D, E', path: '/vse-kursy' },
   { label: 'Водитель погрузчика', path: '/voditel-pogruzchika' },
   { label: 'Машинист экскаватора', path: '/mashinist-ekskavatora' },
   { label: 'Машинист бульдозера', path: '/mashinist-buldozera' },

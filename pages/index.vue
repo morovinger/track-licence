@@ -27,9 +27,9 @@
         <PricingCard
           name="Универсал"
           :price="46000"
-          :original-price="48000"
+          :original-price="58000"
           :features="['Категория B, C, D, E', 'Погрузчик', 'Экскаватор']"
-          details-link="/tariff/universal"
+          details-link="/uni"
         />
 
         <PricingCard
@@ -39,7 +39,7 @@
           :features="['Категория B, C, D, E', 'Погрузчик', 'Экскаватор', 'Бульдозер', 'Машинист крана']"
           bonus="A1 в подарок!"
           :popular="true"
-          details-link="/tariff/specialist"
+          details-link="/spech"
         />
 
         <PricingCard
@@ -48,7 +48,7 @@
           :original-price="80000"
           :features="['Категория B, C, D, E', 'Категория F', 'Погрузчик', 'Экскаватор', 'Бульдозер', 'Машинист крана']"
           bonus="A1 в подарок!"
-          details-link="/tariff/professional"
+          details-link="/pro"
         />
 
         <PricingCard
@@ -57,7 +57,7 @@
           :original-price="97000"
           :features="['A2, B, C, D, E, F', 'Погрузчик', 'Экскаватор', 'Бульдозер', 'Машинист крана', 'Машинист катка']"
           bonus="A1 в подарок!"
-          details-link="/tariff/master"
+          details-link="/master"
         />
       </div>
 
@@ -163,7 +163,7 @@
 
         <!-- View All Card -->
         <NuxtLink
-          to="/courses"
+          to="/vse-kursy"
           class="group flex flex-col items-center justify-center min-h-[380px] bg-white rounded-2xl shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-gray-100 hover:bg-gradient-to-br hover:from-primary hover:to-primary-700 transition-all duration-300 hover:-translate-y-1"
         >
           <div class="w-16 h-16 bg-blue-50 group-hover:bg-white/20 rounded-2xl flex items-center justify-center mb-4 transition-colors">
@@ -208,12 +208,12 @@ import FAQSection from '~/components/sections/FAQSection.vue'
 
 // Hero Section quick links
 const homeQuickLinks = [
-  { label: 'Тракторист', path: '/courses?filter=tractor' },
+  { label: 'Тракторист', path: '/vse-kursy?filter=tractor' },
   { label: 'Погрузчик', path: '/voditel-pogruzchika' },
   { label: 'Экскаваторщик', path: '/mashinist-ekskavatora' },
   { label: 'Комбайнёр', path: '/kategoriya-f' },
   { label: 'Квадроцикл', path: '/kategoriya-a1' },
-  { label: 'Все направления →', path: '/courses' },
+  { label: 'Все направления →', path: '/vse-kursy' },
 ]
 
 // SEO Meta
