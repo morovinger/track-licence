@@ -14,7 +14,14 @@
       "Bash(dir:*)",
       "Bash(where:*)",
       "Bash(where magick:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(npm:*)",
+      "Bash(git:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep"
     ]
   }
 }
