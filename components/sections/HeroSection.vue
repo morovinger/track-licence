@@ -51,7 +51,7 @@
         <div class="right lg:w-[50%] relative">
           <slot name="right">
             <!-- Number 1 Badge with green dot -->
-            <div v-if="showBadge" class="absolute top-0 left-0 z-20 w-max flex items-center gap-2 rounded-full px-3 md:px-4 py-1.5 md:py-2 bg-white shadow-md">
+            <div v-if="showBadge" class="absolute top-2 left-2 z-20 w-max flex items-center gap-2 rounded-full px-3 md:px-4 py-1.5 md:py-2 bg-white shadow-md">
               <span class="w-2 md:w-2.5 h-2 md:h-2.5 bg-green-500 rounded-full"></span>
               <span class="font-bold text-sm md:text-base text-primary-900">{{ badgeText }}</span>
             </div>
