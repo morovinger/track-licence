@@ -18,7 +18,6 @@ export default defineNuxtConfig({
   },
 
   app: {
-    baseURL: '/track-licence/',
     head: {
       title: 'Тракторные Права РФ - Обучение на тракторные права',
       meta: [
