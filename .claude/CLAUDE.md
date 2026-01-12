@@ -15,9 +15,27 @@ This project uses the following MCP (Model Context Protocol) servers:
 
 ### Playwright MCP
 
-- **Purpose**: Browser automation and web testing
-- **Package**: `@anthropic-ai/mcp-server-playwright@latest`
-- **Tools available**: Browser automation, page navigation, element interaction, screenshots, and web scraping capabilities
+- **Purpose**: Browser automation, web testing, and debugging production issues
+- **Package**: `@playwright/mcp@latest`
+- **Tools available**: Browser automation, page navigation, element interaction, screenshots, console error capture, network monitoring
+
+#### Debugging Production with Playwright MCP
+
+To check for console errors and failed assets on production:
+
+```text
+Use Playwright MCP to navigate to http://176.124.208.50/track-licence/ and:
+- Capture all console errors
+- List failed network requests (4xx, 5xx status codes)
+- Report which assets are not loading
+- Take a screenshot if needed
+```
+
+**Common issues to check:**
+
+- SVG files returning 500 → use `<img>` instead of `<NuxtImg>` for SVGs
+- Wrong asset paths → ensure `baseURL: '/track-licence/'` is set in nuxt.config.ts
+- IPX image optimization failures → check SVGO dependencies
 
 ## Project Structure
 
