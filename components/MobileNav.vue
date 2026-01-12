@@ -1,14 +1,14 @@
 <template>
   <Transition name="slide-right">
-    <nav 
-      v-if="open" 
+    <nav
+      v-if="open"
       class="fixed inset-y-0 right-0 z-50 w-80 bg-white shadow-2xl"
     >
       <div class="flex flex-col h-full">
         <!-- Header -->
         <div class="flex items-center justify-between p-4 border-b bg-primary">
           <span class="text-lg font-bold text-white">Меню</span>
-          <button 
+          <button
             @click="emit('update:open', false)"
             class="p-2 text-white hover:text-amber-400 transition-colors"
           >
@@ -25,7 +25,7 @@
           </h3>
           <ul class="space-y-1">
             <li v-for="category in categories" :key="category.path">
-              <NuxtLink 
+              <NuxtLink
                 :to="category.path"
                 class="block px-4 py-3 text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors"
                 @click="emit('update:open', false)"
@@ -39,7 +39,7 @@
 
           <ul class="space-y-1">
             <li v-for="item in mainNav" :key="item.path">
-              <NuxtLink 
+              <NuxtLink
                 :to="item.path"
                 class="block px-4 py-3 font-medium text-gray-900 hover:bg-primary/10 hover:text-primary transition-colors"
                 @click="emit('update:open', false)"
@@ -52,8 +52,8 @@
 
         <!-- Footer -->
         <div class="p-4 border-t bg-gray-50">
-          <a 
-            href="tel:79014693441" 
+          <a
+            href="tel:79014693441"
             class="flex items-center gap-3 text-primary font-bold"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +61,7 @@
             </svg>
             8 (901) 469 34 41
           </a>
-          <button 
+          <button
             @click="openModal"
             class="w-full mt-3 bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900 font-bold text-sm py-3 rounded-xl hover:shadow-lg transition-all"
           >
@@ -74,8 +74,8 @@
 
   <!-- Overlay -->
   <Transition name="fade">
-    <div 
-      v-if="open" 
+    <div
+      v-if="open"
       class="fixed inset-0 z-40 bg-black/50"
       @click="emit('update:open', false)"
     />
@@ -114,10 +114,7 @@ const categories = [
 ]
 
 const mainNav = [
-  { label: 'Блог', path: '/blog' },
-  { label: 'Акции', path: '/services' },
-  { label: 'О компании', path: '/about' },
-  { label: 'Документы', path: '/documents' },
+  { label: 'Блог', path: 'https://vk.com/tpravarf' },
 ]
 </script>
 

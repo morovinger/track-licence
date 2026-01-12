@@ -1,15 +1,11 @@
 <template>
-  <div class="min-h-screen bg-[#f0f4fa]">
+  <div class="min-h-screen">
     <!-- Header Section -->
-    <section class="bg-gradient-to-br from-[#123f90] to-[#0056D2] py-12 md:py-16">
+    <section class="py-6 md:py-8">
       <div class="container">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="w-6 h-0.5 bg-white/60"></span>
-          <span class="text-white/80 text-sm uppercase tracking-wider">Каталог</span>
-        </div>
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4">Все курсы</h1>
-        <p class="text-lg text-white/80 max-w-2xl">
-          Выберите направление обучения для получения удостоверения тракториста-машиниста
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-black mb-4">Полный список направлений</h1>
+        <p class="text-lg text-black/80 max-w-2xl">
+          Стоимость указана за одну категорию или отметку
         </p>
       </div>
     </section>

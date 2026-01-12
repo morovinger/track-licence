@@ -16,9 +16,9 @@ hero:
   oldPrice: "16 000 ₽"
   ctaText: ЗАПИСАТЬСЯ НА КУРС
   images:
-    - /images/hero/traktor-1.webp
-    - /images/hero/theory.webp
-    - /images/hero/practice.webp
+    - /images/cards/traktorist-e.webp
+    - /images/crowd.webp
+    - /images/crowd_in_class.webp
   badgeText: "№ 1 в РФ"
 
 # Course Content (expandable)
