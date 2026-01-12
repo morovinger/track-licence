@@ -9,7 +9,7 @@
         >
           <!-- Icon -->
           <div class="w-12 h-12 mb-4 rounded-xl flex items-center justify-center justify-self-center">
-            <NuxtImg
+            <img
               :src="feature.icon"
               :alt="feature.title"
               class="w-full"

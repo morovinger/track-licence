@@ -4,7 +4,7 @@
       <div class="flex items-center justify-between h-16 md:h-20">
         <!-- Logo -->
         <NuxtLink to="/" class="flex items-center gap-3 group">
-          <NuxtImg src="/images/logo.svg" class="w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center shadow-md"></NuxtImg>
+          <img src="/images/logo.svg" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center shadow-md">
           <div class="flex flex-col">
             <span class="text-base md:text-lg font-bold text-white leading-tight">ТРАКТОРНЫЕ</span>
             <span class="text-base md:text-lg font-bold text-white leading-tight">ПРАВА.РФ</span>

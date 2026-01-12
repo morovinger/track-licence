@@ -5,7 +5,7 @@
         <!-- Logo & Description -->
         <div>
           <NuxtLink to="/" class="inline-flex items-center gap-4 mb-4">
-            <NuxtImg
+            <img
               src="/images/logo_blue.svg"
               alt="ТРАКТОРНЫЕ ПРАВА.РФ"
               class="h-16 w-auto"
