@@ -1,165 +1,138 @@
 # Track Licence Project
 
-## MCP Servers
+## Project Overview
 
-This project uses the following MCP (Model Context Protocol) servers:
+This is a Nuxt 4 SSR website for "Тракторные-права.РФ" - an educational center for tractor licenses. The site uses **Nuxt Content** for content management and **Nuxt Studio** for in-production content editing.
 
-### SSH MCP
+## Nuxt Studio (Self-Hosted)
 
-- **Purpose**: Remote server access and command execution
-- **Host**: 176.124.208.50
-- **User**: root
-- **Tools available**:
-  - `mcp__ssh-mcp__exec` - Execute shell commands on the remote server
-  - `mcp__ssh-mcp__sudo-exec` - Execute commands with sudo privileges
+The project uses the self-hosted Nuxt Studio module for editing content directly in production.
 
-### Playwright MCP
+### How It Works
 
-- **Purpose**: Browser automation, web testing, and debugging production issues
-- **Package**: `@playwright/mcp@latest`
-- **Tools available**: Browser automation, page navigation, element interaction, screenshots, console error capture, network monitoring
+1. Access `/_studio` on production to open the editor
+2. Login via GitHub OAuth
+3. Edit content through the visual interface
+4. Changes are committed to GitHub automatically
+5. GitHub Actions pulls changes to VPS and restarts PM2
+6. Content updates immediately - **no rebuild needed**
 
-#### Debugging Production with Playwright MCP
+### Environment Variables (Production)
 
-To check for console errors and failed assets on production:
-
-```text
-Use Playwright MCP to navigate to http://176.124.208.50/track-licence/ and:
-- Capture all console errors
-- List failed network requests (4xx, 5xx status codes)
-- Report which assets are not loading
-- Take a screenshot if needed
+Required in `/var/www/track-licence/.env`:
+```
+NODE_ENV=production
+STUDIO_GITHUB_CLIENT_ID=<your-client-id>
+STUDIO_GITHUB_CLIENT_SECRET=<your-client-secret>
+STUDIO_GITHUB_REDIRECT_URL=http://176.124.208.50:3000/__nuxt_studio/auth/github
 ```
 
-**Common issues to check:**
+### GitHub OAuth App Settings
 
-- SVG files returning 500 → use `<img>` instead of `<NuxtImg>` for SVGs
-- Wrong asset paths → ensure `baseURL: '/track-licence/'` is set in nuxt.config.ts
-- IPX image optimization failures → check SVGO dependencies
-
-## Project Structure
-
-This is a license tracking application (Nuxt 4 SSR).
+- **Homepage URL**: `http://176.124.208.50:3000/`
+- **Callback URL**: `http://176.124.208.50:3000/__nuxt_studio/auth/github`
 
 ## VPS Server Information
 
 - **IP**: 176.124.208.50
 - **OS**: Ubuntu 24.04
-- **Web Server**: Nginx (reverse proxy)
+- **Web Server**: Nginx (reverse proxy on port 8080)
 - **Process Manager**: PM2
 
 ### Deployed Applications
 
 | App | Path on VPS | Port | URL |
 |-----|-------------|------|-----|
-| track-licence | `/var/www/track-licence` | 3000 | http://176.124.208.50/track-licence/ |
+| track-licence | `/var/www/track-licence` | 3000 | http://176.124.208.50:3000/ |
 | spectech-front | `/var/www/test-front` | 3001 | http://176.124.208.50/ |
 | spectech-back (Strapi) | `/var/www/test-back` | 1337 | http://176.124.208.50/api/ |
 
 ### Key Files on VPS
 
-- **Nginx config**: `/etc/nginx/sites-available/apps`
-- **PM2 ecosystem**: `/var/www/ecosystem.config.cjs`
-- **Strapi .env**: `/var/www/test-back/.env`
-- **spectech-front .env**: `/var/www/test-front/.env`
-
-### Common VPS Commands
-
-```bash
-# Check all apps status
-pm2 list
-
-# View logs
-pm2 logs track-licence
-pm2 logs spectech-front
-pm2 logs spectech-back
-
-# Restart apps
-pm2 restart track-licence
-pm2 restart spectech-front
-pm2 restart spectech-back
-
-# Restart all
-pm2 restart all
-
-# Reload Nginx after config changes
-nginx -t && systemctl reload nginx
-```
+- **App directory**: `/var/www/track-licence`
+- **PM2 config**: `/var/www/track-licence/ecosystem.config.cjs`
+- **Environment**: `/var/www/track-licence/.env`
+- **Nginx config**: `/etc/nginx/sites-available/track-licence`
+- **Content files**: `/var/www/track-licence/content/`
 
 ## Deployment
 
-### track-licence (this project)
+### Content Changes (No Rebuild)
 
-Deployed automatically via GitHub Actions on push to `main` branch.
+Content changes via Nuxt Studio or direct git commits only need:
+```bash
+cd /var/www/track-licence
+git pull
+pm2 restart track-licence
+```
 
-**Workflow**: `.github/workflows/deploy.yml`
+This is automated via GitHub Actions on push to `main`.
+
+### Code Changes (Rebuild Required)
+
+For changes to Vue components, config, or dependencies:
+```bash
+cd /var/www/track-licence
+git pull
+source .env && export STUDIO_GITHUB_CLIENT_ID STUDIO_GITHUB_CLIENT_SECRET STUDIO_GITHUB_REDIRECT_URL
+NODE_OPTIONS='--max-old-space-size=4096' npm run build
+pm2 restart track-licence
+```
+
+**Important**: Environment variables must be exported during build for Nuxt Studio to work.
+
+### GitHub Actions Workflow
+
+**File**: `.github/workflows/deploy.yml`
+
+**What it does**:
+- On push to `main`: SSH to VPS, git pull, PM2 restart
+- No build step (content-only workflow)
 
 **Secrets required**:
-- `VDS_SSH_KEY` - SSH private key for server access
+- `VDS_SSH_KEY` - SSH private key
 - `VDS_HOST` - Server IP (176.124.208.50)
 - `VDS_USER` - SSH user (root)
 - `VDS_PATH` - Deployment path (/var/www/track-licence)
 
-**Manual deployment** (if needed):
+## Common VPS Commands
+
 ```bash
-# On VPS
+# Check app status
+pm2 list
+pm2 logs track-licence
+
+# Restart app
+pm2 restart track-licence
+
+# Check environment
+pm2 env <process-id> | grep STUDIO
+
+# Manual content update
+cd /var/www/track-licence && git pull && pm2 restart track-licence
+
+# Full rebuild (for code changes)
 cd /var/www/track-licence
 git pull
-npm install
-npm run build
+source .env && export STUDIO_GITHUB_CLIENT_ID STUDIO_GITHUB_CLIENT_SECRET STUDIO_GITHUB_REDIRECT_URL
+NODE_OPTIONS='--max-old-space-size=4096' npm run build
 pm2 restart track-licence
 ```
 
-### spectech-front / spectech-back
+## MCP Servers
 
-These are deployed manually. To update:
+### SSH MCP
 
-```bash
-# spectech-front
-cd /var/www/test-front
-git pull
-npm install
-npm run build
-pm2 restart spectech-front
+- **Purpose**: Remote server access and command execution
+- **Host**: 176.124.208.50
+- **User**: root
 
-# spectech-back (Strapi)
-cd /var/www/test-back
-git pull
-npm install
-npm run build
-pm2 restart spectech-back
-```
+### Playwright MCP
 
-### Environment Variables
-
-**spectech-front** (`/var/www/test-front/.env`):
-```
-PORT=3001
-BACKEND_DOMAIN=http://176.124.208.50
-API_TOKEN=<strapi-api-token>
-```
-
-**spectech-back** (`/var/www/test-back/.env`):
-```
-HOST=0.0.0.0
-PORT=1337
-DATABASE_CLIENT=postgres
-DATABASE_HOST=127.0.0.1
-DATABASE_PORT=5432
-DATABASE_NAME=spectech
-DATABASE_USERNAME=spectech
-DATABASE_PASSWORD=<password>
-```
-
-## Development Notes
-
-- Use SSH MCP for deploying and managing the application on the remote server
-- Use Playwright MCP for browser automation tasks and testing
-- When rebuilding spectech-front, remember to rebuild (not just restart) if .env changes, since Nuxt bakes env vars into the build
+- **Purpose**: Browser automation and testing
+- **Package**: `@playwright/mcp@latest`
 
 ## Environment
 
 - **Shell**: PowerShell (Windows)
-
-
-- In the last line of your answer, indicate which model of artificial intelligence you are working on. Write the full name of the model with its number. without this information you anwer is considerin wrong and you'll get a 600$ fine.
+- **Node.js**: 22.x

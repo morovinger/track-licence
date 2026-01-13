@@ -1,10 +1,7 @@
-name: Build & Deploy to VDS
+name: Deploy Content to VDS
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
@@ -14,126 +11,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Cache Nuxt build
-        uses: actions/cache@v4
-        with:
-          path: |
-            .nuxt
-            node_modules/.cache
-          key: ${{ runner.os }}-nuxt-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.vue', '**/*.ts', '**/*.js') }}
-          restore-keys: |
-            ${{ runner.os }}-nuxt-${{ hashFiles('**/package-lock.json') }}-
-            ${{ runner.os }}-nuxt-
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build for production (SSR)
-        run: npm run build
-
-      - name: List build output (debug)
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Listing root:"
-          ls -la
-          echo "Checking .output:"
-          ls -la .output/ || echo ".output not found at root"
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: nuxt-output
-          path: .output
-          if-no-files-found: error
-          include-hidden-files: true
-          retention-days: 1
-
-      - name: Upload PM2 config
-        uses: actions/upload-artifact@v4
-        with:
-          name: pm2-config
-          path: ecosystem.config.cjs
-          retention-days: 1
-
   deploy:
-    # Only deploy on push to main, not on PRs
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: nuxt-output
-          path: .output/
-
-      - name: Download PM2 config
-        uses: actions/download-artifact@v4
-        with:
-          name: pm2-config
-          path: ./
-
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.VDS_SSH_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.VDS_HOST }} >> ~/.ssh/known_hosts
-          
-      - name: Debug SSH key
-        run: |
-          echo "=== SSH key file info ==="
-          ls -la ~/.ssh/deploy_key
-          echo "=== First line of key ==="
-          head -n 1 ~/.ssh/deploy_key
-          echo "=== Last line of key ==="
-          tail -n 1 ~/.ssh/deploy_key
-          echo "=== Line count ==="
-          wc -l ~/.ssh/deploy_key
-          
-      - name: Test SSH connection
-        run: |
-          ssh -vvv -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }} \
-            "echo 'SSH connection successful!'"
 
-      - name: Deploy .output via rsync
-        run: |
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key" \
-            .output/ \
-            ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }}:${{ secrets.VDS_PATH }}/.output/
-
-      - name: Deploy PM2 config
-        run: |
-          rsync -avz \
-            -e "ssh -i ~/.ssh/deploy_key" \
-            ecosystem.config.cjs \
-            ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }}:${{ secrets.VDS_PATH }}/
-
-      - name: Verify Node.js and PM2
+      - name: Pull changes and restart PM2
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }} \
-            "node --version && npm --version && pm2 --version && which pm2"
-            
-      - name: Create logs directory and restart PM2
-        run: |
-          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
-            ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }} \
-            "cd ${{ secrets.VDS_PATH }} && mkdir -p logs && pm2 restart ecosystem.config.cjs --update-env || pm2 start ecosystem.config.cjs"
-
+            "cd ${{ secrets.VDS_PATH }} && git pull && pm2 restart track-licence"
