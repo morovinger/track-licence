@@ -75,7 +75,7 @@ For changes to Vue components, config, or dependencies:
 cd /var/www/track-licence
 git pull
 source .env && export STUDIO_GITHUB_CLIENT_ID STUDIO_GITHUB_CLIENT_SECRET STUDIO_GITHUB_REDIRECT_URL
-NODE_OPTIONS='--max-old-space-size=4096' npm run build
+npm run build
 pm2 restart track-licence
 ```
 
@@ -115,7 +115,7 @@ cd /var/www/track-licence && git pull && pm2 restart track-licence
 cd /var/www/track-licence
 git pull
 source .env && export STUDIO_GITHUB_CLIENT_ID STUDIO_GITHUB_CLIENT_SECRET STUDIO_GITHUB_REDIRECT_URL
-NODE_OPTIONS='--max-old-space-size=4096' npm run build
+npm run build
 pm2 restart track-licence
 ```
 
