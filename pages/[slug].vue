@@ -41,7 +41,7 @@
   <div v-else class="min-h-screen flex items-center justify-center">
     <div class="text-center">
       <h1 class="text-4xl font-bold text-primary-900 mb-4">404</h1>
-      <p class="text-gray-600 mb-6">Страница не найдена</p>
+      <p class="text-gray-600 mb-6">Страница не найдена.</p>
       <NuxtLink to="/" class="text-primary hover:underline">
         Вернуться на главную
       </NuxtLink>
