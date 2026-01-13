@@ -44,6 +44,9 @@ export default defineNuxtConfig({
   },
 
   studio: {
+    // Force dev mode to show floating edit button in production
+    dev: true,
+
     // Studio admin route (default: '/_studio')
     route: '/_studio',
 
