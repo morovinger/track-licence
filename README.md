@@ -54,6 +54,23 @@ track-licence/
 
 FAQ вопросы хранятся в директории `content/faq/` как markdown файлы. Это позволяет редактировать контент через Nuxt Studio без изменения кода.
 
+### Nuxt Studio в production (важно)
+
+- **OAuth callback должен совпадать с реальным доменом и протоколом (https)**.
+- Nuxt Studio генерирует `redirect_uri` из текущего request URL, либо использует `STUDIO_GITHUB_REDIRECT_URL`.
+
+Рекомендуемые переменные окружения (пример для GitHub OAuth):
+
+```bash
+STUDIO_GITHUB_CLIENT_ID=<your_client_id>
+STUDIO_GITHUB_CLIENT_SECRET=<your_client_secret>
+# Важно: полный callback URL (обратите внимание на путь!)
+STUDIO_GITHUB_REDIRECT_URL=https://<your-domain>/__nuxt_studio/auth/github
+```
+
+Если вы используете reverse proxy / Cloudflare, убедитесь что проксируется корректный `X-Forwarded-Proto`
+(см. `nginx.conf` в репозитории).
+
 ### Формат FAQ файла
 
 ```markdown
