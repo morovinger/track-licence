@@ -11,9 +11,6 @@
     
     <!-- Contact Form Modal -->
     <ContactModal v-model:open="contactModalOpen" />
-
-    <!-- Studio Edit Button (shows when authenticated) -->
-    <StudioEditButton />
   </div>
 </template>
 
