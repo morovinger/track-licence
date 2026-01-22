@@ -1,27 +1,5 @@
 {
   "permissions": {
-    "allow": [
-      "Bash(claude mcp list:*)",
-      "Bash(claude mcp add:*)",
-      "Bash(git diff:*)",
-      "Bash(git config:*)",
-      "Bash(if not exist \".vscode\" mkdir .vscode)",
-      "Bash(curl:*)",
-      "Bash(del \"c:\\\\Users\\\\pc\\\\Desktop\\\\track-licence\\\\pages\\\\courses.vue\")",
-      "Bash(npx @anthropic-ai/mcp-server-playwright@latest browser_navigate --url \"https://xn----7sbbajp8ayainedesd1m.xn--p1ai/traktorist-d\")",
-      "Bash(npx @anthropic-ai/mcp-server-playwright@latest)",
-      "Bash(npm run build:*)",
-      "Bash(dir:*)",
-      "Bash(where:*)",
-      "Bash(where magick:*)",
-      "Bash(python:*)",
-      "Bash(npm:*)",
-      "Bash(git:*)",
-      "Read",
-      "Write",
-      "Edit",
-      "Glob",
-      "Grep"
-    ]
+    "defaultModel": "bypassedPermissions"
   }
 }
