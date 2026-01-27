@@ -1,5 +1,9 @@
 {
   "permissions": {
-    "defaultModel": "bypassedPermissions"
+    "defaultModel": "bypassedPermissions",
+    "allow": [
+      "mcp__ssh-mcp__*",
+      "mcp__playwright__*"
+    ]
   }
 }
