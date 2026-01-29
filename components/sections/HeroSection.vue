@@ -1,66 +1,83 @@
 <template>
   <section :class="['relative', bgClass]">
-    <div class="container py-6 md:py-10">
-      <div class="flex flex-col lg:flex-row gap-6 items-stretch min-h-[450px] md:min-h-[500px]">
+    <div class="container pt-4 pb-12">
+      <div class="flex flex-col lg:flex-row gap-5 items-stretch">
         <!-- Left Content - Text (White Card) -->
-        <div class="left lg:w-[50%] flex flex-col justify-center p-6 md:p-10 lg:p-12 bg-white rounded-3xl shadow-lg">
-          <!-- Main Title -->
-          <div class="mb-6 md:mb-8">
-            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-[2.8rem] xl:text-5xl font-black text-primary-900 leading-[1.15] tracking-tight uppercase">
+        <div class="left lg:w-[50%] flex flex-col p-5 md:p-6 bg-white rounded-[30px] shadow-lg">
+          <!-- Badge (№ 1 в РФ) -->
+          <div v-if="showBadge" class="flex items-center justify-center gap-1.5">
+            <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+            <span class="font-bold text-sm text-[#333]">{{ badgeText }}</span>
+          </div>
+
+          <!-- Inner content wrapper, vertically centered -->
+          <div class="flex-grow flex flex-col justify-center">
+            <!-- Main Title -->
+            <h1 class="text-[22px] sm:text-[26px] md:text-[28px] lg:text-[32px] font-extrabold text-[#1d2e53] leading-[1.2] uppercase">
               {{ title }}
             </h1>
 
-            <!-- Subtitle (optional) -->
-            <p v-if="subtitle" class="mt-3 md:mt-4 text-base md:text-lg text-gray-600">
-              {{ subtitle }}
-            </p>
-
             <!-- Price -->
-            <div v-if="price" class="mt-2 md:mt-3">
-              <span class="text-2xl sm:text-3xl md:text-4xl lg:text-[2.8rem] xl:text-5xl font-black text-[#1a5cd6]">
+            <div v-if="price" class="mt-2">
+              <span class="text-[22px] sm:text-[26px] md:text-[28px] lg:text-[32px] font-extrabold text-[#123f90]">
                 {{ price }}
               </span>
-              <span v-if="oldPrice" class="ml-3 text-lg md:text-xl text-gray-400 line-through">
+              <span v-if="oldPrice" class="ml-2 text-base md:text-lg text-[#4a4a4a] line-through">
                 {{ oldPrice }}
               </span>
             </div>
-          </div>
 
-          <!-- CTA Button -->
-          <button
-            @click="handleCtaClick"
-            class="inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 bg-primary-900 text-white font-bold text-sm md:text-base rounded-full hover:bg-primary-800 transition-colors duration-300 mb-6 md:mb-8 w-fit"
-          >
-            {{ ctaText }}
-          </button>
+            <!-- Subtitle -->
+            <p v-if="subtitle" class="mt-2 text-sm text-[#4a4a4a]">
+              {{ subtitle }}
+            </p>
 
-          <!-- Quick Links -->
-          <div v-if="quickLinks && quickLinks.length > 0" class="flex flex-wrap gap-2">
-            <NuxtLink
-              v-for="link in quickLinks"
-              :key="link.path"
-              :to="link.path"
-              class="px-3 md:px-4 py-2 border border-gray-200 hover:border-[#1a5cd6] hover:bg-blue-50 rounded-full text-xs md:text-sm text-gray-700 hover:text-[#1a5cd6] transition-all duration-300"
-            >
-              {{ link.label }}
-            </NuxtLink>
+            <!-- Features/Badges (for course pages) -->
+            <div v-if="features && features.length > 0" class="flex flex-wrap gap-2 mt-4">
+              <span
+                v-for="feature in features"
+                :key="feature"
+                class="px-4 py-3 bg-[#f1f5fb] rounded-[30px] text-sm text-gray-800"
+              >
+                {{ feature }}
+              </span>
+            </div>
+
+            <!-- Quick Links (for home page, when no features) -->
+            <div v-else-if="quickLinks && quickLinks.length > 0" class="flex flex-wrap gap-2 mt-4">
+              <NuxtLink
+                v-for="link in quickLinks"
+                :key="link.path"
+                :to="link.path"
+                class="px-4 py-3 bg-[#f1f5fb] hover:bg-[#dce9ff] rounded-[30px] text-sm text-gray-800 hover:text-[#123f90] transition-all duration-300"
+              >
+                {{ link.label }}
+              </NuxtLink>
+            </div>
+
+            <!-- CTA + Urgency -->
+            <div class="flex flex-col items-center mt-6">
+              <button
+                @click="handleCtaClick"
+                class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#123f90] to-[#0056D2] text-white font-bold text-[clamp(17px,1.6vw,21px)] rounded-full hover:opacity-90 transition-all duration-300"
+              >
+                {{ ctaText }}
+              </button>
+              <p v-if="urgencyText" class="mt-2 text-sm text-gray-500">
+                {{ urgencyText }}
+              </p>
+            </div>
           </div>
         </div>
 
         <!-- Right Content - Image/Slider -->
         <div class="right lg:w-[50%] relative">
           <slot name="right">
-            <!-- Number 1 Badge with green dot -->
-            <div v-if="showBadge" class="absolute top-2 left-2 z-20 w-max flex items-center gap-2 rounded-full px-3 md:px-4 py-1.5 md:py-2 bg-white shadow-md">
-              <span class="w-2 md:w-2.5 h-2 md:h-2.5 bg-green-500 rounded-full"></span>
-              <span class="font-bold text-sm md:text-base text-primary-900">{{ badgeText }}</span>
-            </div>
-
             <!-- Slider (Multiple Images) -->
             <template v-if="images && images.length > 1">
-              <div class="relative rounded-3xl overflow-hidden">
+              <div class="relative rounded-[30px] overflow-hidden h-full">
                 <div
-                  class="flex transition-transform duration-500 ease-out"
+                  class="flex transition-transform duration-500 ease-out h-full"
                   :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
                 >
                   <img
@@ -68,14 +85,14 @@
                     :key="index"
                     :src="image"
                     :alt="`${imageAlt} ${index + 1}`"
-                    class="w-full flex-shrink-0 h-auto object-cover rounded-3xl"
+                    class="w-full flex-shrink-0 h-full object-cover"
                   />
                 </div>
 
                 <!-- Navigation Arrows -->
                 <button
                   @click="prevSlide"
-                  class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-primary-900 transition-all z-10"
+                  class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-primary-900 transition-all z-10"
                   aria-label="Previous slide"
                 >
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -84,7 +101,7 @@
                 </button>
                 <button
                   @click="nextSlide"
-                  class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-primary-900 transition-all z-10"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center text-primary-900 transition-all z-10"
                   aria-label="Next slide"
                 >
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -113,7 +130,7 @@
               v-else
               :src="imageSrc"
               :alt="imageAlt"
-              class="w-full h-auto object-cover rounded-3xl"
+              class="w-full h-full object-cover rounded-[30px]"
             />
           </slot>
         </div>
@@ -139,8 +156,12 @@ interface Props {
 
   // CTA
   ctaText?: string
+  urgencyText?: string
 
-  // Quick links
+  // Features (course pages)
+  features?: string[]
+
+  // Quick links (home page)
   quickLinks?: QuickLink[]
 
   // Right side (when using default slot)

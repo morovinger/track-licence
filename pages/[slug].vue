@@ -7,6 +7,8 @@
       :price="course.hero?.price"
       :old-price="course.hero?.oldPrice"
       :cta-text="course.hero?.ctaText"
+      :urgency-text="course.hero?.urgencyText"
+      :features="course.hero?.features"
       :images="course.hero?.images"
       :badge-text="course.hero?.badgeText"
     />

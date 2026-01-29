@@ -1,5 +1,5 @@
 <template>
-  <header class="mt-5 mb-5 rounded-2xl bg-primary">
+  <header class="mt-1 rounded-2xl bg-primary">
     <div class="container">
       <div class="flex items-center justify-between h-16 md:h-20">
         <!-- Logo -->
@@ -19,7 +19,7 @@
               8 (901) 469 34 41
             </a>
           </div>
-          <button 
+          <button
             @click="openModal"
             class="px-5 py-2.5 bg-transparent border-2 border-white text-white font-bold text-sm rounded-xl hover:bg-white hover:text-primary transition-all"
           >
@@ -28,7 +28,7 @@
         </div>
 
         <!-- Burger Menu Button (always visible) -->
-        <button 
+        <button
           @click="toggleMobileNav"
           class="p-2.5 bg-white/10 hover:bg-white/20 rounded-lg text-white transition-colors"
           aria-label="Toggle menu"
