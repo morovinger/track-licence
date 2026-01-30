@@ -15,19 +15,19 @@
   <section id="pricing" class="section bg-body">
     <div class="container">
       <!-- Section Header -->
-      <div class="text-left mb-12">
+      <div class="text-left mb-10">
         <h2 class="section-title">Выбери тариф или создай свой</h2>
-        <p class="text-gray-600 text-lg">
-          При оформлении пакета — <span class="inline-block bg-red-500 text-white px-4 py-1 rounded-full font-bold">Экономия до 50%</span>
+        <p class="text-gray-600 text-lg mt-2">
+          При оформлении пакета — <span class="inline-block bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-1 rounded-full font-bold text-sm shadow-sm">Экономия до 50%</span>
         </p>
       </div>
 
       <!-- Pricing Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-10">
         <PricingCard
           name="Универсал"
           :price="46000"
-          :original-price="58000"
+          :original-price="48000"
           :features="['Категория B, C, D, E', 'Погрузчик', 'Экскаватор']"
           details-link="/uni"
         />
@@ -64,14 +64,20 @@
       <!-- Custom Tariff CTA -->
       <NuxtLink
         to="/tarif"
-        class="group flex items-center justify-center gap-4 bg-primary text-white rounded-full py-4 px-8 text-center shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 max-w-md mx-auto"
+        class="group flex items-center justify-center gap-4 bg-gradient-to-r from-[#0a2e6e] to-primary text-white rounded-2xl py-5 px-10 text-center shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 max-w-lg mx-auto border border-white/10"
       >
-        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+        <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-white/20 transition-all">
+          <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
           </svg>
         </div>
-        <span class="text-lg font-bold">Создать свой тариф</span>
+        <div class="text-left">
+          <span class="text-lg font-bold block">Создать свой тариф</span>
+          <span class="text-sm text-white/60">Выберите только нужные категории</span>
+        </div>
+        <svg class="w-5 h-5 text-white/50 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
       </NuxtLink>
     </div>
   </section>

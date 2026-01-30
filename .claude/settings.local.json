@@ -3,6 +3,12 @@
     "defaultModel": "bypassedPermissions",
     "allow": [
       "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "WebFetch(*)",
+      "WebSearch(*)",
+      "NotebookEdit(*)",
       "mcp__ssh-mcp__*",
       "mcp__playwright__*"
     ]
