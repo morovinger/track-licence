@@ -35,6 +35,9 @@
     <!-- Salary Section (static) -->
     <SalarySection />
 
+    <!-- Feedback Form (static) -->
+    <FeedbackFormSection />
+
     <!-- FAQ Section (static) -->
     <FAQSection />
   </div>
@@ -59,6 +62,7 @@ import CredentialsSection from '~/components/sections/CredentialsSection.vue'
 import StepsSection from '~/components/sections/StepsSection.vue'
 import ReviewsSection from '~/components/sections/ReviewsSection.vue'
 import SalarySection from '~/components/sections/SalarySection.vue'
+import FeedbackFormSection from '~/components/sections/FeedbackFormSection.vue'
 import FAQSection from '~/components/sections/FAQSection.vue'
 
 const route = useRoute()

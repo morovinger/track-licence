@@ -12,7 +12,7 @@
       <!-- Steps Timeline -->
       <div class="relative max-w-4xl mx-auto">
         <!-- Central Line - Desktop -->
-        <div class="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-400 via-primary to-emerald-400 transform -translate-x-1/2 hidden md:block rounded-full"></div>
+        <div class="absolute left-1/2 top-[10%] bottom-[10%] w-1 bg-gradient-to-b from-emerald-400 via-primary to-emerald-400 transform -translate-x-1/2 hidden md:block rounded-full"></div>
 
         <!-- Steps -->
         <div class="space-y-6 md:space-y-0">
@@ -113,8 +113,7 @@ const props = withDefaults(defineProps<Props>(), {
 const steps = computed(() => props.steps)
 
 const getCircleColor = (index: number): string => {
-  // First and last steps are green, middle steps are blue (matching original design)
-  if (index === 0 || index === steps.value.length - 1) {
+  if (index === 0) {
     return 'bg-emerald-500'
   }
   return 'bg-primary'

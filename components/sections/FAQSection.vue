@@ -2,16 +2,17 @@
   <section class="section">
     <div class="container">
       <!-- Section Header -->
-      <div class="text-center mb-12">
+      <div class="text-left mb-10">
         <h2 class="section-title">Часто задаваемые вопросы</h2>
       </div>
 
       <!-- FAQ Accordion -->
-      <div class="max-w-4xl mx-auto space-y-3">
+      <div class="space-y-3">
         <div 
           v-for="(item, index) in faqItems" 
           :key="item.id"
           class="bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 hover:border-primary-200 transition-colors"
+          :class="openItems.includes(index) ? 'border-l-4 border-l-blue-500' : ''"
         >
           <!-- Question -->
           <button 
@@ -193,6 +194,15 @@ const defaultFaqItems: FAQItem[] = [
   },
   {
     id: 8,
+    question: 'Какие документы являются официальными?',
+    answer: `
+      <p>Согласно Федеральному закону № 273-ФЗ «Об образовании в Российской Федерации» (статья 60), лицам, успешно прошедшим итоговую аттестацию, выдаются документы о квалификации.</p>
+      <p>По результатам профессионального обучения выдаётся <strong>свидетельство о профессии рабочего, должности служащего</strong>, подтверждающее присвоение разряда или класса по профессии.</p>
+      <p>Данный документ не является дипломом, а является официальным свидетельством о квалификации, имеющим юридическую силу на всей территории Российской Федерации.</p>
+    `
+  },
+  {
+    id: 9,
     question: 'Как проверить подлинность удостоверения в реестре?',
     answer: `
       <p><strong>Для проверки удостоверений на сайте ФРДО Рособрнадзора следуйте указанным шагам:</strong></p>

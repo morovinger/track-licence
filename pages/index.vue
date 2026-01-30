@@ -62,23 +62,17 @@
       </div>
 
       <!-- Custom Tariff CTA -->
-      <NuxtLink
-        to="/tarif"
-        class="group flex items-center justify-center gap-4 bg-gradient-to-r from-[#0a2e6e] to-primary text-white rounded-2xl py-5 px-10 text-center shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 max-w-lg mx-auto border border-white/10"
-      >
-        <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center group-hover:scale-110 group-hover:bg-white/20 transition-all">
-          <svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+      <div class="flex justify-center">
+        <NuxtLink
+          to="/tarif"
+          class="inline-flex items-center gap-3 bg-gradient-to-r from-primary to-blue-600 text-white text-lg md:text-xl lg:text-2xl font-semibold py-4 px-6 md:px-12 rounded-full shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-200 no-underline"
+        >
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
           </svg>
-        </div>
-        <div class="text-left">
-          <span class="text-lg font-bold block">Создать свой тариф</span>
-          <span class="text-sm text-white/60">Выберите только нужные категории</span>
-        </div>
-        <svg class="w-5 h-5 text-white/50 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-        </svg>
-      </NuxtLink>
+          Создать свой тариф
+        </NuxtLink>
+      </div>
     </div>
   </section>
 
@@ -197,6 +191,9 @@
   <!-- Salary / Career Info -->
   <SalarySection />
 
+  <!-- Feedback Form -->
+  <FeedbackFormSection />
+
   <!-- FAQ -->
   <FAQSection />
 </template>
@@ -210,6 +207,7 @@ import CourseCard from '~/components/sections/CourseCard.vue'
 import StepsSection from '~/components/sections/StepsSection.vue'
 import ReviewsSection from '~/components/sections/ReviewsSection.vue'
 import SalarySection from '~/components/sections/SalarySection.vue'
+import FeedbackFormSection from '~/components/sections/FeedbackFormSection.vue'
 import FAQSection from '~/components/sections/FAQSection.vue'
 
 // Hero Section quick links

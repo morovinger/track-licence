@@ -1,14 +1,12 @@
 <template>
   <div class="min-h-screen bg-gray-50">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-primary-900 to-primary-800 text-white py-12 md:py-16">
-      <div class="container text-center">
-        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Создайте свой тариф</h1>
-        <p class="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
-          Выберите нужные категории и отметки для формирования индивидуального пакета обучения
-        </p>
-      </div>
-    </section>
+    <div class="container pt-8 pb-4">
+      <h1 class="text-2xl md:text-3xl font-bold text-primary-900">Конструктор тарифа</h1>
+      <p class="text-gray-500 mt-1">
+        Выберите нужные категории и отметки для формирования индивидуального пакета обучения
+      </p>
+    </div>
 
     <div class="container py-8 md:py-12">
       <div class="grid lg:grid-cols-3 gap-8">

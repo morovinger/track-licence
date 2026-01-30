@@ -19,7 +19,7 @@
         </div>
 
         <!-- Navigation Links -->
-        <div class="flex-1 overflow-y-auto py-4">
+        <div class="flex-1 overflow-y-auto py-2">
           <h3 class="px-4 text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2">
             Категории и отметки
           </h3>
@@ -27,7 +27,7 @@
             <li v-for="category in categories" :key="category.path">
               <NuxtLink
                 :to="category.path"
-                class="block px-4 py-3 text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors"
+                class="block px-2 py-1 text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors"
                 @click="emit('update:open', false)"
               >
                 {{ category.label }}
@@ -108,7 +108,13 @@ const categories = [
   { label: 'Категория A II', path: '/kategoriya-a2' },
   { label: 'Водитель погрузчика', path: '/voditel-pogruzchika' },
   { label: 'Машинист экскаватора', path: '/mashinist-ekskavatora' },
+  { label: 'Машинист автогрейдера', path: '/mashinist-avtogrejdera' },
   { label: 'Машинист бульдозера', path: '/mashinist-buldozera' },
+  { label: 'Машинист фрезы дорожной', path: '/mashinist-frezy' },
+  { label: 'Машинист буровой установки', path: '/mashinist-burovoj' },
+  { label: 'Машинист трелёвочной машины', path: '/mashinist-trelevochnoj' },
+  { label: 'Машинист копра', path: '/mashinist-kopra' },
+  { label: 'Машинист перегружателя', path: '/mashinist-peregruzchika' },
   { label: 'Машинист катка', path: '/mashinist-katka' },
   { label: 'Машинист крана', path: '/mashinist-krana' },
 ]
