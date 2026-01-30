@@ -2,6 +2,7 @@
   "permissions": {
     "defaultModel": "bypassedPermissions",
     "allow": [
+      "Bash(*)",
       "mcp__ssh-mcp__*",
       "mcp__playwright__*"
     ]
