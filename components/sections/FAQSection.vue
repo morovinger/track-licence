@@ -8,21 +8,21 @@
 
       <!-- FAQ Accordion -->
       <div class="space-y-3">
-        <div 
-          v-for="(item, index) in faqItems" 
+        <div
+          v-for="(item, index) in faqItems"
           :key="item.id"
           class="bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 hover:border-primary-200 transition-colors"
           :class="openItems.includes(index) ? 'border-l-4 border-l-blue-500' : ''"
         >
           <!-- Question -->
-          <button 
+          <button
             @click="toggleItem(index)"
             class="w-full flex items-center justify-between p-5 md:p-6 text-left"
           >
             <span class="text-base md:text-lg font-semibold text-gray-800 pr-4">
               {{ item.question }}
             </span>
-            <span 
+            <span
               class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-primary-900 bg-white border border-gray-200 transition-transform duration-300"
               :class="openItems.includes(index) ? 'rotate-45 bg-primary-900 text-white border-[#0a1744]' : ''"
             >
@@ -38,7 +38,7 @@
               <div class="px-5 md:px-6 pb-5 md:pb-6">
                 <div class="prose prose-gray max-w-none text-gray-600" v-html="item.answer"></div>
                 <!-- Optional Link -->
-                <a 
+                <a
                   v-if="item.link"
                   :href="item.link"
                   target="_blank"

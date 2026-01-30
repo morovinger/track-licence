@@ -16,25 +16,25 @@
 
         <!-- Steps -->
         <div class="space-y-6 md:space-y-0">
-          <div 
-            v-for="(step, index) in steps" 
+          <div
+            v-for="(step, index) in steps"
             :key="step.number"
             class="group/step relative md:grid md:grid-cols-2 md:gap-16 md:py-8"
           >
             <!-- Content Card - Alternating sides -->
-            <div 
+            <div
               :class="[
                 'relative',
                 index % 2 === 0 ? 'md:col-start-2 md:pl-12' : 'md:col-start-1 md:pr-12'
               ]"
             >
-              <div 
+              <div
                 class="bg-white rounded-2xl p-6 shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-gray-100 transition-all duration-300 group-hover/step:shadow-[0_8px_30px_rgba(10,23,68,0.15)] group-hover/step:-translate-y-1"
                 :class="index % 2 === 1 ? 'md:text-right' : ''"
               >
                 <!-- Mobile Number -->
                 <div class="flex items-center gap-3 mb-3 md:hidden">
-                  <div 
+                  <div
                     class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-md"
                     :class="getCircleColor(index)"
                   >
@@ -49,9 +49,9 @@
             </div>
 
             <!-- Number Circle - Desktop -->
-            <div 
-              class="hidden md:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 
-                     w-12 h-12 rounded-full items-center justify-center 
+            <div
+              class="hidden md:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2
+                     w-12 h-12 rounded-full items-center justify-center
                      text-white font-bold text-xl shadow-lg z-10 ring-4 ring-white
                      transition-all duration-300 group-hover/step:scale-110 group-hover/step:shadow-xl"
               :class="getCircleColor(index)"

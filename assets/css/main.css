@@ -6,12 +6,12 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply font-sans text-gray-800 antialiased;
     background-color: #f0f4fa;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold tracking-tight;
   }
@@ -23,31 +23,31 @@
     @apply inline-flex items-center justify-center px-8 py-4 text-lg font-bold
            bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900
            rounded-xl shadow-[0_4px_20px_rgba(251,191,36,0.4)]
-           hover:shadow-[0_6px_30px_rgba(251,191,36,0.5)] hover:scale-105 
+           hover:shadow-[0_6px_30px_rgba(251,191,36,0.5)] hover:scale-105
            transition-all duration-300 ease-out;
   }
-  
+
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 text-base font-semibold 
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-semibold
            text-white bg-primary-700 rounded-xl
-           hover:bg-primary 
+           hover:bg-primary
            transition-all duration-300;
   }
-  
+
   .btn-outline {
-    @apply inline-flex items-center justify-center px-6 py-3 text-base font-semibold 
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-semibold
            text-primary-900 bg-transparent border-2 border-primary-900 rounded-xl
-           hover:bg-primary-900 hover:text-white 
+           hover:bg-primary-900 hover:text-white
            transition-all duration-300;
   }
 
   /* Card styles */
   .card {
     @apply bg-white rounded-2xl shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-gray-100
-           hover:shadow-[0_8px_30px_rgba(10,23,68,0.12)] 
+           hover:shadow-[0_8px_30px_rgba(10,23,68,0.12)]
            transition-all duration-300;
   }
-  
+
   .card-blue {
     @apply bg-gradient-to-b from-primary to-primary-700 rounded-2xl text-white shadow-lg;
   }
@@ -56,11 +56,11 @@
   .section {
     @apply py-4 md:py-6;
   }
-  
+
   .section-title {
     @apply text-xl md:text-2xl lg:text-3xl font-bold text-primary-900 mb-4;
   }
-  
+
   .section-subtitle {
     @apply text-lg md:text-xl text-gray-500 max-w-3xl;
   }
@@ -71,7 +71,7 @@
   .price-current {
     @apply text-2xl md:text-3xl font-bold text-amber-500;
   }
-  
+
   .price-old {
     @apply text-lg text-gray-400 line-through;
   }
@@ -85,7 +85,7 @@
   .nav-link {
     @apply text-gray-600 hover:text-primary-900 font-medium transition-colors duration-200;
   }
-  
+
   .nav-link-active {
     @apply text-primary-900 font-semibold;
   }
@@ -96,7 +96,7 @@
   .text-gradient {
     @apply bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 bg-clip-text text-transparent;
   }
-  
+
   /* Animation delays */
   .animation-delay-100 { animation-delay: 100ms; }
   .animation-delay-200 { animation-delay: 200ms; }
@@ -112,14 +112,14 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-4 {
     display: -webkit-box;
     -webkit-line-clamp: 4;
