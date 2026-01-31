@@ -16,7 +16,7 @@
     <div class="container">
       <!-- Section Header -->
       <div class="text-left mb-10">
-        <h2 class="section-title">Выбери тариф или создай свой</h2>
+        <h2 class="section-title">Выбери тариф или создай свой!</h2>
         <p class="text-gray-600 text-lg mt-2">
           При оформлении пакета — <span class="inline-block bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-1 rounded-full font-bold text-sm shadow-sm">Экономия до 50%</span>
         </p>
