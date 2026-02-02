@@ -59,9 +59,36 @@ STUDIO_GITHUB_REDIRECT_URL=http://176.124.208.50:3000/__nuxt_studio/auth/github
 
 ## Deployment
 
-### All Changes (Rebuild Required)
+### How It Works
 
-**Nuxt Content v3** compiles markdown to SQLite at build time. All changes (content or code) require a rebuild:
+**Nuxt Content v3** compiles markdown to SQLite at build time. All changes (content or code) require a rebuild.
+
+**Deployment is automated via GitHub Actions**:
+1. Push to `main` triggers the workflow
+2. GitHub Actions builds the project (faster servers)
+3. Built `.output` folder is deployed to VPS via rsync
+4. PM2 restarts the app
+
+This approach is faster than building on VPS because GitHub runners are more powerful.
+
+### GitHub Actions Workflow
+
+**File**: `.github/workflows/deploy.yml`
+
+**What it does**:
+1. **Build job** (on GitHub): checkout → npm ci → npm run build → upload artifact
+2. **Deploy job**: download artifact → rsync to VPS → PM2 restart
+
+**Secrets required**:
+- `VDS_SSH_KEY` - SSH private key
+- `VDS_HOST` - Server IP (176.124.208.50)
+- `VDS_USER` - SSH user (root)
+- `VDS_PATH` - Deployment path (/var/www/track-licence)
+- `STUDIO_GITHUB_CLIENT_ID` - GitHub OAuth client ID (for Nuxt Studio)
+- `STUDIO_GITHUB_CLIENT_SECRET` - GitHub OAuth client secret
+- `STUDIO_GITHUB_REDIRECT_URL` - OAuth redirect URL
+
+### Manual Deploy (if needed)
 
 ```bash
 cd /var/www/track-licence
@@ -71,24 +98,6 @@ npm run build
 pm2 restart track-licence
 ```
 
-**Important**: Environment variables must be exported during build for Nuxt Studio to work.
-
-This is automated via GitHub Actions on push to `main`.
-
-### GitHub Actions Workflow
-
-**File**: `.github/workflows/deploy.yml`
-
-**What it does**:
-- On push to `main`: SSH to VPS, git pull, npm run build, PM2 restart
-- Includes full rebuild to regenerate content SQLite database
-
-**Secrets required**:
-- `VDS_SSH_KEY` - SSH private key
-- `VDS_HOST` - Server IP (176.124.208.50)
-- `VDS_USER` - SSH user (root)
-- `VDS_PATH` - Deployment path (/var/www/track-licence)
-
 ## Common VPS Commands
 
 ```bash
@@ -96,18 +105,11 @@ This is automated via GitHub Actions on push to `main`.
 pm2 list
 pm2 logs track-licence
 
-# Restart app (without rebuild - only for config changes)
+# Restart app (without rebuild)
 pm2 restart track-licence
 
-# Check environment
-pm2 env <process-id> | grep STUDIO
-
-# Full deploy (required for any content or code changes)
-cd /var/www/track-licence
-git pull
-source .env && export STUDIO_GITHUB_CLIENT_ID STUDIO_GITHUB_CLIENT_SECRET STUDIO_GITHUB_REDIRECT_URL
-npm run build
-pm2 restart track-licence
+# Check deployed files
+ls -la /var/www/track-licence/.output/
 ```
 
 ## MCP Servers

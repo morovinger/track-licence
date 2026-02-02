@@ -1,20 +1,83 @@
-name: Deploy Content to VDS
+name: Build & Deploy to VDS
 
 on:
   push:
     branches:
       - main
 
-# Cancel in-progress runs for the same branch (important for frequent Nuxt Studio pushes)
+# Cancel in-progress runs for the same branch
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Cache Nuxt build
+        uses: actions/cache@v4
+        with:
+          path: |
+            .nuxt
+            node_modules/.cache
+          key: ${{ runner.os }}-nuxt-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.vue', '**/*.ts', '**/*.js') }}
+          restore-keys: |
+            ${{ runner.os }}-nuxt-${{ hashFiles('**/package-lock.json') }}-
+            ${{ runner.os }}-nuxt-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for production
+        env:
+          STUDIO_GITHUB_CLIENT_ID: ${{ secrets.STUDIO_GITHUB_CLIENT_ID }}
+          STUDIO_GITHUB_CLIENT_SECRET: ${{ secrets.STUDIO_GITHUB_CLIENT_SECRET }}
+          STUDIO_GITHUB_REDIRECT_URL: ${{ secrets.STUDIO_GITHUB_REDIRECT_URL }}
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuxt-output
+          path: .output
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 1
+
+      - name: Upload PM2 config
+        uses: actions/upload-artifact@v4
+        with:
+          name: pm2-config
+          path: ecosystem.config.cjs
+          retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: nuxt-output
+          path: .output/
+
+      - name: Download PM2 config
+        uses: actions/download-artifact@v4
+        with:
+          name: pm2-config
+          path: ./
+
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
@@ -22,8 +85,22 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.VDS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Pull changes, rebuild content, and restart PM2
+      - name: Deploy .output via rsync
+        run: |
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            .output/ \
+            ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }}:${{ secrets.VDS_PATH }}/.output/
+
+      - name: Deploy PM2 config
+        run: |
+          rsync -avz \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            ecosystem.config.cjs \
+            ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }}:${{ secrets.VDS_PATH }}/
+
+      - name: Restart PM2
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }} \
-            "cd ${{ secrets.VDS_PATH }} && git pull && source .env && export STUDIO_GITHUB_CLIENT_ID STUDIO_GITHUB_CLIENT_SECRET STUDIO_GITHUB_REDIRECT_URL && npm run build && pm2 restart track-licence"
+            "cd ${{ secrets.VDS_PATH }} && pm2 restart ecosystem.config.cjs --update-env || pm2 start ecosystem.config.cjs"
