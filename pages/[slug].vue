@@ -18,9 +18,9 @@
 
     <!-- Course Content (expandable) -->
     <CourseContentSection
-      v-if="course.courseContent"
-      :title="course.courseContent.title"
-      :content="course.courseContent.content"
+      v-if="course.body"
+      :title="course.courseContentTitle || 'О курсе'"
+      :course="course"
     />
 
     <!-- Credentials Section (static) -->

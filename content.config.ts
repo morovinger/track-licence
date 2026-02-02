@@ -7,8 +7,11 @@ export default defineContentConfig({
       source: '*.md'
     }),
     courses: defineCollection({
-      type: 'data',
-      source: 'courses/**/*.yml',
+      type: 'page',
+      source: {
+        include: 'courses/**/*.md',
+        prefix: '/'
+      },
       schema: z.object({
         title: z.string(),
         description: z.string().optional(),
@@ -23,13 +26,12 @@ export default defineContentConfig({
           price: z.string(),
           oldPrice: z.string().optional(),
           ctaText: z.string().optional(),
+          urgencyText: z.string().optional(),
+          features: z.array(z.string()).optional(),
           images: z.array(z.string()).optional(),
           badgeText: z.string().optional()
         }).optional(),
-        courseContent: z.object({
-          title: z.string().optional(),
-          content: z.string()
-        }).optional(),
+        courseContentTitle: z.string().optional()
       })
     }),
     faq: defineCollection({

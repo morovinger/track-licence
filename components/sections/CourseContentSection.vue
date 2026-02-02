@@ -14,8 +14,9 @@
             ref="contentRef"
             class="prose prose-lg max-w-none text-gray-700 overflow-hidden transition-all duration-500"
             :class="isExpanded ? 'max-h-none' : 'max-h-[200px]'"
-            v-html="content"
-          />
+          >
+            <ContentRenderer v-if="course" :value="course" />
+          </div>
 
           <!-- Gradient Overlay (when collapsed) -->
           <div
@@ -41,12 +42,11 @@
 <script setup lang="ts">
 interface Props {
   title?: string
-  content?: string
+  course?: any
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: 'О курсе',
-  content: ''
+  title: 'О курсе'
 })
 
 const isExpanded = ref(false)

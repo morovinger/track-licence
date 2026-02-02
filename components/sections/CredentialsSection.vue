@@ -31,7 +31,7 @@
 
         <!-- Tab Content -->
         <div class="p-6 md:p-8">
-          <TransitionGroup name="fade" mode="out-in">
+          <TransitionGroup name="fade">
             <div
               v-for="(tab, index) in tabs"
               v-show="activeTab === index"
