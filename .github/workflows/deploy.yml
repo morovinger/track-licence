@@ -22,8 +22,8 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H ${{ secrets.VDS_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Pull changes and restart PM2
+      - name: Pull changes, rebuild content, and restart PM2
         run: |
           ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no \
             ${{ secrets.VDS_USER }}@${{ secrets.VDS_HOST }} \
-            "cd ${{ secrets.VDS_PATH }} && git pull && pm2 restart track-licence"
+            "cd ${{ secrets.VDS_PATH }} && git pull && source .env && export STUDIO_GITHUB_CLIENT_ID STUDIO_GITHUB_CLIENT_SECRET STUDIO_GITHUB_REDIRECT_URL && npm run build && pm2 restart track-licence"
