@@ -9,7 +9,7 @@
         v-if="popular"
         class="absolute top-0 right-0 w-32 h-32 overflow-hidden"
       >
-        <div class="absolute top-6 -right-8 w-40 bg-gradient-to-r from-amber-400 to-yellow-500 text-primary-900 text-center py-2 text-sm font-bold transform rotate-45 shadow-lg">
+        <div class="absolute top-6 -right-8 w-40 bg-gradient-to-r from-amber-400 to-yellow-500 text-white text-center py-2 text-lg font-bold transform rotate-45 shadow-lg">
           Хит
         </div>
       </div>

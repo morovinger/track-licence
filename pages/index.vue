@@ -6,6 +6,7 @@
     price="7 000 ₽"
     cta-text="ОТКРЫТЬ КАТЕГОРИЮ"
     :quick-links="homeQuickLinks"
+    badge-position="image"
   />
 
   <!-- Features / Benefits -->
@@ -18,7 +19,7 @@
       <div class="text-left mb-10">
         <h2 class="section-title">Выбери тариф или создай свой!</h2>
         <p class="text-gray-600 text-lg mt-2">
-          При оформлении пакета — <span class="inline-block bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-1 rounded-full font-bold text-sm shadow-sm">Экономия до 50%</span>
+          При оформлении пакета — <span class="inline-block bg-gradient-to-r from-red-500 to-red-600 text-white px-5 py-1.5 rounded-full font-bold text-base shadow-sm">Экономия до 50%</span>
         </p>
       </div>
 

@@ -4,8 +4,8 @@
       <div class="flex flex-col lg:flex-row gap-5 items-stretch">
         <!-- Left Content - Text (White Card) -->
         <div class="left lg:w-[50%] flex flex-col p-5 md:p-6 bg-white rounded-[30px] shadow-lg">
-          <!-- Badge (№ 1 в РФ) -->
-          <div v-if="showBadge" class="flex items-center justify-center gap-1.5">
+          <!-- Badge (№ 1 в РФ) - content position -->
+          <div v-if="showBadge && badgePosition === 'content'" class="flex items-center justify-center gap-1.5">
             <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
             <span class="font-bold text-sm text-[#333]">{{ badgeText }}</span>
           </div>
@@ -32,29 +32,6 @@
               {{ subtitle }}
             </p>
 
-            <!-- Features/Badges (for course pages) -->
-            <div v-if="features && features.length > 0" class="flex flex-wrap gap-2 mt-4">
-              <span
-                v-for="feature in features"
-                :key="feature"
-                class="px-4 py-3 bg-[#f1f5fb] rounded-[30px] text-sm text-gray-800"
-              >
-                {{ feature }}
-              </span>
-            </div>
-
-            <!-- Quick Links (for home page, when no features) -->
-            <div v-else-if="quickLinks && quickLinks.length > 0" class="flex flex-wrap gap-2 mt-4">
-              <NuxtLink
-                v-for="link in quickLinks"
-                :key="link.path"
-                :to="link.path"
-                class="px-4 py-3 bg-[#f1f5fb] hover:bg-[#dce9ff] rounded-[30px] text-sm text-gray-800 hover:text-[#123f90] transition-all duration-300"
-              >
-                {{ link.label }}
-              </NuxtLink>
-            </div>
-
             <!-- CTA + Urgency -->
             <div class="flex flex-col items-center mt-6">
               <button
@@ -67,11 +44,39 @@
                 {{ urgencyText }}
               </p>
             </div>
+
+            <!-- Features/Badges (for course pages) -->
+            <div v-if="features && features.length > 0" class="flex flex-wrap gap-2 mt-4">
+              <span
+                v-for="feature in features"
+                :key="feature"
+                class="px-4 py-3 bg-[#f1f5fb] rounded-[30px] text-sm text-gray-800"
+              >
+                {{ feature }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Quick Links (for home page) - pinned to bottom -->
+          <div v-if="quickLinks && quickLinks.length > 0 && !(features && features.length > 0)" class="flex flex-wrap justify-evenly gap-3 mt-auto">
+            <NuxtLink
+              v-for="link in quickLinks"
+              :key="link.path"
+              :to="link.path"
+              class="px-4 py-3 bg-[#f1f5fb] hover:bg-[#dce9ff] rounded-[30px] text-sm text-gray-800 hover:text-[#123f90] transition-all duration-300"
+            >
+              {{ link.label }}
+            </NuxtLink>
           </div>
         </div>
 
         <!-- Right Content - Image/Slider -->
         <div class="right lg:w-[50%] relative">
+          <!-- Badge (№ 1 в РФ) - image position -->
+          <div v-if="showBadge && badgePosition === 'image'" class="absolute top-4 left-4 z-10 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md">
+            <span class="w-2.5 h-2.5 bg-green-500 rounded-full"></span>
+            <span class="font-bold text-sm text-[#333]">{{ badgeText }}</span>
+          </div>
           <slot name="right">
             <!-- Slider (Multiple Images) -->
             <template v-if="images && images.length > 1">
@@ -170,6 +175,7 @@ interface Props {
   imageAlt?: string
   showBadge?: boolean
   badgeText?: string
+  badgePosition?: 'content' | 'image'
 
   // Styling
   bgClass?: string
@@ -191,6 +197,7 @@ const props = withDefaults(defineProps<Props>(), {
   imageAlt: 'Обучение на тракторные права',
   showBadge: true,
   badgeText: '№ 1 в РФ',
+  badgePosition: 'content',
   bgClass: 'bg-body',
 })
 

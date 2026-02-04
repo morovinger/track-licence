@@ -11,11 +11,11 @@
               class="h-16 w-auto"
             />
             <div class="flex flex-col">
-              <span class="text-2xl font-bold text-primary leading-tight uppercase">ТРАКТОРНЫЕ</span>
-              <span class="text-2xl font-bold text-primary leading-tight uppercase">ПРАВА.РФ</span>
+              <span class="text-3xl font-bold text-primary leading-tight uppercase">ТРАКТОРНЫЕ</span>
+              <span class="text-3xl font-bold text-primary leading-tight uppercase">ПРАВА.РФ</span>
             </div>
           </NuxtLink>
-          <p class="text-gray-600 text-sm leading-relaxed">
+          <p class="text-gray-600 text-base leading-relaxed">
             Почему мы №1 в РФ? По результатам внутренних опросов наших студентов, более 97% из них
             рекомендуют нас друзьям и выбирают повторное обучение у нас. Эта формулировка отражает
             субъективное мнение наших учащихся и не является официальным рейтингом.

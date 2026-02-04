@@ -6,8 +6,8 @@
         <NuxtLink to="/" class="flex items-center gap-3 group">
           <img src="/images/logo.svg" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center shadow-md">
           <div class="flex flex-col">
-            <span class="text-base md:text-lg font-bold text-white leading-tight">ТРАКТОРНЫЕ</span>
-            <span class="text-base md:text-lg font-bold text-white leading-tight">ПРАВА.РФ</span>
+            <span class="text-xl md:text-[27px] font-bold text-white leading-tight">ТРАКТОРНЫЕ</span>
+            <span class="text-xl md:text-[27px] font-bold text-white leading-tight">ПРАВА.РФ</span>
           </div>
         </NuxtLink>
 
