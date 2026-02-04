@@ -13,8 +13,7 @@
           <!-- Inner content wrapper, vertically centered -->
           <div class="flex-grow flex flex-col justify-center">
             <!-- Main Title -->
-            <h1 class="text-[22px] sm:text-[26px] md:text-[28px] lg:text-[32px] font-extrabold text-[#1d2e53] leading-[1.2] uppercase">
-              {{ title }}
+            <h1 class="text-[22px] sm:text-[26px] md:text-[28px] lg:text-[32px] font-extrabold text-[#1d2e53] leading-[1.2] uppercase" v-html="title">
             </h1>
 
             <!-- Price -->
