@@ -3,7 +3,7 @@
   <HeroSection
     title="ОБУЧЕНИЕ НА <br> ТРАКТОРНЫЕ ПРАВА"
     :badges="['Быстро', 'Выгодно', 'Легально']"
-    price="7 000 ₽"
+    price="8 000 ₽"
     cta-text="ОТКРЫТЬ КАТЕГОРИЮ"
     :quick-links="homeQuickLinks"
     badge-position="image"
