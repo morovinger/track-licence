@@ -1,11 +1,11 @@
 <template>
-  <div 
+  <div
     class="bg-white rounded-2xl overflow-hidden shadow-[0_2px_20px_rgba(10,23,68,0.08)] border border-gray-100"
   >
     <!-- Image -->
     <div class="relative h-48 overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100">
-      <NuxtImg 
-        :src="imageSrc" 
+      <NuxtImg
+        :src="imageSrc"
         :alt="title"
         class="w-full h-full object-cover object-center"
       />
@@ -30,13 +30,13 @@
 
       <!-- Actions -->
       <div class="flex gap-3">
-        <NuxtLink 
+        <NuxtLink
           :to="detailsLink"
           class="flex-1 py-2.5 px-4 text-sm font-semibold text-primary-900 bg-transparent border-2 border-primary-900 rounded-full text-center hover:bg-primary-900 hover:text-white transition-all"
         >
           Подробнее
         </NuxtLink>
-        <button 
+        <button
           @click="openModal"
           class="flex-1 py-2.5 px-4 text-sm font-semibold text-white bg-primary-900 rounded-full hover:bg-primary-700 transition-all"
         >
@@ -65,4 +65,3 @@ const openModal = () => {
   openContactModal?.()
 }
 </script>
-
