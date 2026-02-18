@@ -1,5 +1,9 @@
 # Track Licence Project
 
+## Interaction Style
+
+Always ask clarifying questions before starting work if the requirements are ambiguous or unclear. Do not make assumptions.
+
 ## Project Overview
 
 This is a Nuxt 4 SSR website for "Тракторные-права.РФ" - an educational center for tractor licenses. The site uses **Nuxt Content** for content management and **Nuxt Studio** for in-production content editing.
